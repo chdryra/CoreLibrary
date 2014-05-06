@@ -18,7 +18,6 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
 	private LocationClient mLocationClient;
 	private Activity mActivity;
 	private Locatable mLocatable;
-	private LatLng mLatLng;
 	
 	public LocationClientConnector(Activity activity, Locatable locatable) {
 		mActivity = activity;
@@ -26,8 +25,12 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
 		mLocationClient = new LocationClient(mActivity, this, this);
 	}
 	
+	public boolean isConnected() {
+		return mLocationClient.isConnected();
+	}
+	
 	public void connect() {
-		if(!mLocationClient.isConnected())
+		if(!isConnected())
 			mLocationClient.connect();
 	}
 	
@@ -36,9 +39,12 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
 	}
 	
 	public void locate() {
+		if(!isConnected())
+			return;
+		
 		Location location = mLocationClient.getLastLocation();
 		if(location != null)
-			mLocatable.setLocationLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+			mLocatable.onLocated(new LatLng(location.getLatitude(), location.getLongitude()));
 	}
 
 	@Override
@@ -56,19 +62,22 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
 
 	@Override
 	public void onConnected(Bundle arg0) {
-		Log.i(TAG, "LocationClient connected");
-		if(mLatLng == null) {
-			Location location = mLocationClient.getLastLocation();
-			if(location != null) {
-				mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-				mLocatable.setLocationLatLng(mLatLng);
-			}
+		Location location = mLocationClient.getLastLocation();
+		if(location != null) {
+			mLocatable.onLocationClientConnected(new LatLng(location.getLatitude(), location.getLongitude()));
 		}
+
+		Log.i(TAG, "LocationClient connected");
 	}
 
 	@Override
 	public void onDisconnected() {
 		Log.i(TAG, "LocationClient disconnected");
 	}
-	
+
+	public interface Locatable {
+		public void onLocated(LatLng latLng);
+		public void onLocationClientConnected(LatLng latLng);
+	}
+
 }

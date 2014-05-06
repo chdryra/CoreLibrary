@@ -19,6 +19,8 @@ import com.google.android.gms.maps.model.LatLng;
 public class LocationNameAdapter extends ArrayAdapter<String> implements Filterable {
 	private static final String TAG = "LocationNameAdapter";
 	private static final int RADIUS = 250;
+	private static final String SEARCHING = "searching nearby...";
+	private static final String NO_LOCATION = "location not found...";
 	
     private ArrayList<String> mLocationSuggestions = null;
 	private ArrayList<String> mLocationDefaultSuggestions = null;
@@ -34,10 +36,16 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
 				numberDefaultSuggestions--;
 			}
 			
-			if(mLatLng != null) {				
+			mLocationSuggestions = new ArrayList<String>();
+			if(mLatLng != null) {
+				mLocationSuggestions.add(SEARCHING);
+				
 				GetAddressTask task = new GetAddressTask(context, mLatLng);
 				task.execute(numberDefaultSuggestions);
-			}	
+			} else 
+				mLocationSuggestions.add(NO_LOCATION);
+			
+			notifyDataSetChanged();
 		}		
 	}
 	
@@ -62,8 +70,13 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
                 
-                if (constraint != null)
-                	mLocationSuggestions = FetcherPlacesAPI.fetchAutoCompleteSuggestions(constraint.toString(), mLatLng, RADIUS);
+                if (constraint != null && constraint.length() > 0) {
+                	ArrayList<String> shortened = new ArrayList<String>();
+                	ArrayList<String> suggestions = FetcherPlacesAPI.fetchAutoCompleteSuggestions(constraint.toString(), mLatLng, RADIUS);
+                	for(String suggestion : suggestions)
+                		shortened.add(formatAddress(suggestion));
+                	mLocationSuggestions = shortened;
+                }
                 else if(mLocationDefaultSuggestions != null)
                     mLocationSuggestions = mLocationDefaultSuggestions;
            
@@ -84,6 +97,30 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
         return filter;
     }
 
+    private String formatAddress(String address) {
+		  String[] addressComponents = address.split(",");
+		  StringBuilder sb = new StringBuilder();
+		  sb.append(addressComponents[0]);
+		  if(addressComponents.length > 1) {
+			  sb.append(",");
+			  sb.append(addressComponents[1]);
+		  }
+		  
+		  return sb.toString();
+	 }
+	 
+    private String formatAddress(Address address) {
+		  String addressText = String.format(
+	              "%s%s%s",
+	              // If there's a street address, add it
+	              address.getMaxAddressLineIndex() > 0 ?
+	                      address.getAddressLine(0) : "",
+	              // Locality is usually a city
+	              address.getLocality() != null ?
+	            		  ", " + address.getLocality(): "");
+
+		  return addressText;
+	 }
 	    
     private class GetAddressTask extends AsyncTask<Integer, Void, ArrayList<String>> {
 		  
@@ -130,21 +167,6 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
 				  }
 		  }
 	  
-		  private String formatAddress(Address address) {
-			  String addressText = String.format(
-		              "%s%s%s",
-		              // If there's a street address, add it
-		              address.getMaxAddressLineIndex() > 0 ?
-		                      address.getAddressLine(0) : "",
-		              // Locality is usually a city
-		              address.getLocality() != null ?
-		            		  ", " + address.getLocality(): "",
-		              address.getCountryName() != null ?
-		            		  ", " + address.getCountryName() : "");
-	
-			  return addressText;
-		 }
-	  
 	@Override
 	protected void onPostExecute(ArrayList<String> addresses) {
 		super.onPostExecute(addresses);
@@ -153,6 +175,7 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
 			if(mPrimaryDefaultSuggestion != null)
 				mLocationDefaultSuggestions.add(0, mPrimaryDefaultSuggestion);
 			mLocationSuggestions = new ArrayList<String>(mLocationDefaultSuggestions);
+			notifyDataSetChanged();
 		}
 	}
 }
