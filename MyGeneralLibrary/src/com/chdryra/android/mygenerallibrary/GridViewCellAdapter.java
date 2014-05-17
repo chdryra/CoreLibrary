@@ -12,15 +12,13 @@ public class GridViewCellAdapter extends BaseAdapter {
 	private int mCellView;
 	private int mCellWidth;
 	private int mCellHeight;
-	private int mTextColour;
 	
-	public GridViewCellAdapter(Activity activity, GridViewable data, int cellView, int cellWidth, int cellHeight, int textColour){
+	public GridViewCellAdapter(Activity activity, GridViewable data, int cellView, int cellWidth, int cellHeight){
 	    mActivity = activity;
 		mData = data;
 		mCellView = cellView;
 		mCellWidth = cellWidth;
 		mCellHeight = cellHeight;
-	    mTextColour = textColour;
 	}
 	
 	public void setData(GridViewable data) {
@@ -57,7 +55,7 @@ public class GridViewCellAdapter extends BaseAdapter {
 			vh = (ViewHolder)convertView.getTag();
 		
 		if(vh != null)
-			vh.updateView(getItem(position), mTextColour);
+			vh.updateView(getItem(position));
 		
 		return(convertView);
 	};		

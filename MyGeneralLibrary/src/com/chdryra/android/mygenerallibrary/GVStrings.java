@@ -44,9 +44,8 @@ public class GVStrings implements GridViewable, Iterable<String> {
 		}
 		
 		@Override
-		public void updateView(Object data, int textColour) {
+		public void updateView(Object data) {
 			mTextView.setText((String)data);
-			mTextView.setTextColor(textColour);
 		}
 		
 	}
