@@ -19,7 +19,11 @@ public class GVStrings implements GridViewable, Iterable<String> {
 	public void remove(String string) {
 		mData.remove(string);
 	}
-	
+
+	public void removeAll() {
+		mData.clear();
+	}
+
 	@Override
 	public int size() {
 		return mData.size();
