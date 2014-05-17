@@ -1,15 +1,23 @@
 package com.chdryra.android.mygenerallibrary;
 
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import android.view.View;
 import android.widget.TextView;
 
-public class GVDStrings implements GridViewableData {
-	private ArrayList<String> mData;
+import com.chdryra.android.mygenerallibrary.GridViewCellAdapter.GridViewable;
+
+public class GVStrings implements GridViewable, Iterable<String> {
+	private LinkedList<String> mData = new LinkedList<String>();
 	
-	public GVDStrings(ArrayList<String> data) {
-		mData = data;
+	public void add(String string) {
+		if(string != null && string.length() > 0)
+			mData.add(string);
+	}
+	
+	public void remove(String string) {
+		mData.remove(string);
 	}
 	
 	@Override
@@ -41,5 +49,10 @@ public class GVDStrings implements GridViewableData {
 			mTextView.setTextColor(textColour);
 		}
 		
+	}
+
+	@Override
+	public Iterator<String> iterator() {
+		return mData.iterator();
 	}
 }

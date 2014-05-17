@@ -30,7 +30,9 @@ public class FragmentDeleteDone extends SherlockFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return super.onCreateView(inflater, container, savedInstanceState);
+		View v = super.onCreateView(inflater, container, savedInstanceState);
+		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		return v;
 	}
 
 	@Override

@@ -7,58 +7,64 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 public class GridViewCellAdapter extends BaseAdapter {	
-		private Activity mActivity;
-		private GridViewableData mData;
-		private int mCellView;
-		private int mCellWidth;
-		private int mCellHeight;
-		private int mTextColour;
+	private Activity mActivity;
+	private GridViewable mData;
+	private int mCellView;
+	private int mCellWidth;
+	private int mCellHeight;
+	private int mTextColour;
+	
+	public GridViewCellAdapter(Activity activity, GridViewable data, int cellView, int cellWidth, int cellHeight, int textColour){
+	    mActivity = activity;
+		mData = data;
+		mCellView = cellView;
+		mCellWidth = cellWidth;
+		mCellHeight = cellHeight;
+	    mTextColour = textColour;
+	}
+	
+	public void setData(GridViewable data) {
+		mData = data;
+		notifyDataSetChanged();
+	}
+	
+	@Override
+	public int getCount() {
+		return mData.size();
+	}
+	
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+	
+	@Override
+	public Object getItem(int position) {
+		return mData.getItem(position);
+	}
+	
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		ViewHolder vh = null;
 		
-		public GridViewCellAdapter(Activity activity, GridViewableData data, int cellView, int cellWidth, int cellHeight, int textColour){
-		    mActivity = activity;
-			mData = data;
-			mCellView = cellView;
-			mCellWidth = cellWidth;
-			mCellHeight = cellHeight;
-		    mTextColour = textColour;
-		}
+		if (convertView == null) {						
+			convertView = mActivity.getLayoutInflater().inflate(mCellView, parent, false);
+			convertView.getLayoutParams().height = mCellHeight;
+			convertView.getLayoutParams().width = mCellWidth;
+			vh = mData.getViewHolder(convertView);
+			convertView.setTag(vh);
+		} else
+			vh = (ViewHolder)convertView.getTag();
 		
-		public void setData(GridViewableData data) {
-			mData = data;
-			notifyDataSetChanged();
-		}
+		if(vh != null)
+			vh.updateView(getItem(position), mTextColour);
 		
-		@Override
-		public int getCount() {
-			return mData.size();
-		}
-		
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-		
-		@Override
-		public Object getItem(int position) {
-			return mData.getItem(position);
-		}
-		
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder vh = null;
-			
-			if (convertView == null) {						
-				convertView = mActivity.getLayoutInflater().inflate(mCellView, parent, false);
-				convertView.getLayoutParams().height = mCellHeight;
-				convertView.getLayoutParams().width = mCellWidth;
-				vh = mData.getViewHolder(convertView);
-				convertView.setTag(vh);
-			} else
-				vh = (ViewHolder)convertView.getTag();
-			
-			if(vh != null)
-				vh.updateView(getItem(position), mTextColour);
-			
-			return(convertView);
-		};		
-	};
+		return(convertView);
+	};		
+
+	public interface GridViewable {
+		public int size();
+		public Object getItem(int position);
+		public ViewHolder getViewHolder(View convertView);
+	}
+};
