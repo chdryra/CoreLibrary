@@ -9,7 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public abstract class DialogActionCancelDoneFragment extends DialogThreeButtonFragment {
-
+	
+	private boolean mActionOnDone = false;
 	protected abstract View createDialogUI(); 
 	
 	@Override
@@ -38,6 +39,8 @@ public abstract class DialogActionCancelDoneFragment extends DialogThreeButtonFr
 
 	@Override
 	protected void onRightButtonClick() {
+		if(mActionOnDone)
+			mLeftButton.performClick();
 		onDoneButtonClick();
 		super.onRightButtonClick();
 	}
@@ -51,6 +54,10 @@ public abstract class DialogActionCancelDoneFragment extends DialogThreeButtonFr
 	protected void onDoneButtonClick() {
 	};
 
+	protected void setActionOnDone(boolean actionOnDone) {
+		mActionOnDone = actionOnDone;
+	}
+	
 	public void setActionButtonText(String actionButtonText) {
 		setLeftButtonText(actionButtonText);
 	}

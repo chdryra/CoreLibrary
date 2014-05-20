@@ -1,6 +1,8 @@
 package com.chdryra.android.mygenerallibrary;
 
 
+import java.util.Comparator;
+
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,12 +10,12 @@ import android.widget.BaseAdapter;
 
 public class GridViewCellAdapter extends BaseAdapter {	
 	private Activity mActivity;
-	private GridViewable mData;
+	private GridViewable<?> mData;
 	private int mCellView;
 	private int mCellWidth;
 	private int mCellHeight;
 	
-	public GridViewCellAdapter(Activity activity, GridViewable data, int cellView, int cellWidth, int cellHeight){
+	public GridViewCellAdapter(Activity activity, GridViewable<?> data, int cellView, int cellWidth, int cellHeight){
 	    mActivity = activity;
 		mData = data;
 		mCellView = cellView;
@@ -21,7 +23,7 @@ public class GridViewCellAdapter extends BaseAdapter {
 		mCellHeight = cellHeight;
 	}
 	
-	public void setData(GridViewable data) {
+	public void setData(GridViewable<?> data) {
 		mData = data;
 		notifyDataSetChanged();
 	}
@@ -38,6 +40,8 @@ public class GridViewCellAdapter extends BaseAdapter {
 	
 	@Override
 	public Object getItem(int position) {
+		if(!mData.isSorted())
+			mData.sort();
 		return mData.getItem(position);
 	}
 	
@@ -54,15 +58,17 @@ public class GridViewCellAdapter extends BaseAdapter {
 		} else
 			vh = (ViewHolder)convertView.getTag();
 		
-		if(vh != null)
-			vh.updateView(getItem(position));
+		vh.updateView(getItem(position));
 		
 		return(convertView);
 	};		
 
-	public interface GridViewable {
+	public interface GridViewable<T> {
 		public int size();
-		public Object getItem(int position);
+		public T getItem(int position);
 		public ViewHolder getViewHolder(View convertView);
+		public boolean isSorted();
+		public void sort();
+		public void sort(Comparator<T> comparator);
 	}
 };

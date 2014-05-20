@@ -20,6 +20,10 @@ public abstract class DialogAddCancelDoneFragment extends DialogActionCancelDone
 		OnAddButtonClick();
 	}
 	
+	protected void setAddOnDone(boolean addOnDone) {
+		setActionOnDone(addOnDone);
+	}
+	
 	protected void OnAddButtonClick() {
 	}
 }

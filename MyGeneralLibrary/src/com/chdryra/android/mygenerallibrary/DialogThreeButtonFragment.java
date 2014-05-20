@@ -30,7 +30,7 @@ public abstract class DialogThreeButtonFragment extends SherlockDialogFragment {
 	private boolean mDismissOnRightClick = false;
 
 	private String mDialogTitle;
-	private Intent mReturnData = new Intent();
+	private Intent mReturnData;
 	
 	public static enum ActionType {
 		CANCEL(ActivityResultCode.CANCEL), 
@@ -141,8 +141,16 @@ public abstract class DialogThreeButtonFragment extends SherlockDialogFragment {
 		mDismissOnRightClick = dismiss;
 	}
 
-	protected Intent getReturnData() {
+	protected Intent getNewReturnData() {
+		mReturnData = new Intent();
 		return mReturnData;
+	}
+	
+	protected Intent getReturnData() {
+		if(mReturnData == null)
+			return getNewReturnData();
+		else
+			return mReturnData;
 	}
 	
 	protected void sendResult(ActivityResultCode resultCode) {
@@ -150,7 +158,8 @@ public abstract class DialogThreeButtonFragment extends SherlockDialogFragment {
 			return;
 
 		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode.get(), getReturnData());
-
+		mReturnData = null;
+		
 		if (resultCode.equals(mLeftButtonResult) && mDismissOnLeftClick)
 			dismiss();
 
