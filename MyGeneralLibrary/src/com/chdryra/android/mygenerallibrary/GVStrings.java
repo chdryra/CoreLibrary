@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter.GridViewable;
 
-public class GVStrings implements GridViewable<String>, Iterable<String> {
+public class GVStrings implements GridViewable<String> {
 	private LinkedList<String> mData = new LinkedList<String>();
 	private boolean mIsSorted = false;
 	

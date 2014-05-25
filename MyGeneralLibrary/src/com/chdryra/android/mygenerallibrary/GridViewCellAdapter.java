@@ -2,6 +2,7 @@ package com.chdryra.android.mygenerallibrary;
 
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 import android.app.Activity;
 import android.view.View;
@@ -63,12 +64,15 @@ public class GridViewCellAdapter extends BaseAdapter {
 		return(convertView);
 	};		
 
-	public interface GridViewable<T> {
+	public interface GridViewable<T> extends Iterable<T>{
 		public int size();
 		public T getItem(int position);
 		public ViewHolder getViewHolder(View convertView);
 		public boolean isSorted();
 		public void sort();
 		public void sort(Comparator<T> comparator);
+		
+		@Override
+		public Iterator<T> iterator();
 	}
 };
