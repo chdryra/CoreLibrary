@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -31,6 +32,9 @@ public abstract class DialogThreeButtonFragment extends SherlockDialogFragment {
 
 	private String mDialogTitle;
 	private Intent mReturnData;
+
+	private boolean mNoTitle = true;
+	private boolean mShowKeyboardOnLaunch = true;
 	
 	public static enum ActionType {
 		CANCEL(ActivityResultCode.CANCEL), 
@@ -55,6 +59,10 @@ public abstract class DialogThreeButtonFragment extends SherlockDialogFragment {
 
 	protected abstract View createDialogUI();
 
+	protected void showKeyboardOnLaunch(boolean showKeyboard) {
+		mShowKeyboardOnLaunch = showKeyboard;
+	}
+	
 	protected void onLeftButtonClick() {
 		sendResult(mLeftButtonResult);
 	};
@@ -114,7 +122,11 @@ public abstract class DialogThreeButtonFragment extends SherlockDialogFragment {
 	}
 
 	public void setDialogTitle(String dialogTitle) {
-		mDialogTitle = dialogTitle;
+		if(dialogTitle != null) {
+			mDialogTitle = dialogTitle;
+			mNoTitle = false;
+		} else
+			mNoTitle = true;
 	}
 
 	@Override
@@ -220,10 +232,14 @@ public abstract class DialogThreeButtonFragment extends SherlockDialogFragment {
 		layout.addView(createDialogUI(), lp1);
 		layout.addView(getButtons(), lp);
 
+		if(mNoTitle)
+			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
 		dialog.setContentView(layout);
 		dialog.setTitle(mDialogTitle);
-		dialog.getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+		
+		if(mShowKeyboardOnLaunch)
+			dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
 		return dialog;
 	}
