@@ -41,8 +41,6 @@ public class GridViewCellAdapter extends BaseAdapter {
 	
 	@Override
 	public Object getItem(int position) {
-		if(!mData.isSorted())
-			mData.sort();
 		return mData.getItem(position);
 	}
 	
@@ -68,11 +66,5 @@ public class GridViewCellAdapter extends BaseAdapter {
 		public int size();
 		public T getItem(int position);
 		public ViewHolder getViewHolder(View convertView);
-		public boolean isSorted();
-		public void sort();
-		public void sort(Comparator<T> comparator);
-		
-		@Override
-		public Iterator<T> iterator();
 	}
 };

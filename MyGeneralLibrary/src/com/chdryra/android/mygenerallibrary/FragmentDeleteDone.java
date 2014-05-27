@@ -19,6 +19,7 @@ public class FragmentDeleteDone extends SherlockFragment {
 	private boolean mDismissOnDelete = false;
 	private boolean mDeleteConfirmation = true;
 	private String mDeleteWhat;
+	private Intent mReturnData;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,9 +49,20 @@ public class FragmentDeleteDone extends SherlockFragment {
 	}
 
 	protected void sendResult(ActivityResultCode resultCode) {
-		getActivity().setResult(resultCode.get());
+		getActivity().setResult(resultCode.get(), getReturnData());
 	}
 
+	protected Intent getNewReturnData() {
+		mReturnData = new Intent();
+		return mReturnData;
+	}
+	
+	protected Intent getReturnData() {
+		if(mReturnData == null)
+			return getNewReturnData();
+		else
+			return mReturnData;
+	}
 	protected void setDeleteWhatTitle(String deleteWhat) {
 		mDeleteWhat = deleteWhat;
 	}

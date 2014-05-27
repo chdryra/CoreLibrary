@@ -1,5 +1,7 @@
 package com.chdryra.android.mygenerallibrary;
 
+import java.net.URL;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Paint;
@@ -40,5 +42,24 @@ public class RandomTextUtils {
 		int maxHeight = textView.getLayoutParams().height - textView.getPaddingTop() - textView.getPaddingBottom();
 		
 		return maxHeight / textView.getLineHeight();
+	}
+	
+	public static String toStringURL(URL url) {
+		String urlString = url != null? url.toExternalForm() : null;
+		return urlString;
+	}
+	
+	public static String toShortenedStringURL(URL url) {
+		String urlString = toStringURL(url);
+	    String protocol = url.getProtocol();
+        String result = urlString.replaceFirst(protocol + ":", "");
+        if (result.startsWith("//"))
+            result = result.substring(2);
+        
+        result = result.trim();
+        if(result.endsWith("/"))
+        	result = (String)result.subSequence(0, result.length() - 1);
+        
+        return result;
 	}
 }
