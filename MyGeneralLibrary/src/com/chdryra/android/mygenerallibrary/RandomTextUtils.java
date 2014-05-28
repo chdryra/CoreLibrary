@@ -1,6 +1,7 @@
 package com.chdryra.android.mygenerallibrary;
 
 import java.net.URL;
+import java.util.StringTokenizer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -61,5 +62,14 @@ public class RandomTextUtils {
         	result = (String)result.subSequence(0, result.length() - 1);
         
         return result;
+	}
+	
+	public static String shortened(String string, String delimiters) {
+		if(string != null) {
+			StringTokenizer tokens = new StringTokenizer(string, delimiters);
+			String shortened = tokens.nextToken();
+			return shortened != null? shortened.trim() : shortened;
+		} else
+			return null;
 	}
 }

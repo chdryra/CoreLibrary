@@ -1,9 +1,6 @@
 package com.chdryra.android.mygenerallibrary;
 
 
-import java.util.Comparator;
-import java.util.Iterator;
-
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
