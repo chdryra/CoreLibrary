@@ -1,23 +1,57 @@
 package com.chdryra.android.mygenerallibrary;
 
-import android.view.View;
 import android.widget.TextView;
 
-public class VHStringView implements ViewHolder {
-	public static final int LAYOUT = R.layout.grid_cell_string_view;
+public class VHStringView extends ViewHolderBasic{
+	private static final int LAYOUT = R.layout.grid_cell_string_view;
+	private static final int TEXTVIEW = R.id.text_view;
 	
-	private TextView mTextView;
+	protected int mTextViewID = TEXTVIEW;
+	protected TextView mTextView;
+	private GVDataStringGetter mGetter;
 	
-	public VHStringView(View convertView) {
-		init(convertView);
+	public VHStringView() {
+		super(LAYOUT);
+		initDefaultGetter();
 	}
 	
-	private void init(View view) {
-		mTextView = (TextView)view.findViewById(R.id.text_view);
+	public VHStringView(GVDataStringGetter getter) {
+		super(LAYOUT);
+		mGetter = getter;
+	}
+	
+	public VHStringView(int layoutID, int textViewID) {
+		super(layoutID);
+		mTextViewID = textViewID;
+		initDefaultGetter();
+	}
+
+	public VHStringView(int layoutID, int textViewID, GVDataStringGetter getter) {
+		super(layoutID);
+		mTextViewID = textViewID;
+		mGetter = getter;
+	}
+	
+	private void initDefaultGetter() {
+		mGetter = new GVDataStringGetter() {
+			@Override
+			public String getString(GVData data) {
+				return ((GVString)data).toString();
+			}
+		};
 	}
 	
 	@Override
-	public void updateView(Object data) {
-		mTextView.setText(((GVString)data).toString());
+	protected void initViewsToUpdate() {
+		mTextView = (TextView)getView(mTextViewID);
+	}
+		
+	@Override
+	public void updateView(GVData data) {
+		mTextView.setText(mGetter.getString(data));
+	}
+	
+	public interface GVDataStringGetter {
+		public String getString(GVData data);
 	}
 }

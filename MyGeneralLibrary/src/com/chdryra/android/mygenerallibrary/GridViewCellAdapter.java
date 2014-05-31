@@ -9,14 +9,12 @@ import android.widget.BaseAdapter;
 public class GridViewCellAdapter extends BaseAdapter {	
 	private Activity mActivity;
 	private GridViewable<?> mData;
-	private int mCellView;
 	private int mCellWidth;
 	private int mCellHeight;
 	
-	public GridViewCellAdapter(Activity activity, GridViewable<?> data, int cellView, int cellWidth, int cellHeight){
+	public GridViewCellAdapter(Activity activity, GridViewable<? extends GVData> data, int cellWidth, int cellHeight){
 	    mActivity = activity;
 		mData = data;
-		mCellView = cellView;
 		mCellWidth = cellWidth;
 		mCellHeight = cellHeight;
 	}
@@ -46,15 +44,14 @@ public class GridViewCellAdapter extends BaseAdapter {
 		ViewHolder vh = null;
 		
 		if (convertView == null) {						
-			convertView = mActivity.getLayoutInflater().inflate(mCellView, parent, false);
+			vh = mData.getViewHolder(position);
+			convertView = vh.inflate(mActivity, parent);
 			convertView.getLayoutParams().height = mCellHeight;
 			convertView.getLayoutParams().width = mCellWidth;
-			vh = mData.getViewHolder(convertView);
-			convertView.setTag(vh);
 		} else
 			vh = (ViewHolder)convertView.getTag();
 		
-		vh.updateView(getItem(position));
+		vh.updateView((GVData)getItem(position));
 		
 		return(convertView);
 	};		
@@ -62,6 +59,6 @@ public class GridViewCellAdapter extends BaseAdapter {
 	public interface GridViewable<T> extends Iterable<T>{
 		public int size();
 		public T getItem(int position);
-		public ViewHolder getViewHolder(View convertView);
+		public ViewHolder getViewHolder(int position);
 	}
 };

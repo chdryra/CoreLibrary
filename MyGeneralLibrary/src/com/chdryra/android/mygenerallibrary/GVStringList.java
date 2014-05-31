@@ -2,8 +2,6 @@ package com.chdryra.android.mygenerallibrary;
 
 import java.util.Comparator;
 
-import android.view.View;
-
 public class GVStringList extends GVList<GVString> {
 	
 	public GVStringList() {	
@@ -23,8 +21,8 @@ public class GVStringList extends GVList<GVString> {
 	}
 	
 	@Override
-	public ViewHolder getViewHolder(View convertView) {
-		return new VHStringView(convertView);
+	public ViewHolder getViewHolder(int position) {
+		return new VHStringView();
 	}
 
 	@Override
