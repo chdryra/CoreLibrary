@@ -19,11 +19,6 @@ public class GVStringList extends GVList<GVString> {
 	public void remove(String string) {
 		remove(new GVString(string));
 	}
-	
-	@Override
-	public ViewHolder getViewHolder(int position) {
-		return new VHStringView();
-	}
 
 	@Override
 	protected Comparator<GVString> getDefaultComparator() {

@@ -7,5 +7,5 @@ import android.view.ViewGroup;
 
 public interface ViewHolder {
 	public View inflate(Activity activity, ViewGroup parent);
-	public void updateView(GVData data);
+	public View updateView(GVData data);
 }

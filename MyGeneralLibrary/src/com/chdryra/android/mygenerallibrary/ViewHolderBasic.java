@@ -29,6 +29,6 @@ public abstract class ViewHolderBasic implements ViewHolder {
 	}
 	
 	@Override
-	public abstract void updateView(GVData data);
+	public abstract View updateView(GVData data);
 	protected abstract void initViewsToUpdate();
 }

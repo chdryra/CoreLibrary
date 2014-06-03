@@ -1,5 +1,6 @@
 package com.chdryra.android.mygenerallibrary;
 
+import android.view.View;
 import android.widget.TextView;
 
 public class VHStringView extends ViewHolderBasic{
@@ -36,7 +37,8 @@ public class VHStringView extends ViewHolderBasic{
 		mGetter = new GVDataStringGetter() {
 			@Override
 			public String getString(GVData data) {
-				return ((GVString)data).toString();
+				GVString string = (GVString)data;
+				return string != null? string.toString() : null;
 			}
 		};
 	}
@@ -47,8 +49,9 @@ public class VHStringView extends ViewHolderBasic{
 	}
 		
 	@Override
-	public void updateView(GVData data) {
+	public View updateView(GVData data) {
 		mTextView.setText(mGetter.getString(data));
+		return mInflated;
 	}
 	
 	public interface GVDataStringGetter {

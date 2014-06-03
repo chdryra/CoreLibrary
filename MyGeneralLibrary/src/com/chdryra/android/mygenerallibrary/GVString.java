@@ -12,6 +12,11 @@ public class GVString implements GVData{
 	}
 
 	@Override
+	public ViewHolder getViewHolder() {
+		return new VHStringView();
+	}
+	
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

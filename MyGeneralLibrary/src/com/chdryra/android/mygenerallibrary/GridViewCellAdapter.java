@@ -45,15 +45,16 @@ public class GridViewCellAdapter extends BaseAdapter {
 		
 		if (convertView == null) {						
 			vh = mData.getViewHolder(position);
-			convertView = vh.inflate(mActivity, parent);
-			convertView.getLayoutParams().height = mCellHeight;
-			convertView.getLayoutParams().width = mCellWidth;
+			vh.inflate(mActivity, parent);
 		} else
 			vh = (ViewHolder)convertView.getTag();
 		
-		vh.updateView((GVData)getItem(position));
+		convertView = vh.updateView((GVData)getItem(position));
+		convertView.setTag(vh);
+		convertView.getLayoutParams().height = mCellHeight;
+		convertView.getLayoutParams().width = mCellWidth;
 		
-		return(convertView);
+		return convertView;
 	};		
 
 	public interface GridViewable<T> extends Iterable<T>{
