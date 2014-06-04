@@ -18,8 +18,8 @@ public abstract class SortableList<T> implements Iterable<T> {
 		add(list);
 	}
 	
-	public void add(T data) {
-		mData.add(data);
+	public void add(T item) {
+		mData.add(item);
 		mIsSorted = false;
 	}
 	
@@ -29,8 +29,8 @@ public abstract class SortableList<T> implements Iterable<T> {
 		mIsSorted = false;
 	}
 	
-	public void remove(T comment) {
-		mData.remove(comment);
+	public void remove(T item) {
+		mData.remove(item);
 		mIsSorted = false;
 	}
 	
