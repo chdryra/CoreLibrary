@@ -52,7 +52,7 @@ public abstract class DialogThreeButtonFragment extends SherlockDialogFragment {
 			this.mResultCode = resultCode;
 		}
 
-		private ActivityResultCode getResultCode() {
+		public ActivityResultCode getResultCode() {
 			return mResultCode;
 		}
 	}
