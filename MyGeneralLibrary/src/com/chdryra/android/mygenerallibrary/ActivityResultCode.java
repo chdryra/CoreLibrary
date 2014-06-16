@@ -1,7 +1,7 @@
 package com.chdryra.android.mygenerallibrary;
 
 public enum ActivityResultCode {
-	CANCEL(0), DONE(1), OTHER(2), EDIT(3), ADD(4), DELETE(5), CLEAR(6), OK(7), UP(8);
+	CANCEL(0), DONE(1), OTHER(2), EDIT(3), ADD(4), DELETE(5), CLEAR(6), OK(7), UP(8), YES(9), NO(10);
 
 	private final int mValue;
 

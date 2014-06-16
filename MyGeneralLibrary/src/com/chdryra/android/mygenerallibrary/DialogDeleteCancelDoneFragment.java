@@ -58,7 +58,7 @@ public abstract class DialogDeleteCancelDoneFragment extends DialogActionCancelD
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {	
 		switch(requestCode) {
 			case DELETE_CONFIRM:
-				if(ActivityResultCode.OK.equals(resultCode))
+				if(DialogDeleteConfirmFragment.DELETE_CONFIRM.getResultCode().equals(resultCode))
 					super.onLeftButtonClick();
 				break;
 			default:

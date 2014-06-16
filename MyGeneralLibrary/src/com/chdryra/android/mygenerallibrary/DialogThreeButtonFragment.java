@@ -184,7 +184,7 @@ public abstract class DialogThreeButtonFragment extends SherlockDialogFragment {
 
 	protected View getButtons() {
 		View buttons = getActivity().getLayoutInflater().inflate(
-				R.layout.dialog_button_layout, null);
+				R.layout.dialog_three_button_layout, null);
 
 		mLeftButton = (Button) buttons.findViewById(R.id.button_left);
 		mMiddleButton = (Button) buttons.findViewById(R.id.button_middle);

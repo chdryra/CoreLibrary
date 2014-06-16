@@ -11,6 +11,7 @@
     <string name="button_clear_text">clear</string>
     <string name="button_ok_text">ok</string>
     <string name="button_yes_text">yes</string>
+    <string name="button_no_text">no</string>
     
     <!-- Menus -->
     <string name="menu_done">done</string>
