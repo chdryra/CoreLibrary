@@ -33,7 +33,12 @@ public abstract class SortableList<T> implements Iterable<T> {
 		mData.remove(item);
 		mIsSorted = false;
 	}
-	
+
+	public void remove(int position) {
+		mData.remove(getItem(position));
+		mIsSorted = false;
+	}
+
 	public void removeAll() {
 		mData.clear();
 	}
