@@ -17,20 +17,20 @@ public abstract class DialogTwoButtonFragment extends SherlockDialogFragment {
 	protected Button mLeftButton;
 	protected Button mRightButton;
 
-	private String mLeftButtonText;
-	private String mRightButtonText;
+	protected String mLeftButtonText;
+	protected String mRightButtonText;
 
-	private ActivityResultCode mLeftButtonResult;
-	private ActivityResultCode mRightButtonResult;
+	protected ActivityResultCode mLeftButtonResult;
+	protected ActivityResultCode mRightButtonResult;
 
-	private boolean mDismissOnLeftClick = false;
-	private boolean mDismissOnRightClick = false;
+	protected boolean mDismissOnLeftClick = false;
+	protected boolean mDismissOnRightClick = false;
 
-	private String mDialogTitle;
-	private Intent mReturnData;
+	protected String mDialogTitle;
+	protected Intent mReturnData;
 
-	private boolean mNoTitle = true;
-	private boolean mShowKeyboardOnLaunch = true;
+	protected boolean mNoTitle = true;
+	protected boolean mShowKeyboardOnLaunch = true;
 	
 	public static enum ActionType {
 		CANCEL(ActivityResultCode.CANCEL), 
@@ -87,7 +87,7 @@ public abstract class DialogTwoButtonFragment extends SherlockDialogFragment {
 		mRightButtonResult = action.getResultCode();
 	}
 
-	private String getTitleForAction(ActionType type) {
+	protected String getTitleForAction(ActionType type) {
 		if (type == ActionType.ADD)
 			return getResources().getString(R.string.button_add_text);
 		if (type == ActionType.CANCEL)
