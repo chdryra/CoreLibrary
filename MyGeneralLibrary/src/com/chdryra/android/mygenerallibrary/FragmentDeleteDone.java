@@ -20,6 +20,7 @@ public class FragmentDeleteDone extends SherlockFragment {
 	private boolean mDeleteConfirmation = true;
 	private String mDeleteWhat;
 	private Intent mReturnData;
+	private boolean mDisplayHomeAsUp = true;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -32,10 +33,14 @@ public class FragmentDeleteDone extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = super.onCreateView(inflater, container, savedInstanceState);
-		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
 		return v;
 	}
 
+	protected void setDisplayHomeAsUp(boolean displayHomeAsUp) {
+		mDisplayHomeAsUp = displayHomeAsUp;
+	}
+	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {

@@ -102,14 +102,15 @@ public abstract class SortableList<T> implements Iterable<T> {
 		public T next() {
 			if(hasNext())
 				return (T)getItem(position++);
-			else				throw new NoSuchElementException("No more elements left");
+			else				
+				throw new NoSuchElementException("No more elements left");
 		}
 
 		@Override
 		public void remove() {
-			if(position <= 0) {
+			if(position <= 0)
 				throw new IllegalStateException("Have to do at least one next() before you can delete");
-			} else
+			else
 				mData.remove(((T)getItem(position-1)));
 		}
 	}

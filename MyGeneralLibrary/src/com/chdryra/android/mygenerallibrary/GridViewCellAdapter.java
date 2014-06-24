@@ -11,6 +11,7 @@ public class GridViewCellAdapter extends BaseAdapter {
 	private GridViewable<?> mData;
 	private int mCellWidth;
 	private int mCellHeight;
+	private boolean mSortedGrid = true;
 	
 	public GridViewCellAdapter(Activity activity, GridViewable<? extends GVData> data, int cellWidth, int cellHeight){
 	    mActivity = activity;
@@ -22,6 +23,10 @@ public class GridViewCellAdapter extends BaseAdapter {
 	public void setData(GridViewable<?> data) {
 		mData = data;
 		notifyDataSetChanged();
+	}
+	
+	public void setSortedGrid(boolean sortedGrid) {
+		mSortedGrid = sortedGrid;
 	}
 	
 	@Override
@@ -36,6 +41,9 @@ public class GridViewCellAdapter extends BaseAdapter {
 	
 	@Override
 	public Object getItem(int position) {
+		if(mSortedGrid)
+			mData.sort();
+		
 		return mData.getItem(position);
 	}
 	
@@ -61,5 +69,6 @@ public class GridViewCellAdapter extends BaseAdapter {
 		public int size();
 		public T getItem(int position);
 		public ViewHolder getViewHolder(int position);
+		public void sort();
 	}
 };
