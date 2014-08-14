@@ -1,17 +1,14 @@
 package com.chdryra.android.mygenerallibrary;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-
-public class FragmentDeleteDone extends SherlockFragment {
+public class FragmentDeleteDone extends DialogFragment {
 
 	private static final int DELETE_CONFIRM = 0;
 
@@ -33,7 +30,7 @@ public class FragmentDeleteDone extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = super.onCreateView(inflater, container, savedInstanceState);
-		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
 		return v;
 	}
 
@@ -98,18 +95,18 @@ public class FragmentDeleteDone extends SherlockFragment {
 	}
 	
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.menu_delete_done, menu);
 	}
-
+	
 	private void showDeleteConfirmDialog() {
 		DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat,
 				FragmentDeleteDone.this, DELETE_CONFIRM, getFragmentManager());
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(android.view.MenuItem item) {
 		int itemId = item.getItemId();
 		if (itemId == android.R.id.home) {
 			doUpSelected();

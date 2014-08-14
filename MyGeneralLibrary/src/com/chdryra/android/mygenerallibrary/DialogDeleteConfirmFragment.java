@@ -1,8 +1,8 @@
 package com.chdryra.android.mygenerallibrary;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
 public class DialogDeleteConfirmFragment extends DialogAlert {
 	public static final String DELETE_WHAT = "com.chdryra.android.mygenerallibrary.delete_what";

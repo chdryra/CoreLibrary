@@ -1,16 +1,17 @@
 package com.chdryra.android.mygenerallibrary;
 
 import android.content.Context;
-import android.support.v4.widget.CursorAdapter;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.CursorAdapter;
+import android.widget.SearchView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.actionbarsherlock.widget.SearchView;
-
 public class ArrayAdapterSearchView extends SearchView {
-	private SearchView.SearchAutoComplete mSearchAutoComplete;
+	private AutoCompleteTextView mSearchAutoComplete;
 
 	public ArrayAdapterSearchView(Context context) {
 	    super(context);
@@ -23,7 +24,8 @@ public class ArrayAdapterSearchView extends SearchView {
 	}
 
 	public void initialize() {
-	    mSearchAutoComplete = (SearchAutoComplete) findViewById(R.id.abs__search_src_text);
+		View v = inflate(getContext(), R.layout.autocomplete_search_view, null);
+	    mSearchAutoComplete = (AutoCompleteTextView)v.findViewById(R.id.autocomplete_text_view);
 	    setAdapter(null);
 	    setOnItemClickListener(null);
 	}

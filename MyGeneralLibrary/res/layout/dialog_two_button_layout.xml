@@ -13,7 +13,6 @@
 
         <Button
             android:id="@+id/button_left"
-            style="@style/Widget.Sherlock.ActionButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -23,7 +22,6 @@
 
         <Button
             android:id="@+id/button_right"
-            style="@style/Widget.Sherlock.ActionButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

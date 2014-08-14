@@ -1,12 +1,11 @@
 package com.chdryra.android.mygenerallibrary;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentActivity;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
-public abstract class ActivitySingleFragment extends SherlockFragmentActivity {
+public abstract class ActivitySingleFragment extends FragmentActivity {
 	protected abstract Fragment createFragment();
 
 	protected int getLayoutResId() {
@@ -17,7 +16,7 @@ public abstract class ActivitySingleFragment extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutResId());
 	
-		FragmentManager fm = getSupportFragmentManager();
+		FragmentManager fm = getFragmentManager();
 		Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
 		
 		if(fragment == null){
