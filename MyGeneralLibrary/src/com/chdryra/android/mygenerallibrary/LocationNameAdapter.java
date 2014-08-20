@@ -65,11 +65,10 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
     @Override
     public Filter getFilter() {
         Filter filter = new Filter() {
-            
+        		
         	@Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
-                
                 if (constraint != null && constraint.length() > 0) {
                 	ArrayList<String> shortened = new ArrayList<String>();
                 	ArrayList<String> suggestions = FetcherPlacesAPI.fetchAutoCompleteSuggestions(constraint.toString(), mLatLng, RADIUS);
@@ -97,6 +96,14 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
         return filter;
     }
 
+    public void findSuggestions(String query) {
+    	getFilter().filter(query);
+    }
+    
+    public void findSuggestions(CharSequence query) {
+    	getFilter().filter(query);
+    }
+    
     private String formatAddress(String address) {
 		  String[] addressComponents = address.split(",");
 		  StringBuilder sb = new StringBuilder();
