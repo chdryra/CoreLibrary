@@ -1,11 +1,11 @@
 package com.chdryra.android.mygenerallibrary;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
-public abstract class ActivitySingleFragment extends FragmentActivity {
+public abstract class ActivitySingleFragment extends Activity{
 	protected abstract Fragment createFragment();
 
 	protected int getLayoutResId() {
