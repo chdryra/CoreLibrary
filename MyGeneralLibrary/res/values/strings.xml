@@ -1,0 +1,19 @@
+<resources>
+
+    <string name="app_name">GeneralUtils</string>
+	
+    <!-- Buttons -->
+	<string name="button_done_text">done</string>
+    <string name="button_delete_text">delete</string>
+    <string name="button_cancel_text">cancel</string>
+    <string name="button_add_text">add</string>
+    <string name="button_edit_text">edit</string>
+    <string name="button_clear_text">clear</string>
+    <string name="button_ok_text">ok</string>
+    <string name="button_yes_text">yes</string>
+    <string name="button_no_text">no</string>
+    
+    <!-- Menus -->
+    <string name="menu_done">done</string>
+    <string name="menu_delete">delete</string>
+</resources>
