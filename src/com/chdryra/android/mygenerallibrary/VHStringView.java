@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Author: Rizwan Choudrey
+ * Date: 23 September, 2014
+ */
+
 package com.chdryra.android.mygenerallibrary;
 
 import android.view.View;
@@ -14,11 +22,6 @@ public class VHStringView extends ViewHolderBasic{
 	public VHStringView() {
 		super(LAYOUT);
 		initDefaultGetter();
-	}
-	
-	public VHStringView(GVDataStringGetter getter) {
-		super(LAYOUT);
-		mGetter = getter;
 	}
 	
 	public VHStringView(int layoutID, int textViewID) {

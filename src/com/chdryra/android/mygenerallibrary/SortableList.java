@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Author: Rizwan Choudrey
+ * Date: 23 September, 2014
+ */
+
 package com.chdryra.android.mygenerallibrary;
 
 import java.util.Collections;
@@ -13,11 +21,7 @@ public abstract class SortableList<T> implements Iterable<T> {
 	public SortableList() {
 		
 	}
-	
-	public SortableList(SortableList<T> list) {
-		add(list);
-	}
-	
+
 	public void add(T item) {
 		mData.add(item);
 		mIsSorted = false;
@@ -101,7 +105,7 @@ public abstract class SortableList<T> implements Iterable<T> {
 		@Override
 		public T next() {
 			if(hasNext())
-				return (T)getItem(position++);
+				return getItem(position++);
 			else				
 				throw new NoSuchElementException("No more elements left");
 		}
@@ -111,7 +115,7 @@ public abstract class SortableList<T> implements Iterable<T> {
 			if(position <= 0)
 				throw new IllegalStateException("Have to do at least one next() before you can delete");
 			else
-				mData.remove(((T)getItem(position-1)));
+				mData.remove((getItem(position-1)));
 		}
 	}
 }
