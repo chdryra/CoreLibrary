@@ -26,19 +26,13 @@ import com.google.android.gms.maps.model.LatLng;
 public class ImageHelper {
 	private static final String TAG = "ImageHelper";
 	private static final String ERROR_CREATING_FILE_MESSAGE = "Error creating file!";
-	public static enum PhotoOrientation{PORTRAIT, LANDSCAPE, SQUARE};
-	
-	private String mImageFilePath;
+
+    private String mImageFilePath;
 	private ExifInterface mEXIF;
 	
 	public ImageHelper() {
 	}
-	
-	public ImageHelper(String imageFilePath) {
-		mImageFilePath = imageFilePath;
-		getEXIF();
-	}
-	
+
 	public String getImageFilePath() {
 		return mImageFilePath;
 	}
@@ -49,25 +43,30 @@ public class ImageHelper {
 		getEXIF();
 	}
 
-	public void createImageFile() throws IOException{
+	public boolean createImageFile() throws IOException{
 		File file = new File(mImageFilePath);
 		try {
             if(!file.exists() && mImageFilePath != null) {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
+                if(file.getParentFile().mkdirs()) Log.i(TAG, "Created " + mImageFilePath);
+                return file.createNewFile();
             }
         } catch (IOException e) {
             throw new IOException(ERROR_CREATING_FILE_MESSAGE, e);
         }
+
+        return false;
 	}
 
-	public void deleteImageFile() {
+	public boolean deleteImageFile() {
 		File file = new File(mImageFilePath);
+        boolean success = false;
         if(file.exists()) {
-            file.delete();
+            success = file.delete();
         }
         mImageFilePath = null;
         mEXIF = null;
+
+        return success;
 	}
 	
 	public ExifInterface getEXIF() {
@@ -99,12 +98,6 @@ public class ImageHelper {
 		options.inJustDecodeBounds = false;
 		
 		Bitmap bitmap = BitmapFactory.decodeFile(mImageFilePath, options);
-		bitmap = rotateBitmapUsingExif(mImageFilePath, bitmap);
-		return bitmap;
-	}
-
-	public Bitmap getBitmap() {
-		Bitmap bitmap = BitmapFactory.decodeFile(mImageFilePath);
 		bitmap = rotateBitmapUsingExif(mImageFilePath, bitmap);
 		return bitmap;
 	}
@@ -183,12 +176,10 @@ public class ImageHelper {
 			Double minutes = Double.valueOf(sM[0])/Double.valueOf(sM[1]);
 			Double seconds = Double.valueOf(sS[0])/Double.valueOf(sS[1]);
 			
-			Double inDegDec = Double.valueOf(degrees + (minutes/60) + (seconds/3600));
-			
-			return inDegDec;
-		};
+			return degrees + (minutes/60) + (seconds/3600);
+		}
 
-		public boolean isValid() {
+        public boolean isValid() {
 			return mIsValid;
 		}
 
@@ -215,49 +206,7 @@ public class ImageHelper {
 		  }
 	}
 
-	public static Bitmap resizeImage(Bitmap bitmap, int maxWidth, int maxHeight) {
-		int width = bitmap.getWidth(); 
-		int height = bitmap.getHeight(); 
-		float ratio = (float)width/(float)height;
-		
-		int newWidth = Math.min(maxWidth, width);
-		int newHeight= Math.min(maxHeight, height);
-		
-		switch (getOrientation(bitmap)) {
-			case PORTRAIT:
-				newWidth = (int)(ratio * (float)newHeight);
-			case LANDSCAPE:
-				newHeight = (int)((float)newWidth/ratio);
-				break;
-			default:
-				newWidth = newHeight = Math.min(newWidth,newHeight);
-				break;
-		}
-		
-		float scaleWidth = ((float) newWidth) / width; 
-		float scaleHeight = ((float) newHeight) / height; 
-
-		Matrix matrix = new Matrix(); 
-		matrix.postScale(scaleWidth, scaleHeight); 
-		Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true); 
-
-		return resizedBitmap; 
-	}
-	
-	public static PhotoOrientation getOrientation(Bitmap bitmap) {			
-		int width = bitmap.getWidth();
-		int height = bitmap.getHeight();
-		
-		if(width > height)
-			return PhotoOrientation.LANDSCAPE;
-		
-		if(height > width)
-			return PhotoOrientation.PORTRAIT;
-		
-		return PhotoOrientation.SQUARE;
-	}
-	
-	public static Bitmap rotateBitmapUsingExif(String imageFilePath, Bitmap bitmap) {
+	private static Bitmap rotateBitmapUsingExif(String imageFilePath, Bitmap bitmap) {
 		 ExifInterface exif = null;
 		 try {
 			 exif = new ExifInterface(imageFilePath);
@@ -305,8 +254,7 @@ public class ImageHelper {
 		 }
 		
 		 try {
-		     Bitmap oriented = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-		     return oriented;
+		     return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 		 } catch (OutOfMemoryError e) {
 		     e.printStackTrace();
 		     return bitmap;

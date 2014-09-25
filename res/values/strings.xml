@@ -7,19 +7,16 @@
   -->
 
 <resources>
-
-    <string name="app_name">GeneralUtils</string>
-	
     <!-- Buttons -->
-	<string name="button_done_text">done</string>
-    <string name="button_delete_text">delete</string>
-    <string name="button_cancel_text">cancel</string>
-    <string name="button_add_text">add</string>
-    <string name="button_edit_text">edit</string>
-    <string name="button_clear_text">clear</string>
-    <string name="button_ok_text">ok</string>
-    <string name="button_yes_text">yes</string>
-    <string name="button_no_text">no</string>
+	<string name="button_done_text">Done</string>
+    <string name="button_delete_text">Delete</string>
+    <string name="button_cancel_text">@android:string/cancel</string>
+    <string name="button_add_text">Add</string>
+    <string name="button_edit_text">Edit</string>
+    <string name="button_clear_text">Clear</string>
+    <string name="button_ok_text">@android:string/ok</string>
+    <string name="button_yes_text">@android:string/yes</string>
+    <string name="button_no_text">@android:string/no</string>
     
     <!-- Menus -->
     <string name="menu_done">done</string>

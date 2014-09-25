@@ -33,7 +33,7 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
     private ArrayList<String> mLocationSuggestions = null;
 	private ArrayList<String> mLocationDefaultSuggestions = null;
 	private String mPrimaryDefaultSuggestion;
-	private LatLng mLatLng;
+	private final LatLng mLatLng;
 	
 	public LocationNameAdapter(Context context, int textViewResourceId, LatLng latlng, int numberDefaultSuggestions, String primaryDefaultSuggestion) {
 		super(context, textViewResourceId);
@@ -72,7 +72,7 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
 
     @Override
     public Filter getFilter() {
-        Filter filter = new Filter() {
+        return new Filter() {
         		
         	@Override
             protected FilterResults performFiltering(CharSequence constraint) {
@@ -100,8 +100,6 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
                 else
                     notifyDataSetInvalidated();
             }};
-            
-        return filter;
     }
 
     public void findSuggestions(String query) {
@@ -125,22 +123,20 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
 	 }
 	 
     private String formatAddress(Address address) {
-		  String addressText = String.format(
-	              "%s%s%s",
+		  return String.format(
+	              "%s%s",
 	              // If there's a street address, add it
 	              address.getMaxAddressLineIndex() > 0 ?
 	                      address.getAddressLine(0) : "",
 	              // Locality is usually a city
 	              address.getLocality() != null ?
 	            		  ", " + address.getLocality(): "");
-
-		  return addressText;
 	 }
 	    
     private class GetAddressTask extends AsyncTask<Integer, Void, ArrayList<String>> {
 		  
-		  Context mContext;
-		  LatLng mLatLng;
+		  final Context mContext;
+		  final LatLng mLatLng;
 		  
 		  public GetAddressTask(Context context, LatLng latlng) {
 			  super();

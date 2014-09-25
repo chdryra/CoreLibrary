@@ -9,7 +9,7 @@
 package com.chdryra.android.mygenerallibrary;
 
 public class GVString implements GVData{
-	String mString;
+	private final String mString;
 	
 	public GVString(String string) {
 		mString = string;

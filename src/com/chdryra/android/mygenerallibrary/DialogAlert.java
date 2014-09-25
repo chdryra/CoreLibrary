@@ -12,8 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 
 public abstract class DialogAlert extends DialogTwoButtonFragment {
-	public ActionType mActionRight = ActionType.YES;
-	public ActionType mActionLeft = ActionType.NO;
+	private ActionType mActionRight = ActionType.YES;
+	private ActionType mActionLeft = ActionType.NO;
 	
 	protected abstract String getAlertString();
 	

@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public abstract class ViewHolderBasic implements ViewHolder {
-	private int mLayout;
+	private final int mLayout;
 	protected View mInflated;
-	protected VHInflater mInflater;
+	private final VHInflater mInflater;
 	
 	@Override
 	public abstract View updateView(GVData data);
@@ -25,28 +25,15 @@ public abstract class ViewHolderBasic implements ViewHolder {
 		mLayout = layout;
 		mInflater = getDefaultInflater();
 	}
-	
-	protected ViewHolderBasic(int layout, VHInflater inflater) {
-		mLayout = layout;
-		mInflater = inflater;
-	}
-	
-	public void setInflater(VHInflater inflater) {
-		mInflater = inflater;
-	}
-	
+
 	@Override
 	public View inflate(Activity activity, ViewGroup parent) {
-		mInflated = mInflater.inflate(mLayout, activity, parent);
+		mInflated = mInflater.inflate(activity, parent);
 		mInflated.setTag(this);
 		initViewsToUpdate();
 		return mInflated;
 	}
 
-	public View getView() {
-		return mInflated;
-	}
-	
 	protected View getView(int viewID) {
 		return mInflated != null? mInflated.findViewById(viewID) : null;
 	}
@@ -54,14 +41,14 @@ public abstract class ViewHolderBasic implements ViewHolder {
 	protected VHInflater getDefaultInflater() {
 		return new VHInflater() {
 			@Override
-			public View inflate(int layoutId, Activity activity, ViewGroup parent) {
+			public View inflate(Activity activity, ViewGroup parent) {
 				return activity.getLayoutInflater().inflate(mLayout, parent, false);
 			}
 		};
 	}
 
 	public interface VHInflater {
-		public View inflate(int layoutId, Activity activity, ViewGroup parent);
+		public View inflate(Activity activity, ViewGroup parent);
 	}
 
 }

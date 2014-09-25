@@ -13,6 +13,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -27,17 +28,17 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 	protected String mLeftButtonText;
 	protected String mRightButtonText;
 
-	protected ActivityResultCode mLeftButtonResult;
-	protected ActivityResultCode mRightButtonResult;
+	private ActivityResultCode mLeftButtonResult;
+	private ActivityResultCode mRightButtonResult;
 
-	protected boolean mDismissOnLeftClick = false;
-	protected boolean mDismissOnRightClick = false;
+	private boolean mDismissOnLeftClick = false;
+	private boolean mDismissOnRightClick = false;
 
-	protected String mDialogTitle;
-	protected Intent mReturnData;
+	private String mDialogTitle;
+	private Intent mReturnData;
 
-	protected boolean mNoTitle = true;
-	protected boolean mShowKeyboardOnLaunch = true;
+	private boolean mNoTitle = true;
+	private boolean mShowKeyboardOnLaunch = true;
 	
 	public static enum ActionType {
 		CANCEL(ActivityResultCode.CANCEL), 
@@ -70,13 +71,13 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 	
 	protected void onLeftButtonClick() {
 		sendResult(mLeftButtonResult);
-	};
+	}
 
-	protected void onRightButtonClick() {
+    protected void onRightButtonClick() {
 		sendResult(mRightButtonResult);
-	};
+	}
 
-	public void setLeftButtonText(String leftButtonText) {
+    public void setLeftButtonText(String leftButtonText) {
 		mLeftButtonText = leftButtonText;
 	}
 
@@ -171,9 +172,9 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 			dismiss();
 	}
 
-	protected View getButtons() {
+	protected View getButtons(ViewGroup parent) {
 		View buttons = getActivity().getLayoutInflater().inflate(
-				R.layout.dialog_two_button_layout, null);
+				R.layout.dialog_two_button_layout, parent, false);
 
 		mLeftButton = (Button) buttons.findViewById(R.id.button_left);
 		mRightButton = (Button) buttons.findViewById(R.id.button_right);
@@ -211,7 +212,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 		//Need to set layout weight of 1 on it...
 		if(createDialogUI() != null)
 			layout.addView(createDialogUI(), lp1);
-		layout.addView(getButtons(), lp);
+		layout.addView(getButtons(layout), lp);
 
 		if(mNoTitle)
 			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

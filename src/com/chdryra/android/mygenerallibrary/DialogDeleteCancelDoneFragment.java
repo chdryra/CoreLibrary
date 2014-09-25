@@ -44,9 +44,9 @@ public abstract class DialogDeleteCancelDoneFragment extends DialogActionCancelD
 	protected void onLeftButtonClick() {
 		if(hasDataToDelete() && mDeleteConfirmation) {
 			showDeleteConfirmDialog();
-			return;
-		} else
-			super.onLeftButtonClick();
+		} else {
+            super.onLeftButtonClick();
+        }
 	}
 	
 	protected void setDeleteWhatTitle(String deleteWhat) {

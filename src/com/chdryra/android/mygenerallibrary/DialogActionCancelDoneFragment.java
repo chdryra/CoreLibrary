@@ -16,6 +16,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+@SuppressWarnings("EmptyMethod")
 public abstract class DialogActionCancelDoneFragment extends DialogThreeButtonFragment {
 	
 	private boolean mActionOnDone = false;
@@ -57,12 +58,12 @@ public abstract class DialogActionCancelDoneFragment extends DialogThreeButtonFr
 	}
 	
 	protected void onCancelButtonClick() {
-	};
-	
-	protected void onDoneButtonClick() {
-	};
+	}
 
-	protected void setActionOnDone(boolean actionOnDone) {
+    protected void onDoneButtonClick() {
+	}
+
+    protected void setActionOnDone(boolean actionOnDone) {
 		mActionOnDone = actionOnDone;
 	}
 	

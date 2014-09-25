@@ -9,16 +9,15 @@
 package com.chdryra.android.mygenerallibrary;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment {
-	protected Button mMiddleButton;
-	private String mMiddleButtonText;
+    private String mMiddleButtonText;
 	private ActivityResultCode mMiddleButtonResult;
 	private boolean mDismissOnMiddleClick = false;
 
 	protected abstract View createDialogUI();
-
 
 	protected void onMiddleButtonClick() {
 		sendResult(mMiddleButtonResult);
@@ -33,7 +32,6 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
 		mMiddleButtonResult = action.getResultCode();
 	}
 
-
 	protected void setDismissDialogOnMiddleClick(boolean dismiss) {
 		mDismissOnMiddleClick = dismiss;
 	}
@@ -44,12 +42,13 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
 			dismiss();
 	}
 
-	protected View getButtons() {
+    @Override
+	protected View getButtons(ViewGroup parent) {
 		View buttons = getActivity().getLayoutInflater().inflate(
-				R.layout.dialog_three_button_layout, null);
+				R.layout.dialog_three_button_layout, parent, false);
 
 		mLeftButton = (Button) buttons.findViewById(R.id.button_left);
-		mMiddleButton = (Button) buttons.findViewById(R.id.button_middle);
+        Button mMiddleButton = (Button) buttons.findViewById(R.id.button_middle);
 		mRightButton = (Button) buttons.findViewById(R.id.button_right);
 
 		mLeftButton.setText(mLeftButtonText);
@@ -62,11 +61,11 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
 
 		mMiddleButton.setText(mMiddleButtonText);
 		mMiddleButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onMiddleButtonClick();
-			}
-		});
+            @Override
+            public void onClick(View v) {
+                onMiddleButtonClick();
+            }
+        });
 
 		mRightButton.setText(mRightButtonText);
 		mRightButton.setOnClickListener(new View.OnClickListener() {

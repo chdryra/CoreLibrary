@@ -13,7 +13,7 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 
 public class DialogDeleteConfirmFragment extends DialogAlert {
-	public static final String DELETE_WHAT = "com.chdryra.android.mygenerallibrary.delete_what";
+	private static final String DELETE_WHAT = "com.chdryra.android.mygenerallibrary.delete_what";
 	public static final ActionType DELETE_CONFIRM = ActionType.YES;
 	public static final ActionType DELETE_CANCEL = ActionType.NO;
 	

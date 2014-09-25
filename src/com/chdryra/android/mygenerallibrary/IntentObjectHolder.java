@@ -12,7 +12,7 @@ import java.util.Hashtable;
 
 public class IntentObjectHolder {
 	 private static IntentObjectHolder sInstance;
-	 private Hashtable<String, Object> mData;
+	 private final Hashtable<String, Object> mData;
 
 	    private IntentObjectHolder() {
 	        mData = new Hashtable<String, Object>();

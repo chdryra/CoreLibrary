@@ -15,8 +15,8 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 public abstract class SortableList<T> implements Iterable<T> {
-	protected LinkedList<T> mData = new LinkedList<T>();
-	protected boolean mIsSorted = false;
+	protected final LinkedList<T> mData = new LinkedList<T>();
+	private boolean mIsSorted = false;
 
 	public SortableList() {
 		
@@ -35,11 +35,6 @@ public abstract class SortableList<T> implements Iterable<T> {
 	
 	public void remove(T item) {
 		mData.remove(item);
-		mIsSorted = false;
-	}
-
-	public void remove(int position) {
-		mData.remove(getItem(position));
 		mIsSorted = false;
 	}
 

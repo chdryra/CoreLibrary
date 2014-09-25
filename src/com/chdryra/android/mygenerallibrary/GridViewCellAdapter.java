@@ -15,11 +15,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 public class GridViewCellAdapter extends BaseAdapter {	
-	private Activity mActivity;
+	private final Activity mActivity;
 	private GridViewable<?> mData;
-	private int mCellWidth;
-	private int mCellHeight;
-	private boolean mSortedGrid = true;
+	private final int mCellWidth;
+	private final int mCellHeight;
 	
 	public GridViewCellAdapter(Activity activity, GridViewable<? extends GVData> data, int cellWidth, int cellHeight){
 	    mActivity = activity;
@@ -32,11 +31,7 @@ public class GridViewCellAdapter extends BaseAdapter {
 		mData = data;
 		notifyDataSetChanged();
 	}
-	
-	public void setSortedGrid(boolean sortedGrid) {
-		mSortedGrid = sortedGrid;
-	}
-	
+
 	@Override
 	public int getCount() {
 		return mData.size();
@@ -49,15 +44,13 @@ public class GridViewCellAdapter extends BaseAdapter {
 	
 	@Override
 	public Object getItem(int position) {
-		if(mSortedGrid)
-			mData.sort();
-		
+		mData.sort();
 		return mData.getItem(position);
 	}
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder vh = null;
+		ViewHolder vh;
 		
 		if (convertView == null) {						
 			vh = mData.getViewHolder(position);
@@ -71,12 +64,12 @@ public class GridViewCellAdapter extends BaseAdapter {
 		convertView.getLayoutParams().width = mCellWidth;
 		
 		return convertView;
-	};		
+	}
 
-	public interface GridViewable<T> extends Iterable<T>{
+    public interface GridViewable<T> extends Iterable<T>{
 		public int size();
 		public T getItem(int position);
 		public ViewHolder getViewHolder(int position);
 		public void sort();
 	}
-};
+}

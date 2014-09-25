@@ -16,7 +16,7 @@ import android.os.Bundle;
 public abstract class ActivitySingleFragment extends Activity {
 	protected abstract Fragment createFragment();
 
-	protected int getLayoutResId() {
+	int getLayoutResId() {
 		return R.layout.activity_fragment;
 	}
 	@Override

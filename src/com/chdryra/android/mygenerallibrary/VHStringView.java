@@ -15,8 +15,8 @@ public class VHStringView extends ViewHolderBasic{
 	private static final int LAYOUT = R.layout.grid_cell_string_view;
 	private static final int TEXTVIEW = R.id.text_view;
 	
-	protected int mTextViewID = TEXTVIEW;
-	protected TextView mTextView;
+	private int mTextViewID = TEXTVIEW;
+	private TextView mTextView;
 	private GVDataStringGetter mGetter;
 	
 	public VHStringView() {

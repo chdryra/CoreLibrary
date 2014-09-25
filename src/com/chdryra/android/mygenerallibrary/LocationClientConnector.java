@@ -22,23 +22,19 @@ import com.google.android.gms.maps.model.LatLng;
 public class LocationClientConnector implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener{
 	 
 	private static final String TAG = "LocationClientConnector";
-	public final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-	private LocationClient mLocationClient;
-	private Activity mActivity;
-	private Locatable mLocatable;
+	private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+	private final LocationClient mLocationClient;
+	private final Activity mActivity;
+	private final Locatable mLocatable;
 	
 	public LocationClientConnector(Activity activity, Locatable locatable) {
 		mActivity = activity;
 		mLocatable = locatable;
 		mLocationClient = new LocationClient(mActivity, this, this);
 	}
-	
-	public boolean isConnected() {
-		return mLocationClient.isConnected();
-	}
-	
+
 	public void connect() {
-		if(!isConnected())
+		if(!mLocationClient.isConnected())
 			mLocationClient.connect();
 	}
 	
@@ -47,7 +43,7 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
 	}
 	
 	public void locate() {
-		if(!isConnected())
+		if(mLocationClient.isConnected())
 			return;
 		
 		Location location = mLocationClient.getLastLocation();

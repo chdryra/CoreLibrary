@@ -37,15 +37,21 @@ public class FragmentDeleteDone extends DialogFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = super.onCreateView(inflater, container, savedInstanceState);
-		getActivity().getActionBar().setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
-		return v;
+        setDisplayHomeAsUp();
+		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	protected void setDisplayHomeAsUp(boolean displayHomeAsUp) {
 		mDisplayHomeAsUp = displayHomeAsUp;
+        setDisplayHomeAsUp();
 	}
-	
+
+    protected void setDisplayHomeAsUp() {
+        if(getActivity().getActionBar() != null) {
+            getActivity().getActionBar().setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
+        }
+    }
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
