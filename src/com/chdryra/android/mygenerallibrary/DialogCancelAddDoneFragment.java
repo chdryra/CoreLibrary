@@ -12,7 +12,7 @@ package com.chdryra.android.mygenerallibrary;
 import android.os.Bundle;
 import android.view.View;
 
-public abstract class DialogAddCancelDoneFragment extends DialogActionCancelDoneFragment {
+public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDoneFragment {
 
 	protected abstract View createDialogUI();
 

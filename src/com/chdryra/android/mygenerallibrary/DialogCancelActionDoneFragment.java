@@ -9,58 +9,74 @@
 package com.chdryra.android.mygenerallibrary;
 
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 @SuppressWarnings("EmptyMethod")
-public abstract class DialogActionCancelDoneFragment extends DialogThreeButtonFragment {
-	
-	private boolean mActionOnDone = false;
-	protected abstract View createDialogUI(); 
+public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFragment {
+
+    protected Button mCancelButton;
+	protected Button mActionButton;
+    protected Button mDoneButton;
+    private boolean mActionOnDone = false;
+
+    protected abstract View createDialogUI();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setMiddleButtonAction(ActionType.CANCEL);
-		setRightButtonAction(ActionType.DONE);
-		setDismissDialogOnMiddleClick(true);
+
+        setLeftButtonAction(ActionType.CANCEL);
+        setDismissDialogOnLeftClick(true);
+        setMiddleButtonAction(ActionType.OTHER);
+        setDismissDialogOnMiddleClick(false);
+        setRightButtonAction(ActionType.DONE);
 		setDismissDialogOnRightClick(true);
-		
-		setLeftButtonAction(ActionType.OTHER);
-		setDismissDialogOnLeftClick(false);
 	}
-	
-	@Override
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        mCancelButton = mLeftButton;
+        mActionButton = mMiddleButton;
+        mDoneButton = mRightButton;
+
+        return dialog;
+    }
+
+    protected void onCancelButtonClick() {
+    }
+
+    protected void onActionButtonClick() {
+    }
+
+    protected void onDoneButtonClick() {
+    }
+
+    @Override
 	protected void onLeftButtonClick() {
-		onActionButtonClick();
+		onCancelButtonClick();
 		super.onLeftButtonClick();
 	}
 	
 	@Override
 	protected void onMiddleButtonClick() {
-		onCancelButtonClick();
+		onActionButtonClick();
 		super.onMiddleButtonClick();
 	}
 
 	@Override
 	protected void onRightButtonClick() {
 		if(mActionOnDone)
-			mLeftButton.performClick();
+			clickActionButton();
 		onDoneButtonClick();
 		super.onRightButtonClick();
-	}
-	
-	protected void onActionButtonClick() {
-	}
-	
-	protected void onCancelButtonClick() {
-	}
-
-    protected void onDoneButtonClick() {
 	}
 
     protected void setActionOnDone(boolean actionOnDone) {
@@ -68,15 +84,15 @@ public abstract class DialogActionCancelDoneFragment extends DialogThreeButtonFr
 	}
 	
 	public void setActionButtonText(String actionButtonText) {
-		setLeftButtonText(actionButtonText);
+		setMiddleButtonText(actionButtonText);
 	}
 	
 	public void setActionButtonAction(ActionType action) {
-		setLeftButtonAction(action);
+		setMiddleButtonAction(action);
 	}
 	
 	protected void setDismissDialogOnActionClick(boolean dismiss) {
-		setDismissDialogOnLeftClick(dismiss);
+		setDismissDialogOnMiddleClick(dismiss);
 	}
 	
 	protected void setKeyboardIMEDoAction(EditText editText) {
@@ -86,7 +102,7 @@ public abstract class DialogActionCancelDoneFragment extends DialogThreeButtonFr
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
 	            if(actionId == EditorInfo.IME_ACTION_GO)
-	            	mLeftButton.performClick();
+	            	clickActionButton();
 	            return false;
 	        }
 	    });
@@ -99,9 +115,21 @@ public abstract class DialogActionCancelDoneFragment extends DialogThreeButtonFr
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
 	            if(actionId == EditorInfo.IME_ACTION_DONE)
-	            	mRightButton.performClick();
+	            	clickDoneButton();
 	            return false;
 	        }
 	    });
-	}	
+	}
+
+    public void clickCancelButton() {
+        mCancelButton.performClick();
+    }
+
+    public void clickActionButton() {
+        mActionButton.performClick();
+    }
+
+    public void clickDoneButton() {
+        mDoneButton.performClick();
+    }
 }

@@ -8,17 +8,17 @@
 
 <resources>
     <!-- Buttons -->
-	<string name="button_done_text">Done</string>
-    <string name="button_delete_text">Delete</string>
-    <string name="button_cancel_text">@android:string/cancel</string>
-    <string name="button_add_text">Add</string>
-    <string name="button_edit_text">Edit</string>
-    <string name="button_clear_text">Clear</string>
-    <string name="button_ok_text">@android:string/ok</string>
-    <string name="button_yes_text">@android:string/yes</string>
-    <string name="button_no_text">@android:string/no</string>
+	<string name="gl_button_done_text">Done</string>
+    <string name="gl_button_delete_text">Delete</string>
+    <string name="gl_button_cancel_text">@android:string/cancel</string>
+    <string name="gl_button_add_text">Add</string>
+    <string name="gl_button_edit_text">Edit</string>
+    <string name="gl_button_clear_text">Clear</string>
+    <string name="gl_button_ok_text">@android:string/ok</string>
+    <string name="gl_button_yes_text">Yes</string>
+    <string name="gl_button_no_text">No</string>
     
     <!-- Menus -->
-    <string name="menu_done">done</string>
-    <string name="menu_delete">delete</string>
+    <string name="gl_menu_done">done</string>
+    <string name="gl_menu_delete">delete</string>
 </resources>

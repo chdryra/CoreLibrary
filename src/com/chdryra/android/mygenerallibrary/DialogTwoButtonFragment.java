@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
+import com.google.android.gms.internal.di;
+
 public abstract class DialogTwoButtonFragment extends DialogFragment {
 
 	protected Button mLeftButton;
@@ -97,23 +99,23 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 
 	protected String getTitleForAction(ActionType type) {
 		if (type == ActionType.ADD)
-			return getResources().getString(R.string.button_add_text);
+			return getResources().getString(R.string.gl_button_add_text);
 		if (type == ActionType.CANCEL)
-			return getResources().getString(R.string.button_cancel_text);
+			return getResources().getString(R.string.gl_button_cancel_text);
 		if (type == ActionType.DELETE)
-			return getResources().getString(R.string.button_delete_text);
+			return getResources().getString(R.string.gl_button_delete_text);
 		if (type == ActionType.DONE)
-			return getResources().getString(R.string.button_done_text);
+			return getResources().getString(R.string.gl_button_done_text);
 		if (type == ActionType.EDIT)
-			return getResources().getString(R.string.button_edit_text);
+			return getResources().getString(R.string.gl_button_edit_text);
 		if (type == ActionType.CLEAR)
-			return getResources().getString(R.string.button_clear_text);
+			return getResources().getString(R.string.gl_button_clear_text);
 		if (type == ActionType.OK)
-			return getResources().getString(R.string.button_ok_text);
+			return getResources().getString(R.string.gl_button_ok_text);
 		if (type == ActionType.YES)
-			return getResources().getString(R.string.button_yes_text);
+			return getResources().getString(R.string.gl_button_yes_text);
 		if (type == ActionType.NO)
-			return getResources().getString(R.string.button_no_text);
+			return getResources().getString(R.string.gl_button_no_text);
 		else
 			return null;
 	}
@@ -210,8 +212,9 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 
 		//Hacky layout params to get listview dialogUIs to render properly. 
 		//Need to set layout weight of 1 on it...
-		if(createDialogUI() != null)
-			layout.addView(createDialogUI(), lp1);
+        View dialogUi = createDialogUI();
+		if(dialogUi != null)
+			layout.addView(dialogUi, lp1);
 		layout.addView(getButtons(layout), lp);
 
 		if(mNoTitle)

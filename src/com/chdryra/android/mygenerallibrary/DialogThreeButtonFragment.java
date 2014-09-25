@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment {
+    protected Button mMiddleButton;
     private String mMiddleButtonText;
 	private ActivityResultCode mMiddleButtonResult;
 	private boolean mDismissOnMiddleClick = false;
@@ -48,7 +49,7 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
 				R.layout.dialog_three_button_layout, parent, false);
 
 		mLeftButton = (Button) buttons.findViewById(R.id.button_left);
-        Button mMiddleButton = (Button) buttons.findViewById(R.id.button_middle);
+        mMiddleButton = (Button) buttons.findViewById(R.id.button_middle);
 		mRightButton = (Button) buttons.findViewById(R.id.button_right);
 
 		mLeftButton.setText(mLeftButtonText);

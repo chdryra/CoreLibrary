@@ -12,9 +12,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public abstract class DialogDeleteCancelDoneFragment extends DialogActionCancelDoneFragment {
+public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionDoneFragment {
 	private static final int DELETE_CONFIRM = 0;
-	
+
 	private boolean mDeleteConfirmation = true;
 	private String mDeleteWhat;
 	
@@ -41,11 +41,11 @@ public abstract class DialogDeleteCancelDoneFragment extends DialogActionCancelD
 	}
 
 	@Override
-	protected void onLeftButtonClick() {
+	protected void onMiddleButtonClick() {
 		if(hasDataToDelete() && mDeleteConfirmation) {
 			showDeleteConfirmDialog();
 		} else {
-            super.onLeftButtonClick();
+            super.onMiddleButtonClick();
         }
 	}
 	
@@ -59,7 +59,7 @@ public abstract class DialogDeleteCancelDoneFragment extends DialogActionCancelD
 	}
 	
 	private void showDeleteConfirmDialog() {
-		DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat, DialogDeleteCancelDoneFragment.this, DELETE_CONFIRM, getFragmentManager());
+		DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat, DialogCancelDeleteDoneFragment.this, DELETE_CONFIRM, getFragmentManager());
 	}
 	
 	@Override
@@ -67,7 +67,7 @@ public abstract class DialogDeleteCancelDoneFragment extends DialogActionCancelD
 		switch(requestCode) {
 			case DELETE_CONFIRM:
 				if(DialogDeleteConfirmFragment.DELETE_CONFIRM.getResultCode().equals(resultCode))
-					super.onLeftButtonClick();
+					super.onMiddleButtonClick();
 				break;
 			default:
 				super.onActivityResult(requestCode, resultCode, data);
