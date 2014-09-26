@@ -11,6 +11,7 @@ package com.chdryra.android.mygenerallibrary;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 
 public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionDoneFragment {
 	private static final int DELETE_CONFIRM = 0;
@@ -18,7 +19,7 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
 	private boolean mDeleteConfirmation = true;
 	private String mDeleteWhat;
 	
-	protected abstract View createDialogUI(); 
+	protected abstract View createDialogUI(ViewGroup parent);
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

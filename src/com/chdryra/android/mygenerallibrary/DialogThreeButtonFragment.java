@@ -18,7 +18,7 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
 	private ActivityResultCode mMiddleButtonResult;
 	private boolean mDismissOnMiddleClick = false;
 
-	protected abstract View createDialogUI();
+	protected abstract View createDialogUI(ViewGroup parent);
 
 	protected void onMiddleButtonClick() {
 		sendResult(mMiddleButtonResult);

@@ -13,6 +13,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,12 +22,12 @@ import android.widget.TextView;
 @SuppressWarnings("EmptyMethod")
 public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFragment {
 
-    protected Button mCancelButton;
-	protected Button mActionButton;
-    protected Button mDoneButton;
+    private Button mCancelButton;
+	private Button mActionButton;
+    private Button mDoneButton;
     private boolean mActionOnDone = false;
 
-    protected abstract View createDialogUI();
+    protected abstract View createDialogUI(ViewGroup parent);
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         return dialog;
     }
 
+    @SuppressWarnings("WeakerAccess")
     protected void onCancelButtonClick() {
     }
 
@@ -79,15 +81,16 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
 		super.onRightButtonClick();
 	}
 
+    @SuppressWarnings("WeakerAccess")
     protected void setActionOnDone(boolean actionOnDone) {
 		mActionOnDone = actionOnDone;
 	}
 	
-	public void setActionButtonText(String actionButtonText) {
+	protected void setActionButtonText(String actionButtonText) {
 		setMiddleButtonText(actionButtonText);
 	}
 	
-	public void setActionButtonAction(ActionType action) {
+	protected void setActionButtonAction(ActionType action) {
 		setMiddleButtonAction(action);
 	}
 	
@@ -125,10 +128,12 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         mCancelButton.performClick();
     }
 
+    @SuppressWarnings("WeakerAccess")
     public void clickActionButton() {
         mActionButton.performClick();
     }
 
+    @SuppressWarnings("WeakerAccess")
     public void clickDoneButton() {
         mDoneButton.performClick();
     }

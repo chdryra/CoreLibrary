@@ -11,10 +11,11 @@ package com.chdryra.android.mygenerallibrary;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 
 public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDoneFragment {
 
-	protected abstract View createDialogUI();
+	protected abstract View createDialogUI(ViewGroup parent);
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

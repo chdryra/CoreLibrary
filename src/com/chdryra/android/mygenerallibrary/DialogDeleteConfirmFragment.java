@@ -8,7 +8,6 @@
 
 package com.chdryra.android.mygenerallibrary;
 
-import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -19,7 +18,7 @@ public class DialogDeleteConfirmFragment extends DialogAlert {
     private static final String DELETE_CONFIRM_TAG = "DeleteConfirm";
 
     public static final ActionType DELETE_CONFIRM = ActionType.YES;
-    public static final ActionType DELETE_CANCEL = ActionType.CANCEL;
+    private static final ActionType DELETE_CANCEL = ActionType.CANCEL;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

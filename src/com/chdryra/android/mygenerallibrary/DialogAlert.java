@@ -10,10 +10,11 @@ package com.chdryra.android.mygenerallibrary;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 
 public abstract class DialogAlert extends DialogTwoButtonFragment {
-	protected ActionType mActionRight = ActionType.YES;
-	protected ActionType mActionLeft = ActionType.NO;
+	private ActionType mActionRight = ActionType.YES;
+	private ActionType mActionLeft = ActionType.NO;
 	
 	protected abstract String getAlertString();
 	
@@ -29,7 +30,7 @@ public abstract class DialogAlert extends DialogTwoButtonFragment {
 	}
 	
 	@Override
-	protected View createDialogUI() {
+	protected View createDialogUI(ViewGroup parent) {
 		return null;
 	}
 	

@@ -57,16 +57,14 @@ public class ImageHelper {
         return false;
 	}
 
-	public boolean deleteImageFile() {
+	public void deleteImageFile() {
 		File file = new File(mImageFilePath);
-        boolean success = false;
-        if(file.exists()) {
-            success = file.delete();
+        if(file.exists() && !file.delete()) {
+            Log.i(TAG, "Problem deleting file: " + mImageFilePath);
         }
+
         mImageFilePath = null;
         mEXIF = null;
-
-        return success;
 	}
 	
 	public ExifInterface getEXIF() {

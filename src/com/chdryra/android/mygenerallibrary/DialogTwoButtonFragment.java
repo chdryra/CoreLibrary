@@ -20,8 +20,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
-import com.google.android.gms.internal.di;
-
 public abstract class DialogTwoButtonFragment extends DialogFragment {
 
 	protected Button mLeftButton;
@@ -65,7 +63,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 		}
 	}
 
-	protected abstract View createDialogUI();
+	protected abstract View createDialogUI(ViewGroup parent);
 
 	protected void showKeyboardOnLaunch(boolean showKeyboard) {
 		mShowKeyboardOnLaunch = showKeyboard;
@@ -212,7 +210,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 
 		//Hacky layout params to get listview dialogUIs to render properly. 
 		//Need to set layout weight of 1 on it...
-        View dialogUi = createDialogUI();
+        View dialogUi = createDialogUI(layout);
 		if(dialogUi != null)
 			layout.addView(dialogUi, lp1);
 		layout.addView(getButtons(layout), lp);
