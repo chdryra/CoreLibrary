@@ -27,11 +27,10 @@ public abstract class ViewHolderBasic implements ViewHolder {
 	}
 
 	@Override
-	public View inflate(Activity activity, ViewGroup parent) {
+	public void inflate(Activity activity, ViewGroup parent) {
 		mInflated = mInflater.inflate(activity, parent);
 		mInflated.setTag(this);
 		initViewsToUpdate();
-		return mInflated;
 	}
 
 	protected View getView(int viewID) {

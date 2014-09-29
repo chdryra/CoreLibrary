@@ -20,21 +20,21 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
 
 	protected abstract View createDialogUI(ViewGroup parent);
 
-	protected void onMiddleButtonClick() {
+    protected void onMiddleButtonClick() {
 		sendResult(mMiddleButtonResult);
 	}
 
-	public void setMiddleButtonText(String middleButtonText) {
+    public void setMiddleButtonText(String middleButtonText) {
 		mMiddleButtonText = middleButtonText;
 	}
 
-	public void setMiddleButtonAction(ActionType action) {
+    public void setMiddleButtonAction(ActionType action) {
 		mMiddleButtonText = getTitleForAction(action);
 		mMiddleButtonResult = action.getResultCode();
 	}
 
-	protected void setDismissDialogOnMiddleClick(boolean dismiss) {
-		mDismissOnMiddleClick = dismiss;
+    protected void dismissDialogOnMiddleClick() {
+		mDismissOnMiddleClick = true;
 	}
 	
 	protected void sendResult(ActivityResultCode resultCode) {

@@ -25,7 +25,7 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setActionButtonAction(ActionType.DELETE);
-		setDismissDialogOnActionClick(true);
+		dismissDialogOnActionClick();
 	}
 	
 	protected boolean hasDataToDelete() { 

@@ -21,11 +21,8 @@ import android.widget.TextView;
 
 @SuppressWarnings("EmptyMethod")
 public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFragment {
-
-    private Button mCancelButton;
-	private Button mActionButton;
+    private Button mActionButton;
     private Button mDoneButton;
-    private boolean mActionOnDone = false;
 
     protected abstract View createDialogUI(ViewGroup parent);
 	
@@ -34,17 +31,15 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
 		super.onCreate(savedInstanceState);
 
         setLeftButtonAction(ActionType.CANCEL);
-        setDismissDialogOnLeftClick(true);
+        dismissDialogOnLeftClick();
         setMiddleButtonAction(ActionType.OTHER);
-        setDismissDialogOnMiddleClick(false);
         setRightButtonAction(ActionType.DONE);
-		setDismissDialogOnRightClick(true);
+		dismissDialogOnRightClick();
 	}
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
-        mCancelButton = mLeftButton;
         mActionButton = mMiddleButton;
         mDoneButton = mRightButton;
 
@@ -75,17 +70,11 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
 
 	@Override
 	protected void onRightButtonClick() {
-		if(mActionOnDone)
-			clickActionButton();
+        mActionButton.performClick();
 		onDoneButtonClick();
 		super.onRightButtonClick();
 	}
 
-    @SuppressWarnings("WeakerAccess")
-    protected void setActionOnDone(boolean actionOnDone) {
-		mActionOnDone = actionOnDone;
-	}
-	
 	protected void setActionButtonText(String actionButtonText) {
 		setMiddleButtonText(actionButtonText);
 	}
@@ -94,8 +83,8 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
 		setMiddleButtonAction(action);
 	}
 	
-	protected void setDismissDialogOnActionClick(boolean dismiss) {
-		setDismissDialogOnMiddleClick(dismiss);
+	protected void dismissDialogOnActionClick() {
+		dismissDialogOnMiddleClick();
 	}
 	
 	protected void setKeyboardIMEDoAction(EditText editText) {
@@ -105,7 +94,7 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
 	            if(actionId == EditorInfo.IME_ACTION_GO)
-	            	clickActionButton();
+                    mActionButton.performClick();
 	            return false;
 	        }
 	    });
@@ -118,23 +107,9 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
 	        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 	        {
 	            if(actionId == EditorInfo.IME_ACTION_DONE)
-	            	clickDoneButton();
+                    mDoneButton.performClick();
 	            return false;
 	        }
 	    });
 	}
-
-    public void clickCancelButton() {
-        mCancelButton.performClick();
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    public void clickActionButton() {
-        mActionButton.performClick();
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    public void clickDoneButton() {
-        mDoneButton.performClick();
-    }
 }

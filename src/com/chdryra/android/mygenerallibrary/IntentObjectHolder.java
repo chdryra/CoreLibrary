@@ -11,25 +11,20 @@ package com.chdryra.android.mygenerallibrary;
 import java.util.Hashtable;
 
 public class IntentObjectHolder {
-	 private static IntentObjectHolder sInstance;
 	 private final Hashtable<String, Object> mData;
 
-	    private IntentObjectHolder() {
+	    public IntentObjectHolder() {
 	        mData = new Hashtable<String, Object>();
 	    }
 
-	    private static IntentObjectHolder getInstance() {
-	        if(sInstance == null)
-	            sInstance = new IntentObjectHolder();
-	     
-	        return sInstance;
+	    public void addObject(String key, Object object) {
+            if(!mData.containsKey(key))
+	            mData.put(key, object);
 	    }
 
-	    public static void addObject(String key, Object object) {
-	        getInstance().mData.put(key, object);
+	    public Object getObject(String key) {
+	        return mData.get(key);
 	    }
 
-	    public static Object getObject(String key) {
-	        return getInstance().mData.remove(key);
-	    }
+        public void removeObject(String key) { mData.remove(key);}
 }

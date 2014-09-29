@@ -17,13 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class FragmentDeleteDone extends DialogFragment {
-
 	private static final int DELETE_CONFIRM = 0;
 
 	private boolean mDismissOnDone = true;
 	private boolean mDismissOnDelete = false;
-	private boolean mDeleteConfirmation = true;
-	private String mDeleteWhat;
+    private String mDeleteWhat;
 	private Intent mReturnData;
 	private boolean mDisplayHomeAsUp = true;
 	
@@ -79,12 +77,9 @@ public class FragmentDeleteDone extends DialogFragment {
 		else
 			return mReturnData;
 	}
-	protected void setDeleteWhatTitle(String deleteWhat) {
-		mDeleteWhat = deleteWhat;
-	}
 
-	protected void setDeleteConfirmation(boolean deleteConfirmation) {
-		mDeleteConfirmation = deleteConfirmation;
+    protected void setDeleteWhatTitle(String deleteWhat) {
+		mDeleteWhat = deleteWhat;
 	}
 
 	protected boolean hasDataToDelete() {
@@ -126,7 +121,7 @@ public class FragmentDeleteDone extends DialogFragment {
 			doUpSelected();
 			return true;
 		} else if (itemId == R.id.menu_item_delete) {
-			if (hasDataToDelete() && mDeleteConfirmation)
+            if (hasDataToDelete())
 				showDeleteConfirmDialog();
 			else
 				doDeleteSelected();

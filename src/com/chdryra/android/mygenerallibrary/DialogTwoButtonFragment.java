@@ -21,9 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
 public abstract class DialogTwoButtonFragment extends DialogFragment {
-
-	protected Button mLeftButton;
-	protected Button mRightButton;
+    protected Button mLeftButton;
+    protected Button mRightButton;
 
 	protected String mLeftButtonText;
 	protected String mRightButtonText;
@@ -65,8 +64,8 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 
 	protected abstract View createDialogUI(ViewGroup parent);
 
-	protected void showKeyboardOnLaunch(boolean showKeyboard) {
-		mShowKeyboardOnLaunch = showKeyboard;
+	protected void hideKeyboardOnLaunch() {
+		mShowKeyboardOnLaunch = false;
 	}
 	
 	protected void onLeftButtonClick() {
@@ -138,12 +137,12 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 		super.onStop();
 	}
 
-	protected void setDismissDialogOnLeftClick(boolean dismiss) {
-		mDismissOnLeftClick = dismiss;
+	protected void dismissDialogOnLeftClick() {
+		mDismissOnLeftClick = true;
 	}
 
-	protected void setDismissDialogOnRightClick(boolean dismiss) {
-		mDismissOnRightClick = dismiss;
+	protected void dismissDialogOnRightClick() {
+		mDismissOnRightClick = true;
 	}
 
 	protected Intent getNewReturnData() {

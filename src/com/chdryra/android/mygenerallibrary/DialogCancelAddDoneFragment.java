@@ -21,18 +21,13 @@ public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDone
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setActionButtonAction(ActionType.ADD);
-		setDismissDialogOnActionClick(false);
 	}
 	
 	@Override
 	protected void onActionButtonClick() {
 		OnAddButtonClick();
 	}
-	
-	protected void setAddOnDone(boolean addOnDone) {
-		setActionOnDone(addOnDone);
-	}
-	
+
 	protected void OnAddButtonClick() {
 	}
 }

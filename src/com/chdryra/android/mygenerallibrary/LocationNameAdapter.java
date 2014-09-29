@@ -26,17 +26,17 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class LocationNameAdapter extends ArrayAdapter<String> implements Filterable {
 	private static final String TAG = "LocationNameAdapter";
-	private static final int RADIUS = 250;
 	private static final String SEARCHING = "searching nearby...";
 	private static final String NO_LOCATION = "location not found...";
+    private static final int TEXT_VIEW_RESOURCE = android.R.layout.simple_list_item_1;
 	
     private ArrayList<String> mLocationSuggestions = null;
 	private ArrayList<String> mLocationDefaultSuggestions = null;
 	private String mPrimaryDefaultSuggestion;
 	private final LatLng mLatLng;
 	
-	public LocationNameAdapter(Context context, int textViewResourceId, LatLng latlng, int numberDefaultSuggestions, String primaryDefaultSuggestion) {
-		super(context, textViewResourceId);
+	public LocationNameAdapter(Context context, LatLng latlng, int numberDefaultSuggestions, String primaryDefaultSuggestion) {
+		super(context, TEXT_VIEW_RESOURCE);
 		mLatLng = latlng;
 		if(numberDefaultSuggestions > 0) {
 			if(primaryDefaultSuggestion != null && primaryDefaultSuggestion.length() > 0) {
@@ -79,7 +79,7 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
                 FilterResults filterResults = new FilterResults();
                 if (constraint != null && constraint.length() > 0) {
                 	ArrayList<String> shortened = new ArrayList<String>();
-                	ArrayList<String> suggestions = FetcherPlacesAPI.fetchAutoCompleteSuggestions(constraint.toString(), mLatLng, RADIUS);
+                	ArrayList<String> suggestions = FetcherPlacesAPI.fetchAutoCompleteSuggestions(constraint.toString(), mLatLng);
                 	for(String suggestion : suggestions)
                 		shortened.add(formatAddress(suggestion));
                 	mLocationSuggestions = shortened;
