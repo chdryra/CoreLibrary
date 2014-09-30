@@ -54,11 +54,7 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
 		mDeleteWhat = deleteWhat;
 		mDeleteConfirmation = true;
 	}
-	
-	protected void setDeleteConfirmation(boolean deleteConfirmation) {
-		mDeleteConfirmation = deleteConfirmation;
-	}
-	
+
 	private void showDeleteConfirmDialog() {
 		DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat, DialogCancelDeleteDoneFragment.this, DELETE_CONFIRM, getFragmentManager());
 	}

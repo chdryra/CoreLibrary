@@ -7,10 +7,11 @@
   ~ Date: 23 September, 2014
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.chdryra.android.mygenerallibrary.GridCellLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">    
-        
+    android:layout_height="match_parent" >
+
         <TextView
 	        android:id="@+id/text_view "
 	        style="?android:textAppearanceMedium"
@@ -20,4 +21,4 @@
 	        android:background="@drawable/image_button_selected"/>
 	        
     
-</FrameLayout>
+</com.chdryra.android.mygenerallibrary.GridCellLayout>

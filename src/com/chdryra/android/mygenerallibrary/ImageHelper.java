@@ -30,20 +30,20 @@ public class ImageHelper {
     private String mImageFilePath;
 	private ExifInterface mEXIF;
 	
-	public ImageHelper() {
+	protected ImageHelper() {
 	}
 
-	public String getImageFilePath() {
+	protected String getImageFilePath() {
 		return mImageFilePath;
 	}
 
-	public void setImageFilePath(String imageFilePath) {
+	protected void setImageFilePath(String imageFilePath) {
 		mImageFilePath = imageFilePath;
 		mEXIF = null;
 		getEXIF();
 	}
 
-	public boolean createImageFile() throws IOException{
+	protected boolean createImageFile() throws IOException{
 		File file = new File(mImageFilePath);
 		try {
             if(!file.exists() && mImageFilePath != null) {
@@ -57,7 +57,7 @@ public class ImageHelper {
         return false;
 	}
 
-	public void deleteImageFile() {
+	protected void deleteImageFile() {
 		File file = new File(mImageFilePath);
         if(file.exists() && !file.delete()) {
             Log.i(TAG, "Problem deleting file: " + mImageFilePath);
@@ -67,7 +67,7 @@ public class ImageHelper {
         mEXIF = null;
 	}
 	
-	public ExifInterface getEXIF() {
+	ExifInterface getEXIF() {
 		if(mImageFilePath != null) {
 			if (mEXIF == null) {
 				try {
@@ -90,7 +90,7 @@ public class ImageHelper {
 		return options;
 	}
 	
-	public Bitmap getBitmap(int maxWidth, int maxHeight) {
+	protected Bitmap getBitmap(int maxWidth, int maxHeight) {
 		BitmapFactory.Options options = getInDecodeBoundsOptions();
 		options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);			
 		options.inJustDecodeBounds = false;
@@ -118,18 +118,18 @@ public class ImageHelper {
     	return inSampleSize;
 	}
 	
-	public boolean bitmapExists() {
+	protected boolean bitmapExists() {
 		BitmapFactory.Options options = getInDecodeBoundsOptions();
 		BitmapFactory.decodeFile(mImageFilePath, options);
 		return options.outHeight != -1;
 	}
 	
-	public boolean hasGPSTag() {
+	boolean hasGPSTag() {
 		EXIFtoLatLngConverter converter = new EXIFtoLatLngConverter(getEXIF());
 		return converter.isValid();
 	}
 	
-	public LatLng getLatLngFromEXIF() {
+	protected LatLng getLatLngFromEXIF() {
 		LatLng latlng = null;
 		
 		if (hasGPSTag()) {
@@ -189,7 +189,7 @@ public class ImageHelper {
 		}
 	}
 	
-	public static String getRealPathFromURI(Context context, Uri contentUri) {
+	protected static String getRealPathFromURI(Context context, Uri contentUri) {
 		Cursor cursor = null;
 		try { 
 		    String[] proj = { MediaStore.Images.Media.DATA };
