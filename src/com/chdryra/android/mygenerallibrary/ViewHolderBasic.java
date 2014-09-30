@@ -13,41 +13,42 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public abstract class ViewHolderBasic implements ViewHolder {
-	private final int mLayout;
-	protected View mInflated;
-	private final VHInflater mInflater;
-	
-	@Override
-	public abstract View updateView(GVData data);
-	protected abstract void initViewsToUpdate();
-	
-	protected ViewHolderBasic(int layout) {
-		mLayout = layout;
-		mInflater = getDefaultInflater();
-	}
+    private final int        mLayout;
+    private final VHInflater mInflater;
+    protected     View       mInflated;
 
-	@Override
-	public void inflate(Activity activity, ViewGroup parent) {
-		mInflated = mInflater.inflate(activity, parent);
-		mInflated.setTag(this);
-		initViewsToUpdate();
-	}
+    protected ViewHolderBasic(int layout) {
+        mLayout = layout;
+        mInflater = getDefaultInflater();
+    }
 
-	protected View getView(int viewID) {
-		return mInflated != null? mInflated.findViewById(viewID) : null;
-	}
-	
-	protected VHInflater getDefaultInflater() {
-		return new VHInflater() {
-			@Override
-			public View inflate(Activity activity, ViewGroup parent) {
-				return activity.getLayoutInflater().inflate(mLayout, parent, false);
-			}
-		};
-	}
+    protected VHInflater getDefaultInflater() {
+        return new VHInflater() {
+            @Override
+            public View inflate(Activity activity, ViewGroup parent) {
+                return activity.getLayoutInflater().inflate(mLayout, parent, false);
+            }
+        };
+    }
 
-	public interface VHInflater {
-		public View inflate(Activity activity, ViewGroup parent);
-	}
+    @Override
+    public void inflate(Activity activity, ViewGroup parent) {
+        mInflated = mInflater.inflate(activity, parent);
+        mInflated.setTag(this);
+        initViewsToUpdate();
+    }
+
+    @Override
+    public abstract View updateView(GVData data);
+
+    protected abstract void initViewsToUpdate();
+
+    protected View getView(int viewID) {
+        return mInflated != null ? mInflated.findViewById(viewID) : null;
+    }
+
+    public interface VHInflater {
+        public View inflate(Activity activity, ViewGroup parent);
+    }
 
 }

@@ -10,24 +10,43 @@ package com.chdryra.android.mygenerallibrary;
 
 public class GVDualString implements GVData {
 
-	private final String mUpper;
-	private final String mLower;
+    private final String mUpper;
+    private final String mLower;
 
-	public GVDualString(String upper, String lower) {
-		mUpper = upper;
-		mLower = lower;
-	}
-	
-	public String getUpper() {
-		return mUpper;
-	}
-	
-	public String getLower() {
-		return mLower;
-	}
+    public GVDualString(String upper, String lower) {
+        mUpper = upper;
+        mLower = lower;
+    }
 
-	@Override
-	public ViewHolder getViewHolder() {
-		return new VHDualStringView();
-	}
+    public String getUpper() {
+        return mUpper;
+    }
+
+    public String getLower() {
+        return mLower;
+    }
+
+    @Override
+    public ViewHolder getViewHolder() {
+        return new VHDualStringView();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GVDualString)) return false;
+
+        GVDualString that = (GVDualString) o;
+
+        return !(mLower != null ? !mLower.equals(that.mLower) : that.mLower != null) && !(mUpper
+                != null ? !mUpper.equals(that.mUpper) : that.mUpper != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mUpper != null ? mUpper.hashCode() : 0;
+        result = 31 * result + (mLower != null ? mLower.hashCode() : 0);
+        return result;
+    }
 }

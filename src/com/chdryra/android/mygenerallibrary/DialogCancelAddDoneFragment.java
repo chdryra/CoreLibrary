@@ -15,19 +15,20 @@ import android.view.ViewGroup;
 
 public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDoneFragment {
 
-	protected abstract View createDialogUI(ViewGroup parent);
+    protected abstract View createDialogUI(ViewGroup parent);
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setActionButtonAction(ActionType.ADD);
-	}
-	
-	@Override
-	protected void onActionButtonClick() {
-		OnAddButtonClick();
-	}
+    @Override
+    protected void onActionButtonClick() {
+        OnAddButtonClick();
+    }
 
-	protected void OnAddButtonClick() {
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setActionButtonAction(ActionType.ADD);
+        performActionOnDone();
+    }
+
+    protected void OnAddButtonClick() {
+    }
 }

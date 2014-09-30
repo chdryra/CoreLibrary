@@ -6,20 +6,22 @@
  * Date: 30 September, 2014
  */
 
-package com.chdryra.android.mygenerallibrary;import android.content.Context;
+package com.chdryra.android.mygenerallibrary;
+
+import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
 class GridCellLayout extends FrameLayout {
 
-	public GridCellLayout(Context context) {
-		super(context);
-	}
+    public GridCellLayout(Context context) {
+        super(context);
+    }
 
-   public GridCellLayout(Context context, AttributeSet attrs, int defStyle) {
+    public GridCellLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
- 
+
     public GridCellLayout(Context context, AttributeSet attrs) {
         super(context, attrs, R.attr.gridCellStyle);
     }

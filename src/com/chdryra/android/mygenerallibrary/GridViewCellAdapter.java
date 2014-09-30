@@ -14,62 +14,67 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-public class GridViewCellAdapter extends BaseAdapter {	
-	private final Activity mActivity;
-	private GridViewable<?> mData;
-	private final int mCellWidth;
-	private final int mCellHeight;
-	
-	public GridViewCellAdapter(Activity activity, GridViewable<? extends GVData> data, int cellWidth, int cellHeight){
-	    mActivity = activity;
-		mData = data;
-		mCellWidth = cellWidth;
-		mCellHeight = cellHeight;
-	}
-	
-	public void setData(GridViewable<?> data) {
-		mData = data;
-		notifyDataSetChanged();
-	}
+public class GridViewCellAdapter extends BaseAdapter {
+    private final Activity        mActivity;
+    private final int             mCellWidth;
+    private final int             mCellHeight;
+    private       GridViewable<?> mData;
 
-	@Override
-	public int getCount() {
-		return mData.size();
-	}
-	
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
-	
-	@Override
-	public Object getItem(int position) {
-		mData.sort();
-		return mData.getItem(position);
-	}
-	
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder vh;
-		
-		if (convertView == null) {						
-			vh = mData.getViewHolder(position);
-			vh.inflate(mActivity, parent);
-		} else
-			vh = (ViewHolder)convertView.getTag();
-		
-		convertView = vh.updateView((GVData)getItem(position));
-		convertView.setTag(vh);
-		convertView.getLayoutParams().height = mCellHeight;
-		convertView.getLayoutParams().width = mCellWidth;
-		
-		return convertView;
-	}
+    public GridViewCellAdapter(Activity activity, GridViewable<? extends GVData> data,
+                               int cellWidth, int cellHeight) {
+        mActivity = activity;
+        mData = data;
+        mCellWidth = cellWidth;
+        mCellHeight = cellHeight;
+    }
 
-    public interface GridViewable<T> extends Iterable<T>{
-		public int size();
-		public T getItem(int position);
-		public ViewHolder getViewHolder(int position);
-		public void sort();
-	}
+    public void setData(GridViewable<?> data) {
+        mData = data;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getCount() {
+        return mData.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        mData.sort();
+        return mData.getItem(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder vh;
+
+        if (convertView == null) {
+            vh = mData.getViewHolder(position);
+            vh.inflate(mActivity, parent);
+        } else {
+            vh = (ViewHolder) convertView.getTag();
+        }
+
+        convertView = vh.updateView((GVData) getItem(position));
+        convertView.setTag(vh);
+        convertView.getLayoutParams().height = mCellHeight;
+        convertView.getLayoutParams().width = mCellWidth;
+
+        return convertView;
+    }
+
+    public interface GridViewable<T> extends Iterable<T> {
+        public int size();
+
+        public T getItem(int position);
+
+        public ViewHolder getViewHolder(int position);
+
+        public void sort();
+    }
 }

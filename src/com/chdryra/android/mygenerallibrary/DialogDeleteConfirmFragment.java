@@ -13,12 +13,22 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 
 public class DialogDeleteConfirmFragment extends DialogAlert {
-	private static final String DELETE_WHAT = "com.chdryra.android.mygenerallibrary.delete_what";
-    private static final String DELETE = "Delete";
-    private static final String DELETE_CONFIRM_TAG = "DeleteConfirm";
+    public static final  ActionType DELETE_CONFIRM     = ActionType.YES;
+    private static final String     DELETE_WHAT        = "com.chdryra.android.mygenerallibrary" +
+            ".delete_what";
+    private static final String     DELETE             = "Delete";
+    private static final String     DELETE_CONFIRM_TAG = "DeleteConfirm";
+    private static final ActionType DELETE_CANCEL      = ActionType.CANCEL;
 
-    public static final ActionType DELETE_CONFIRM = ActionType.YES;
-    private static final ActionType DELETE_CANCEL = ActionType.CANCEL;
+    public static void showDeleteConfirmDialog(String deleteWhat, Fragment targetFragment,
+                                               int requestCode, FragmentManager fragmentManager) {
+        DialogDeleteConfirmFragment dialog = new DialogDeleteConfirmFragment();
+        Bundle args = new Bundle();
+        args.putString(DELETE_WHAT, deleteWhat);
+        dialog.setTargetFragment(targetFragment, requestCode);
+        dialog.setArguments(args);
+        dialog.show(fragmentManager, DELETE_CONFIRM_TAG);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,18 +37,9 @@ public class DialogDeleteConfirmFragment extends DialogAlert {
         setLeftButtonAction(DELETE_CANCEL);
     }
 
-    public static void showDeleteConfirmDialog(String deleteWhat, Fragment targetFragment, int requestCode, FragmentManager fragmentManager) {
-		DialogDeleteConfirmFragment dialog = new DialogDeleteConfirmFragment();
-		Bundle args = new Bundle();
-		args.putString(DELETE_WHAT, deleteWhat);
-		dialog.setTargetFragment(targetFragment, requestCode);
-		dialog.setArguments(args);
-		dialog.show(fragmentManager, DELETE_CONFIRM_TAG);
-	}
-
-	@Override
-	protected String getAlertString() {
-		String deleteWhat = getArguments().getString(DELETE_WHAT);
-		return deleteWhat != null? DELETE + " " + deleteWhat + "?" : DELETE + "?";
-	}
+    @Override
+    protected String getAlertString() {
+        String deleteWhat = getArguments().getString(DELETE_WHAT);
+        return deleteWhat != null ? DELETE + " " + deleteWhat + "?" : DELETE + "?";
+    }
 }

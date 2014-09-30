@@ -13,24 +13,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public abstract class DialogAlert extends DialogTwoButtonFragment {
-	private final ActionType mActionRight = ActionType.YES;
-	private final ActionType mActionLeft = ActionType.NO;
-	
-	protected abstract String getAlertString();
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setRightButtonAction(mActionRight);
-		setLeftButtonAction(mActionLeft);
+    private final ActionType mActionRight = ActionType.YES;
+    private final ActionType mActionLeft  = ActionType.NO;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRightButtonAction(mActionRight);
+        setLeftButtonAction(mActionLeft);
         setDialogTitle(getAlertString());
         dismissDialogOnRightClick();
-		dismissDialogOnLeftClick();
-		hideKeyboardOnLaunch();
-	}
-	
-	@Override
-	protected View createDialogUI(ViewGroup parent) {
-		return null;
-	}
+        dismissDialogOnLeftClick();
+        hideKeyboardOnLaunch();
+    }
+
+    protected abstract String getAlertString();
+
+    @Override
+    protected View createDialogUI(ViewGroup parent) {
+        return null;
+    }
 }

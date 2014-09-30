@@ -24,205 +24,225 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
     protected Button mLeftButton;
     protected Button mRightButton;
 
-	protected String mLeftButtonText;
-	protected String mRightButtonText;
+    protected String mLeftButtonText;
+    protected String mRightButtonText;
 
-	private ActivityResultCode mLeftButtonResult;
-	private ActivityResultCode mRightButtonResult;
+    private ActivityResultCode mLeftButtonResult;
+    private ActivityResultCode mRightButtonResult;
 
-	private boolean mDismissOnLeftClick = false;
-	private boolean mDismissOnRightClick = false;
+    private boolean mDismissOnLeftClick  = false;
+    private boolean mDismissOnRightClick = false;
 
-	private String mDialogTitle;
-	private Intent mReturnData;
+    private String mDialogTitle;
+    private Intent mReturnData;
 
-	private boolean mNoTitle = true;
-	private boolean mShowKeyboardOnLaunch = true;
-	
-	public static enum ActionType {
-		CANCEL(ActivityResultCode.CANCEL), 
-		DONE(ActivityResultCode.DONE), 
-		OTHER(ActivityResultCode.OTHER), 
-		EDIT(ActivityResultCode.EDIT), 
-		ADD(ActivityResultCode.ADD), 
-		DELETE(ActivityResultCode.DELETE), 
-		CLEAR(ActivityResultCode.CLEAR), 
-		OK(ActivityResultCode.OK),
-		YES(ActivityResultCode.YES),
-		NO(ActivityResultCode.NO);
-		
-		private final ActivityResultCode mResultCode;
+    private boolean mNoTitle              = true;
+    private boolean mShowKeyboardOnLaunch = true;
 
-		private ActionType(ActivityResultCode resultCode) {
-			this.mResultCode = resultCode;
-		}
+    protected abstract View createDialogUI(ViewGroup parent);
 
-		public ActivityResultCode getResultCode() {
-			return mResultCode;
-		}
-	}
+    protected void hideKeyboardOnLaunch() {
+        mShowKeyboardOnLaunch = false;
+    }
 
-	protected abstract View createDialogUI(ViewGroup parent);
-
-	protected void hideKeyboardOnLaunch() {
-		mShowKeyboardOnLaunch = false;
-	}
-	
-	protected void onLeftButtonClick() {
-		sendResult(mLeftButtonResult);
-	}
+    protected void onLeftButtonClick() {
+        sendResult(mLeftButtonResult);
+    }
 
     protected void onRightButtonClick() {
-		sendResult(mRightButtonResult);
-	}
+        sendResult(mRightButtonResult);
+    }
 
     public void setLeftButtonText(String leftButtonText) {
-		mLeftButtonText = leftButtonText;
-	}
+        mLeftButtonText = leftButtonText;
+    }
 
-	public void setRightButtonText(String rightButtonText) {
-		mRightButtonText = rightButtonText;
-	}
+    public void setRightButtonText(String rightButtonText) {
+        mRightButtonText = rightButtonText;
+    }
 
-	public void setLeftButtonAction(ActionType action) {
-		mLeftButtonText = getTitleForAction(action);
-		mLeftButtonResult = action.getResultCode();
-	}
+    public void setLeftButtonAction(ActionType action) {
+        mLeftButtonText = getTitleForAction(action);
+        mLeftButtonResult = action.getResultCode();
+    }
 
-	public void setRightButtonAction(ActionType action) {
-		mRightButtonText = getTitleForAction(action);
-		mRightButtonResult = action.getResultCode();
-	}
+    protected String getTitleForAction(ActionType type) {
+        if (type == ActionType.ADD) {
+            return getResources().getString(R.string.gl_button_add_text);
+        }
+        if (type == ActionType.CANCEL) {
+            return getResources().getString(R.string.gl_button_cancel_text);
+        }
+        if (type == ActionType.DELETE) {
+            return getResources().getString(R.string.gl_button_delete_text);
+        }
+        if (type == ActionType.DONE) {
+            return getResources().getString(R.string.gl_button_done_text);
+        }
+        if (type == ActionType.EDIT) {
+            return getResources().getString(R.string.gl_button_edit_text);
+        }
+        if (type == ActionType.CLEAR) {
+            return getResources().getString(R.string.gl_button_clear_text);
+        }
+        if (type == ActionType.OK) {
+            return getResources().getString(R.string.gl_button_ok_text);
+        }
+        if (type == ActionType.YES) {
+            return getResources().getString(R.string.gl_button_yes_text);
+        }
+        if (type == ActionType.NO) {
+            return getResources().getString(R.string.gl_button_no_text);
+        } else {
+            return null;
+        }
+    }
 
-	protected String getTitleForAction(ActionType type) {
-		if (type == ActionType.ADD)
-			return getResources().getString(R.string.gl_button_add_text);
-		if (type == ActionType.CANCEL)
-			return getResources().getString(R.string.gl_button_cancel_text);
-		if (type == ActionType.DELETE)
-			return getResources().getString(R.string.gl_button_delete_text);
-		if (type == ActionType.DONE)
-			return getResources().getString(R.string.gl_button_done_text);
-		if (type == ActionType.EDIT)
-			return getResources().getString(R.string.gl_button_edit_text);
-		if (type == ActionType.CLEAR)
-			return getResources().getString(R.string.gl_button_clear_text);
-		if (type == ActionType.OK)
-			return getResources().getString(R.string.gl_button_ok_text);
-		if (type == ActionType.YES)
-			return getResources().getString(R.string.gl_button_yes_text);
-		if (type == ActionType.NO)
-			return getResources().getString(R.string.gl_button_no_text);
-		else
-			return null;
-	}
+    public void setRightButtonAction(ActionType action) {
+        mRightButtonText = getTitleForAction(action);
+        mRightButtonResult = action.getResultCode();
+    }
 
-	public void setDialogTitle(String dialogTitle) {
-		if(dialogTitle != null) {
-			mDialogTitle = dialogTitle;
-			mNoTitle = false;
-		} else
-			mNoTitle = true;
-	}
+    protected void setDialogTitle(String dialogTitle) {
+        if (dialogTitle != null) {
+            mDialogTitle = dialogTitle;
+            mNoTitle = false;
+        } else {
+            mNoTitle = true;
+        }
+    }
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		return buildDialog();
-	}
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return buildDialog();
+    }
 
-	@Override
-	public void onStop() {
-		getActivity().getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		super.onStop();
-	}
+    @Override
+    public void onStop() {
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        super.onStop();
+    }
 
-	protected void dismissDialogOnLeftClick() {
-		mDismissOnLeftClick = true;
-	}
+    protected void dismissDialogOnLeftClick() {
+        mDismissOnLeftClick = true;
+    }
 
-	protected void dismissDialogOnRightClick() {
-		mDismissOnRightClick = true;
-	}
+    protected void dismissDialogOnRightClick() {
+        mDismissOnRightClick = true;
+    }
 
-	protected Intent getNewReturnData() {
-		mReturnData = new Intent();
-		return mReturnData;
-	}
-	
-	protected Intent getReturnData() {
-		if(mReturnData == null)
-			return getNewReturnData();
-		else
-			return mReturnData;
-	}
-	
-	protected void sendResult(ActivityResultCode resultCode) {
-		if (getTargetFragment() == null)
-			return;
+    protected Intent getNewReturnData() {
+        mReturnData = new Intent();
+        return mReturnData;
+    }
 
-		getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode.get(), getReturnData());
-		mReturnData = null;
-		
-		if (resultCode.equals(mLeftButtonResult) && mDismissOnLeftClick)
-			dismiss();
+    protected Intent getReturnData() {
+        if (mReturnData == null) {
+            return getNewReturnData();
+        } else {
+            return mReturnData;
+        }
+    }
 
-		if (resultCode.equals(mRightButtonResult) && mDismissOnRightClick)
-			dismiss();
-	}
+    protected void sendResult(ActivityResultCode resultCode) {
+        if (getTargetFragment() == null) {
+            return;
+        }
 
-	protected View getButtons(ViewGroup parent) {
-		View buttons = getActivity().getLayoutInflater().inflate(
-				R.layout.dialog_two_button_layout, parent, false);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode.get(),
+                getReturnData());
+        mReturnData = null;
 
-		mLeftButton = (Button) buttons.findViewById(R.id.button_left);
-		mRightButton = (Button) buttons.findViewById(R.id.button_right);
+        if (resultCode.equals(mLeftButtonResult) && mDismissOnLeftClick) {
+            dismiss();
+        }
 
-		mLeftButton.setText(mLeftButtonText);
-		mLeftButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onLeftButtonClick();
-			}
-		});
+        if (resultCode.equals(mRightButtonResult) && mDismissOnRightClick) {
+            dismiss();
+        }
+    }
 
-		mRightButton.setText(mRightButtonText);
-		mRightButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onRightButtonClick();
-			}
-		});
+    protected View getButtons(ViewGroup parent) {
+        View buttons = getActivity().getLayoutInflater().inflate(
+                R.layout.dialog_two_button_layout, parent, false);
 
-		return buttons;
-	}
+        mLeftButton = (Button) buttons.findViewById(R.id.button_left);
+        mRightButton = (Button) buttons.findViewById(R.id.button_right);
 
-	protected Dialog buildDialog() {
-		Dialog dialog = new Dialog(getActivity());
+        mLeftButton.setText(mLeftButtonText);
+        mLeftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLeftButtonClick();
+            }
+        });
 
-		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		LayoutParams lp1 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1.0f);
-		
-		LinearLayout layout = new LinearLayout(getActivity());
-		layout.setOrientation(LinearLayout.VERTICAL);
-		layout.setLayoutParams(lp);
+        mRightButton.setText(mRightButtonText);
+        mRightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRightButtonClick();
+            }
+        });
 
-		//Hacky layout params to get listview dialogUIs to render properly. 
-		//Need to set layout weight of 1 on it...
+        return buttons;
+    }
+
+    protected Dialog buildDialog() {
+        Dialog dialog = new Dialog(getActivity());
+
+        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams lp1 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT,
+                1.0f);
+
+        LinearLayout layout = new LinearLayout(getActivity());
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setLayoutParams(lp);
+
+        //Hacky layout params to get listview dialogUIs to render properly.
+        //Need to set layout weight of 1 on it...
         View dialogUi = createDialogUI(layout);
-		if(dialogUi != null)
-			layout.addView(dialogUi, lp1);
-		layout.addView(getButtons(layout), lp);
+        if (dialogUi != null) {
+            layout.addView(dialogUi, lp1);
+        }
+        layout.addView(getButtons(layout), lp);
 
-		if(mNoTitle)
-			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
-		dialog.setContentView(layout);
-		dialog.setTitle(mDialogTitle);
-		
-		if(mShowKeyboardOnLaunch)
-			dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        if (mNoTitle) {
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        }
 
-		return dialog;
-	}
+        dialog.setContentView(layout);
+        dialog.setTitle(mDialogTitle);
+
+        if (mShowKeyboardOnLaunch) {
+            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams
+                    .SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+
+        return dialog;
+    }
+
+    public static enum ActionType {
+        CANCEL(ActivityResultCode.CANCEL),
+        DONE(ActivityResultCode.DONE),
+        OTHER(ActivityResultCode.OTHER),
+        EDIT(ActivityResultCode.EDIT),
+        ADD(ActivityResultCode.ADD),
+        DELETE(ActivityResultCode.DELETE),
+        CLEAR(ActivityResultCode.CLEAR),
+        OK(ActivityResultCode.OK),
+        YES(ActivityResultCode.YES),
+        NO(ActivityResultCode.NO);
+
+        private final ActivityResultCode mResultCode;
+
+        private ActionType(ActivityResultCode resultCode) {
+            this.mResultCode = resultCode;
+        }
+
+        public ActivityResultCode getResultCode() {
+            return mResultCode;
+        }
+    }
 }

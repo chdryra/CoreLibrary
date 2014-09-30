@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 
 public interface ViewHolder {
-	public void inflate(Activity activity, ViewGroup parent);
-	public View updateView(GVData data);
+    public void inflate(Activity activity, ViewGroup parent);
+
+    public View updateView(GVData data);
 }

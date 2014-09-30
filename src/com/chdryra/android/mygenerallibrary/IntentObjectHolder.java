@@ -11,20 +11,23 @@ package com.chdryra.android.mygenerallibrary;
 import java.util.Hashtable;
 
 public class IntentObjectHolder {
-	 private final Hashtable<String, Object> mData;
+    private final Hashtable<String, Object> mData;
 
-	    public IntentObjectHolder() {
-	        mData = new Hashtable<String, Object>();
-	    }
+    public IntentObjectHolder() {
+        mData = new Hashtable<String, Object>();
+    }
 
-	    public void addObject(String key, Object object) {
-            if(!mData.containsKey(key))
-	            mData.put(key, object);
-	    }
+    public void addObject(String key, Object object) {
+        if (!mData.containsKey(key)) {
+            mData.put(key, object);
+        }
+    }
 
-	    public Object getObject(String key) {
-	        return mData.get(key);
-	    }
+    public Object getObject(String key) {
+        return mData.get(key);
+    }
 
-        public void removeObject(String key) { mData.remove(key);}
+    public void removeObject(String key) {
+        mData.remove(key);
+    }
 }
