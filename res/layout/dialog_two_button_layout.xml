@@ -7,11 +7,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
-    <View style="@style/HorizontalDivider" />
+    <View style="@style/HorizontalDivider"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,17 +22,15 @@
             android:id="@+id/button_left"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/gl_button_cancel_text" />
+            android:layout_weight="1"/>
 
-        <View style="@style/VerticalDivider" />
+        <View style="@style/VerticalDivider"/>
 
         <Button
             android:id="@+id/button_right"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/gl_button_ok_text" />
+            android:layout_weight="1"/>
     </LinearLayout>
 
 </LinearLayout>

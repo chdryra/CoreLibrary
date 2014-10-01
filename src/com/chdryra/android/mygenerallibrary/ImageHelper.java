@@ -48,6 +48,65 @@ public class ImageHelper {
         }
     }
 
+    private static Bitmap rotateBitmapUsingExif(String imageFilePath, Bitmap bitmap) {
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(imageFilePath);
+        } catch (IOException e) {
+            //OK for EXIF to be null if not found
+            Log.i(TAG, "IOException: No EXIF found in " + imageFilePath);
+        }
+
+        if (exif == null) {
+            return bitmap;
+        }
+
+        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+
+        if (orientation == 1) {
+            return bitmap;
+        }
+
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case 2:
+                matrix.setScale(-1, 1);
+                break;
+            case 3:
+                matrix.setRotate(180);
+                break;
+            case 4:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case 5:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case 6:
+                matrix.setRotate(90);
+                break;
+            case 7:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case 8:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+
+        try {
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
+                    matrix, true);
+        } catch (OutOfMemoryError e) {
+            Log.i(TAG, "OutOfMemoryError: trying to rotate bitmap. Returning original bitmap");
+            e.printStackTrace();
+            return bitmap;
+        }
+    }
+
     protected String getImageFilePath() {
         return mImageFilePath;
     }
@@ -134,65 +193,6 @@ public class ImageHelper {
             }
         }
         return inSampleSize;
-    }
-
-    private static Bitmap rotateBitmapUsingExif(String imageFilePath, Bitmap bitmap) {
-        ExifInterface exif = null;
-        try {
-            exif = new ExifInterface(imageFilePath);
-        } catch (IOException e) {
-            //OK for EXIF to be null if not found
-            Log.i(TAG, "IOException: No EXIF found in " + imageFilePath);
-        }
-
-        if (exif == null) {
-            return bitmap;
-        }
-
-        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-
-        if (orientation == 1) {
-            return bitmap;
-        }
-
-        Matrix matrix = new Matrix();
-        switch (orientation) {
-            case 2:
-                matrix.setScale(-1, 1);
-                break;
-            case 3:
-                matrix.setRotate(180);
-                break;
-            case 4:
-                matrix.setRotate(180);
-                matrix.postScale(-1, 1);
-                break;
-            case 5:
-                matrix.setRotate(90);
-                matrix.postScale(-1, 1);
-                break;
-            case 6:
-                matrix.setRotate(90);
-                break;
-            case 7:
-                matrix.setRotate(-90);
-                matrix.postScale(-1, 1);
-                break;
-            case 8:
-                matrix.setRotate(-90);
-                break;
-            default:
-                return bitmap;
-        }
-
-        try {
-            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
-                    matrix, true);
-        } catch (OutOfMemoryError e) {
-            Log.i(TAG, "OutOfMemoryError: trying to rotate bitmap. Returning original bitmap");
-            e.printStackTrace();
-            return bitmap;
-        }
     }
 
     protected boolean bitmapExists() {

@@ -10,6 +10,7 @@ package com.chdryra.android.mygenerallibrary;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -67,35 +68,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
     }
 
     protected String getTitleForAction(ActionType type) {
-        if (type == ActionType.ADD) {
-            return getResources().getString(R.string.gl_button_add_text);
-        }
-        if (type == ActionType.CANCEL) {
-            return getResources().getString(R.string.gl_button_cancel_text);
-        }
-        if (type == ActionType.DELETE) {
-            return getResources().getString(R.string.gl_button_delete_text);
-        }
-        if (type == ActionType.DONE) {
-            return getResources().getString(R.string.gl_button_done_text);
-        }
-        if (type == ActionType.EDIT) {
-            return getResources().getString(R.string.gl_button_edit_text);
-        }
-        if (type == ActionType.CLEAR) {
-            return getResources().getString(R.string.gl_button_clear_text);
-        }
-        if (type == ActionType.OK) {
-            return getResources().getString(R.string.gl_button_ok_text);
-        }
-        if (type == ActionType.YES) {
-            return getResources().getString(R.string.gl_button_yes_text);
-        }
-        if (type == ActionType.NO) {
-            return getResources().getString(R.string.gl_button_no_text);
-        } else {
-            return null;
-        }
+        return type.getLabel(getActivity());
     }
 
     public void setRightButtonAction(ActionType action) {
@@ -224,25 +197,31 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
     }
 
     public static enum ActionType {
-        CANCEL(ActivityResultCode.CANCEL),
-        DONE(ActivityResultCode.DONE),
-        OTHER(ActivityResultCode.OTHER),
-        EDIT(ActivityResultCode.EDIT),
-        ADD(ActivityResultCode.ADD),
-        DELETE(ActivityResultCode.DELETE),
-        CLEAR(ActivityResultCode.CLEAR),
-        OK(ActivityResultCode.OK),
-        YES(ActivityResultCode.YES),
-        NO(ActivityResultCode.NO);
+        CANCEL(ActivityResultCode.CANCEL, R.string.gl_action_cancel_text),
+        DONE(ActivityResultCode.DONE, R.string.gl_action_done_text),
+        OTHER(ActivityResultCode.OTHER, R.string.gl_action_other_text),
+        EDIT(ActivityResultCode.EDIT, R.string.gl_action_edit_text),
+        ADD(ActivityResultCode.ADD, R.string.gl_action_add_text),
+        DELETE(ActivityResultCode.DELETE, R.string.gl_action_delete_text),
+        CLEAR(ActivityResultCode.CLEAR, R.string.gl_action_clear_text),
+        OK(ActivityResultCode.OK, R.string.gl_action_ok_text),
+        YES(ActivityResultCode.YES, R.string.gl_action_yes_text),
+        NO(ActivityResultCode.NO, R.string.gl_action_no_text);
 
         private final ActivityResultCode mResultCode;
+        private final int                mLabelId;
 
-        private ActionType(ActivityResultCode resultCode) {
-            this.mResultCode = resultCode;
+        private ActionType(ActivityResultCode resultCode, int labelId) {
+            mResultCode = resultCode;
+            mLabelId = labelId;
         }
 
         public ActivityResultCode getResultCode() {
             return mResultCode;
+        }
+
+        public String getLabel(Context context) {
+            return context.getResources().getString(mLabelId);
         }
     }
 }

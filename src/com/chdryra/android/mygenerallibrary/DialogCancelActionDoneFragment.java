@@ -57,9 +57,6 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         super.onLeftButtonClick();
     }
 
-    protected void onCancelButtonClick() {
-    }
-
     @Override
     protected void onRightButtonClick() {
         if (mActionOnDone) {
@@ -76,6 +73,9 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         mDoneButton = mRightButton;
 
         return dialog;
+    }
+
+    protected void onCancelButtonClick() {
     }
 
     protected void onDoneButtonClick() {

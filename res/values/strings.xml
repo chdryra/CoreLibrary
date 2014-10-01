@@ -7,16 +7,17 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Buttons -->
-    <string name="gl_button_done_text">Done</string>
-    <string name="gl_button_delete_text">Delete</string>
-    <string name="gl_button_cancel_text">@android:string/cancel</string>
-    <string name="gl_button_add_text">Add</string>
-    <string name="gl_button_edit_text">Edit</string>
-    <string name="gl_button_clear_text">Clear</string>
-    <string name="gl_button_ok_text" tools:ignore="Typos">@android:string/ok</string>
-    <string name="gl_button_yes_text">Yes</string>
-    <string name="gl_button_no_text">No</string>
+    <!-- Action Labels -->
+    <string name="gl_action_done_text">Done</string>
+    <string name="gl_action_delete_text">Delete</string>
+    <string name="gl_action_cancel_text">@android:string/cancel</string>
+    <string name="gl_action_add_text">Add</string>
+    <string name="gl_action_edit_text">Edit</string>
+    <string name="gl_action_clear_text">Clear</string>
+    <string name="gl_action_ok_text" tools:ignore="Typos">@android:string/ok</string>
+    <string name="gl_action_yes_text">Yes</string>
+    <string name="gl_action_no_text">No</string>
+    <string name="gl_action_other_text">Action</string>
 
     <!-- Menus -->
     <string name="gl_menu_done">done</string>

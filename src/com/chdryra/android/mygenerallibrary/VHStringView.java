@@ -24,16 +24,6 @@ public class VHStringView extends ViewHolderBasic {
         initDefaultGetter();
     }
 
-    private void initDefaultGetter() {
-        mGetter = new GVDataStringGetter() {
-            @Override
-            public String getString(GVData data) {
-                GVString string = (GVString) data;
-                return string != null ? string.toString() : null;
-            }
-        };
-    }
-
     public VHStringView(int layoutID, int textViewID) {
         super(layoutID);
         mTextViewID = textViewID;
@@ -44,6 +34,16 @@ public class VHStringView extends ViewHolderBasic {
         super(layoutID);
         mTextViewID = textViewID;
         mGetter = getter;
+    }
+
+    private void initDefaultGetter() {
+        mGetter = new GVDataStringGetter() {
+            @Override
+            public String getString(GVData data) {
+                GVString string = (GVString) data;
+                return string != null ? string.toString() : null;
+            }
+        };
     }
 
     @Override
