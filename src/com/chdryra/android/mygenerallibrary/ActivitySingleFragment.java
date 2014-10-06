@@ -13,7 +13,29 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 
+/**
+ * Activities commonly only have one fragment for the UI (on phones anyway) so this abstract
+ * class takes care of the fragment transaction when Activities are created and populated with a
+ * single fragment. Just need to inherit from it and override the <code>createFragment()</code>
+ * method. This is a common Android pattern.
+ */
 public abstract class ActivitySingleFragment extends Activity {
+    /**
+     * Subclasses need to override this to return a UI fragment. Called by <code>onCreate(.)
+     * </code>.
+     *
+     * @return Fragment: fragment UI to show in the activity.
+     * @see #onCreate(android.os.Bundle)
+     */
+    protected abstract Fragment createFragment();
+
+    /**
+     * Overrides super method: calls <code>createFragment()</code> and performs fragment
+     * transaction.
+     *
+     * @param savedInstanceState
+     * @see #createFragment()
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,9 +50,7 @@ public abstract class ActivitySingleFragment extends Activity {
         }
     }
 
-    int getLayoutResId() {
+    private int getLayoutResId() {
         return R.layout.activity_fragment;
     }
-
-    protected abstract Fragment createFragment();
 }

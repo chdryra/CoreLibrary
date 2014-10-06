@@ -12,6 +12,16 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 
+/**
+ * A standardised delete confirmation alert dialog. Asks the user to confirm with a "Yes" or
+ * "Cancel".
+ * <p>
+ * There is a static method <code>showDeleteConfirmDialog(.)</code> that can be called to show
+ * the default confirmation dialog.
+ * </p>
+ *
+ * @see #showDeleteConfirmDialog(String, android.app.Fragment, int, android.app.FragmentManager)
+ */
 public class DialogDeleteConfirmFragment extends DialogAlert {
     public static final  ActionType DELETE_CONFIRM     = ActionType.YES;
     private static final String     DELETE_WHAT        = "com.chdryra.android.mygenerallibrary" +
@@ -20,6 +30,14 @@ public class DialogDeleteConfirmFragment extends DialogAlert {
     private static final String     DELETE_CONFIRM_TAG = "DeleteConfirm";
     private static final ActionType DELETE_CANCEL      = ActionType.CANCEL;
 
+    /**
+     * Shows a standard delete confirm dialog. This should be used rather than the constructor.
+     *
+     * @param deleteWhat: Title of dialog will be "Delete (deleteWhat)?"
+     * @param targetFragment: The fragment that will receive the answer.
+     * @param requestCode: The requestCode that the fragment issued and listens for on the callback.
+     * @param fragmentManager: The fragment manager that handles the showing of the dialog.
+     */
     public static void showDeleteConfirmDialog(String deleteWhat, Fragment targetFragment,
                                                int requestCode, FragmentManager fragmentManager) {
         DialogDeleteConfirmFragment dialog = new DialogDeleteConfirmFragment();

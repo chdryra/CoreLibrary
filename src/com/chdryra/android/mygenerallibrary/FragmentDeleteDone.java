@@ -8,7 +8,7 @@
 
 package com.chdryra.android.mygenerallibrary;
 
-import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,7 +16,17 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class FragmentDeleteDone extends DialogFragment {
+/**
+ * Standardised fragment version of DialogCancelDeleteDone.
+ * <p>
+ * Shows a "Delete" (bin) and "Done" (tick) icon in the action bar. Also shows an "Up" icon by
+ * default effectively allowing a "Cancel" operation. Manages delete confirmation if delete
+ * pressed and there is data to delete. Also manages actions to perform on up/delete/done.
+ * </p>
+ *
+ * @see DialogCancelDeleteDoneFragment
+ */
+public class FragmentDeleteDone extends Fragment {
     private static final int DELETE_CONFIRM = 0;
 
     private boolean mDismissOnDone   = true;
@@ -25,24 +35,27 @@ public class FragmentDeleteDone extends DialogFragment {
     private Intent mReturnData;
     private boolean mDisplayHomeAsUp = true;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        setHasOptionsMenu(true);
-    }
-
+    /**
+     * Can define whether "Up" is shown on the action bar.
+     * @param displayHomeAsUp
+     */
     protected void setDisplayHomeAsUp(boolean displayHomeAsUp) {
         mDisplayHomeAsUp = displayHomeAsUp;
         setDisplayHomeAsUp();
     }
 
-    protected void setDisplayHomeAsUp() {
+    private void setDisplayHomeAsUp() {
         if (getActivity().getActionBar() != null) {
             getActivity().getActionBar().setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
         }
     }
 
+    /**
+     * Overrides super method: manages the delete confirmation callback.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -54,6 +67,13 @@ public class FragmentDeleteDone extends DialogFragment {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -100,17 +120,26 @@ public class FragmentDeleteDone extends DialogFragment {
         }
     }
 
+    /**
+     * Delete mechanics only performed if this returns true.
+     * @return boolean: delete icon behaviour only performed if this returns true.
+     */
     protected boolean hasDataToDelete() {
         return false;
     }
 
-    protected void onDeleteSelected() {
-    }
-
+    /**
+     * Sends the ActivityResultCode to the commissioning activity.
+     */
     protected void sendResult(ActivityResultCode resultCode) {
         getActivity().setResult(resultCode.get(), getReturnData());
     }
 
+    /**
+     * Gets the currently held Intent data that will be returned to the commissioning activity if
+     * an icon is pressed.
+     * @return Intent: holds the return data.
+     */
     protected Intent getReturnData() {
         if (mReturnData == null) {
             return getNewReturnData();
@@ -119,25 +148,57 @@ public class FragmentDeleteDone extends DialogFragment {
         }
     }
 
+    /**
+     * Initialises and returns new Intent data that will be passed to the commissioning activity
+     * if an icon is pressed.
+     * @return Intent: holds the return data.
+     */
     protected Intent getNewReturnData() {
         mReturnData = new Intent();
         return mReturnData;
     }
 
+    /**
+     * Sets the delete confirmation alert dialog title as "Delete (deleteWhat)?".
+     * @param deleteWhat
+     */
     protected void setDeleteWhatTitle(String deleteWhat) {
         mDeleteWhat = deleteWhat;
     }
 
+    /**
+     * Called when the "Delete" icon is clicked (in addition to sending "Delete"
+     * ActivityResultCode to the commissioning activity). By default does nothing.
+     */
+    protected void onDeleteSelected() {
+    }
+
+    /**
+     * Called when the "Done" icon is clicked (in addition to sending "Done"
+     * ActivityResultCode to the commissioning activity). By default does nothing.
+     */
     protected void onDoneSelected() {
     }
 
+    /**
+     * Called when the "Up" icon is clicked (in addition to sending "Cancel"
+     * ActivityResultCode to the commissioning activity). By default does nothing.
+     */
     protected void onUpSelected() {
     }
 
+    /**
+     * Set whether to close the activity if Done is pressed.
+     * @param dismiss
+     */
     protected void setDismissOnDone(boolean dismiss) {
         mDismissOnDone = dismiss;
     }
 
+    /**
+     * Set whether to close the activity if Delete is pressed.
+     * @param dismiss
+     */
     protected void setDismissOnDelete(boolean dismiss) {
         mDismissOnDelete = dismiss;
     }

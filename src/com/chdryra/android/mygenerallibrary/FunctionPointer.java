@@ -8,6 +8,11 @@
 
 package com.chdryra.android.mygenerallibrary;
 
+/**
+ * Interface to allow a function pointer to be defined as anonymous inner classes.
+ *
+ * @param <T>: data the function needs to execute.
+ */
 public interface FunctionPointer<T> {
     public void execute(T data);
 }

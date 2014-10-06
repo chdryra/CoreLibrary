@@ -13,14 +13,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * Standardised 3-button Dialog for "Cancel" (left button), "Add" (middle button),
+ * "Done" (right button).
+ */
 public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDoneFragment {
 
     protected abstract View createDialogUI(ViewGroup parent);
-
-    @Override
-    protected void onActionButtonClick() {
-        OnAddButtonClick();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +28,20 @@ public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDone
         performActionOnDone();
     }
 
-    protected void OnAddButtonClick() {
+    /**
+     * By default calls <code>OnAddButtonClick()</code>
+     *
+     * @see #onAddButtonClick()
+     */
+    @Override
+    protected void onActionButtonClick() {
+        onAddButtonClick();
+    }
+
+    /**
+     * Called when the "Add" button is clicked (in addition to sending "Add" ActivityResultCode to
+     * the commissioning activity). By default does nothing.
+     */
+    protected void onAddButtonClick() {
     }
 }
