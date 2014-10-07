@@ -43,9 +43,6 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         dismissDialogOnRightClick();
     }
 
-    /**
-     * By default calls <code>onActionButtonClick()</code> and sends appropriate ActivityResultCode.
-     */
     @Override
     protected void onMiddleButtonClick() {
         onActionButtonClick();
@@ -61,20 +58,14 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         return dialog;
     }
 
-    /**
-     * By default calls <code>onCancelButtonClick()</code> and sends appropriate ActivityResultCode.
-     */
     @Override
-    protected void onLeftButtonClick() {
+    protected final void onLeftButtonClick() {
         onCancelButtonClick();
         super.onLeftButtonClick();
     }
 
-    /**
-     * By default calls <code>onDoneButtonClick()</code> and sends appropriate ActivityResultCode.
-     */
     @Override
-    protected void onRightButtonClick() {
+    protected final void onRightButtonClick() {
         if (mActionOnDone) {
             mActionButton.performClick();
         }
@@ -82,50 +73,23 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         super.onRightButtonClick();
     }
 
-    /**
-     * Action to perform when Cancel is pressed, in addition to sending the "Cancel"
-     * ActivityResultCode to the commissioning activity. By default does nothing.
-     */
     protected void onCancelButtonClick() {
     }
 
-    /**
-     * Called when middle button is clicked, in addition to sending "Other" ActivityResultCode to
-     * the commissioning activity. By default does nothing.
-     */
     protected void onActionButtonClick() {
     }
 
-    /**
-     * Action to perform when Done is pressed, in addition to sending the "Done"
-     * ActivityResultCode to the commissioning activity. By default does nothing.
-     */
     protected void onDoneButtonClick() {
     }
 
-    /**
-     * If called in <code>onCreate(.)</code> will ensure middle button is also clicked when Done
-     * button is pressed, for example completing an "Add" action as part of the "Done" click.
-     */
     protected void performActionOnDone() {
         mActionOnDone = true;
     }
 
-    /**
-     * Label for action button.
-     *
-     * @param actionButtonText
-     */
     protected void setActionButtonText(String actionButtonText) {
         setMiddleButtonText(actionButtonText);
     }
 
-    /**
-     * Can bind predefined ActivityResultCodes and labels using the ActionType enum.
-     * @param action: the action type to bind to the button.
-     *
-     * @see DialogTwoButtonFragment.ActionType
-     */
     protected void setActionButtonAction(ActionType action) {
         setMiddleButtonAction(action);
     }
@@ -134,11 +98,7 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         dismissDialogOnMiddleClick();
     }
 
-    /**
-     * Set "Go" on the keyboard return key. Pressing "Go" will click the action button.
-     * @param editText: the EditText on which to show the "Go" button.
-     */
-    protected void setKeyboardIMEDoAction(EditText editText) {
+    protected void setKeyboardDoActionOnEditText(EditText editText) {
         editText.setImeOptions(EditorInfo.IME_ACTION_GO);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -151,11 +111,7 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         });
     }
 
-    /**
-     * Set "Done" on the keyboard return key. Pressing "Done" will click the done button.
-     * @param editText: the EditText on which to show the "Done" button.
-     */
-    protected void setKeyboardIMEDoDone(EditText editText) {
+    protected void setKeyboardDoDoneOnEditText(EditText editText) {
         editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

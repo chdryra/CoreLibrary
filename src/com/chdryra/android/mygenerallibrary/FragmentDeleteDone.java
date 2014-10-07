@@ -17,14 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Standardised fragment version of DialogCancelDeleteDone.
+ * Standardised fragment for an activity with  "Delete", "Done" and "Up" icons in the action bar.
  * <p>
  * Shows a "Delete" (bin) and "Done" (tick) icon in the action bar. Also shows an "Up" icon by
  * default effectively allowing a "Cancel" operation. Manages delete confirmation if delete
  * pressed and there is data to delete. Also manages actions to perform on up/delete/done.
  * </p>
- *
- * @see DialogCancelDeleteDoneFragment
  */
 public class FragmentDeleteDone extends Fragment {
     private static final int DELETE_CONFIRM = 0;
@@ -35,10 +33,6 @@ public class FragmentDeleteDone extends Fragment {
     private Intent mReturnData;
     private boolean mDisplayHomeAsUp = true;
 
-    /**
-     * Can define whether "Up" is shown on the action bar.
-     * @param displayHomeAsUp
-     */
     protected void setDisplayHomeAsUp(boolean displayHomeAsUp) {
         mDisplayHomeAsUp = displayHomeAsUp;
         setDisplayHomeAsUp();
@@ -50,12 +44,6 @@ public class FragmentDeleteDone extends Fragment {
         }
     }
 
-    /**
-     * Overrides super method: manages the delete confirmation callback.
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -110,6 +98,12 @@ public class FragmentDeleteDone extends Fragment {
         }
     }
 
+    private void doUpSelected() {
+        onUpSelected();
+        sendResult(ActivityResultCode.UP);
+        getActivity().finish();
+    }
+
     private void doDeleteSelected() {
         if (hasDataToDelete()) {
             onDeleteSelected();
@@ -120,94 +114,6 @@ public class FragmentDeleteDone extends Fragment {
         }
     }
 
-    /**
-     * Delete mechanics only performed if this returns true.
-     * @return boolean: delete icon behaviour only performed if this returns true.
-     */
-    protected boolean hasDataToDelete() {
-        return false;
-    }
-
-    /**
-     * Sends the ActivityResultCode to the commissioning activity.
-     */
-    protected void sendResult(ActivityResultCode resultCode) {
-        getActivity().setResult(resultCode.get(), getReturnData());
-    }
-
-    /**
-     * Gets the currently held Intent data that will be returned to the commissioning activity if
-     * an icon is pressed.
-     * @return Intent: holds the return data.
-     */
-    protected Intent getReturnData() {
-        if (mReturnData == null) {
-            return getNewReturnData();
-        } else {
-            return mReturnData;
-        }
-    }
-
-    /**
-     * Initialises and returns new Intent data that will be passed to the commissioning activity
-     * if an icon is pressed.
-     * @return Intent: holds the return data.
-     */
-    protected Intent getNewReturnData() {
-        mReturnData = new Intent();
-        return mReturnData;
-    }
-
-    /**
-     * Sets the delete confirmation alert dialog title as "Delete (deleteWhat)?".
-     * @param deleteWhat
-     */
-    protected void setDeleteWhatTitle(String deleteWhat) {
-        mDeleteWhat = deleteWhat;
-    }
-
-    /**
-     * Called when the "Delete" icon is clicked (in addition to sending "Delete"
-     * ActivityResultCode to the commissioning activity). By default does nothing.
-     */
-    protected void onDeleteSelected() {
-    }
-
-    /**
-     * Called when the "Done" icon is clicked (in addition to sending "Done"
-     * ActivityResultCode to the commissioning activity). By default does nothing.
-     */
-    protected void onDoneSelected() {
-    }
-
-    /**
-     * Called when the "Up" icon is clicked (in addition to sending "Cancel"
-     * ActivityResultCode to the commissioning activity). By default does nothing.
-     */
-    protected void onUpSelected() {
-    }
-
-    /**
-     * Set whether to close the activity if Done is pressed.
-     * @param dismiss
-     */
-    protected void setDismissOnDone(boolean dismiss) {
-        mDismissOnDone = dismiss;
-    }
-
-    /**
-     * Set whether to close the activity if Delete is pressed.
-     * @param dismiss
-     */
-    protected void setDismissOnDelete(boolean dismiss) {
-        mDismissOnDelete = dismiss;
-    }
-
-    private void showDeleteConfirmDialog() {
-        DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat,
-                FragmentDeleteDone.this, DELETE_CONFIRM, getFragmentManager());
-    }
-
     private void doDoneSelected() {
         onDoneSelected();
         sendResult(ActivityResultCode.DONE);
@@ -216,9 +122,50 @@ public class FragmentDeleteDone extends Fragment {
         }
     }
 
-    private void doUpSelected() {
-        onUpSelected();
-        sendResult(ActivityResultCode.UP);
-        getActivity().finish();
+    protected boolean hasDataToDelete() {
+        return false;
+    }
+
+    protected void sendResult(ActivityResultCode resultCode) {
+        getActivity().setResult(resultCode.get(), getCurrentReturnDataIntent());
+    }
+
+    protected Intent getCurrentReturnDataIntent() {
+        if (mReturnData == null) {
+            return getNewReturnDataIntent();
+        } else {
+            return mReturnData;
+        }
+    }
+
+    protected Intent getNewReturnDataIntent() {
+        mReturnData = new Intent();
+        return mReturnData;
+    }
+
+    protected void setDeleteWhatTitle(String deleteWhat) {
+        mDeleteWhat = deleteWhat;
+    }
+
+    protected void onDeleteSelected() {
+    }
+
+    protected void onDoneSelected() {
+    }
+
+    protected void onUpSelected() {
+    }
+
+    protected void setDismissOnDone(boolean dismiss) {
+        mDismissOnDone = dismiss;
+    }
+
+    protected void setDismissOnDelete(boolean dismiss) {
+        mDismissOnDelete = dismiss;
+    }
+
+    private void showDeleteConfirmDialog() {
+        DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat,
+                FragmentDeleteDone.this, DELETE_CONFIRM, getFragmentManager());
     }
 }

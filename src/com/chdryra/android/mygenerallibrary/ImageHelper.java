@@ -23,6 +23,9 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * A hotchpotch of image related tasks that can be performed on behalf of, or on, one image file.
+ */
 public class ImageHelper {
     private static final String TAG                         = "ImageHelper";
     private static final String ERROR_CREATING_FILE_MESSAGE = "Error creating file!";
@@ -217,6 +220,9 @@ public class ImageHelper {
         return converter.isValid();
     }
 
+    /**
+     * Converts image EXIF data to LatLng objects.
+     */
     private class EXIFtoLatLngConverter {
         private boolean mIsValid = false;
         private Double mLatitude, mLongitude;

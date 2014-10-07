@@ -10,6 +10,10 @@ package com.chdryra.android.mygenerallibrary;
 
 import java.util.Hashtable;
 
+/**
+ * A way of passing objects back and forth between activities. There is a limit of 1MB for the
+ * passing of parcelable objects between Intents so this allows just a key to be passed instead.
+ */
 public class IntentObjectHolder {
     private final Hashtable<String, Object> mData;
 

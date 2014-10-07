@@ -14,6 +14,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
+/**
+ * A simple sortable list that can be iterated over.
+ *
+ * @param <T>: type of the items.
+ */
 public abstract class SortableList<T> implements Iterable<T> {
     protected final LinkedList<T> mData     = new LinkedList<T>();
     private         boolean       mIsSorted = false;

@@ -12,43 +12,49 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.HashMap;
+
+/**
+ * Primary implementation of the ViewHolder interface for the ViewHolder pattern used in
+ * GridViewCellAdapter.
+ * <p/>
+ * <p>
+ * Need to implement <code>updateView(.)</code> to update the list of updateable views
+ * referenced by viewIds passed to the constructor. Use <code>getView(int viewId)</code> to
+ * retrieve these views once the layout is inflated.
+ * </p>
+ */
 public abstract class ViewHolderBasic implements ViewHolder {
-    private final int        mLayout;
-    private final VHInflater mInflater;
-    protected     View       mInflated;
+    private final int                    mLayout;
+    private final int[]                  mUpdateableViewIds;
+    private final HashMap<Integer, View> mUpdateableViews;
+    protected     View                   mInflated;
 
-    protected ViewHolderBasic(int layout) {
-        mLayout = layout;
-        mInflater = getDefaultInflater();
-    }
-
-    protected VHInflater getDefaultInflater() {
-        return new VHInflater() {
-            @Override
-            public View inflate(Activity activity, ViewGroup parent) {
-                return activity.getLayoutInflater().inflate(mLayout, parent, false);
-            }
-        };
+    protected ViewHolderBasic(int layoutId, int[] viewIds) {
+        mLayout = layoutId;
+        mUpdateableViewIds = viewIds;
+        mUpdateableViews = new HashMap<Integer, View>(mUpdateableViewIds.length);
     }
 
     @Override
     public void inflate(Activity activity, ViewGroup parent) {
-        mInflated = mInflater.inflate(activity, parent);
-        mInflated.setTag(this);
-        initViewsToUpdate();
+        mInflated = activity.getLayoutInflater().inflate(mLayout, parent, false);
+        if (mInflated != null) {
+            for (int viewId : mUpdateableViewIds) {
+                mUpdateableViews.put(viewId, mInflated.findViewById(viewId));
+            }
+        }
     }
 
     @Override
-    public abstract View updateView(GVData data);
+    public abstract void updateView(GVData data);
 
-    protected abstract void initViewsToUpdate();
-
-    protected View getView(int viewID) {
-        return mInflated != null ? mInflated.findViewById(viewID) : null;
+    @Override
+    public View getView() {
+        return mInflated;
     }
 
-    public interface VHInflater {
-        public View inflate(Activity activity, ViewGroup parent);
+    protected final View getView(int viewId) {
+        return mUpdateableViews.get(viewId);
     }
-
 }

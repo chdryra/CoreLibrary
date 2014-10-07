@@ -20,22 +20,8 @@ import android.os.Bundle;
  * method. This is a common Android pattern.
  */
 public abstract class ActivitySingleFragment extends Activity {
-    /**
-     * Subclasses need to override this to return a UI fragment. Called by <code>onCreate(.)
-     * </code>.
-     *
-     * @return Fragment: fragment UI to show in the activity.
-     * @see #onCreate(android.os.Bundle)
-     */
     protected abstract Fragment createFragment();
 
-    /**
-     * Overrides super method: calls <code>createFragment()</code> and performs fragment
-     * transaction.
-     *
-     * @param savedInstanceState
-     * @see #createFragment()
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

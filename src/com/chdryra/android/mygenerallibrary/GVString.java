@@ -8,6 +8,9 @@
 
 package com.chdryra.android.mygenerallibrary;
 
+/**
+ * Wrapper class for Strings that implements GVData.
+ */
 public class GVString implements GVData {
     private final String mString;
 
@@ -18,6 +21,10 @@ public class GVString implements GVData {
     @Override
     public ViewHolder getViewHolder() {
         return new VHStringView();
+    }
+
+    public String get() {
+        return mString;
     }
 
     @Override
@@ -48,10 +55,6 @@ public class GVString implements GVData {
         int result = 1;
         result = prime * result + ((mString == null) ? 0 : mString.hashCode());
         return result;
-    }
-
-    public String toString() {
-        return mString;
     }
 }
 

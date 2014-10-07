@@ -28,20 +28,11 @@ public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDone
         performActionOnDone();
     }
 
-    /**
-     * By default calls <code>OnAddButtonClick()</code>
-     *
-     * @see #onAddButtonClick()
-     */
     @Override
-    protected void onActionButtonClick() {
+    protected final void onActionButtonClick() {
         onAddButtonClick();
     }
 
-    /**
-     * Called when the "Add" button is clicked (in addition to sending "Add" ActivityResultCode to
-     * the commissioning activity). By default does nothing.
-     */
     protected void onAddButtonClick() {
     }
 }

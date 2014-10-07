@@ -8,6 +8,12 @@
 
 package com.chdryra.android.mygenerallibrary;
 
+/**
+ * Items that expect to be in a GridViewable collection and want to provide their own ViewHolder.
+ *
+ * @see com.chdryra.android.mygenerallibrary.GridViewCellAdapter.GridViewable
+ * @see com.chdryra.android.mygenerallibrary.GridViewCellAdapter
+ */
 public interface GVData {
 
     public ViewHolder getViewHolder();

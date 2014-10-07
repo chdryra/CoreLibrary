@@ -25,32 +25,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * An adapter that can be bound to an Autocomplete widget. Finds location names given a
+ * LatLng. Consists of an address fetcher task to find addresses. Also implements a filter to
+ * find autocomplete suggestions. Allows a default suggestion to be included via the constructor.
+ *
+ * @see com.chdryra.android.remoteapifetchers.FetcherPlacesAPI
+ */
 public class LocationNameAdapter extends ArrayAdapter<String> implements Filterable {
     private static final String TAG                = "LocationNameAdapter";
     private static final String SEARCHING          = "searching nearby...";
     private static final String NO_LOCATION        = "location not found...";
     private static final int    TEXT_VIEW_RESOURCE = android.R.layout.simple_list_item_1;
+
     private final LatLng mLatLng;
-    private ArrayList<String> mLocationSuggestions        = null;
-    private ArrayList<String> mLocationDefaultSuggestions = null;
+    private ArrayList<String> mLocationSuggestions;
+    private ArrayList<String> mLocationDefaultSuggestions;
     private String mPrimaryDefaultSuggestion;
 
-    public LocationNameAdapter(Context context, LatLng latlng, int numberDefaultSuggestions,
+    public LocationNameAdapter(Context context, LatLng latlng, int numberSuggestions,
                                String primaryDefaultSuggestion) {
         super(context, TEXT_VIEW_RESOURCE);
         mLatLng = latlng;
-        if (numberDefaultSuggestions > 0) {
+        if (numberSuggestions > 0) {
             if (primaryDefaultSuggestion != null && primaryDefaultSuggestion.length() > 0) {
                 mPrimaryDefaultSuggestion = primaryDefaultSuggestion;
-                numberDefaultSuggestions--;
+                numberSuggestions--;
             }
 
             mLocationSuggestions = new ArrayList<String>();
             if (mLatLng != null) {
                 mLocationSuggestions.add(SEARCHING);
-
                 GetAddressTask task = new GetAddressTask(context, mLatLng);
-                task.execute(numberDefaultSuggestions);
+                task.execute(numberSuggestions);
             } else {
                 mLocationSuggestions.add(NO_LOCATION);
             }
@@ -80,13 +87,17 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
+
                 if (constraint != null && constraint.length() > 0) {
-                    ArrayList<String> shortened = new ArrayList<String>();
+                    //TODO need to put autocomplete fetching on a separate thread somehow.
                     ArrayList<String> suggestions = FetcherPlacesAPI.fetchAutoCompleteSuggestions
                             (constraint.toString(), mLatLng);
+
+                    ArrayList<String> shortened = new ArrayList<String>();
                     for (String suggestion : suggestions) {
                         shortened.add(formatAddress(suggestion));
                     }
+
                     mLocationSuggestions = shortened;
                 } else if (mLocationDefaultSuggestions != null) {
                     mLocationSuggestions = mLocationDefaultSuggestions;
@@ -140,6 +151,10 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
                         ", " + address.getLocality() : "");
     }
 
+    /**
+     * Finds nearest names given a LatLng on a separate thread using FetcherPlacesAPI. If this
+     * returns nothing, tries to use Android's built in Geocoder class.
+     */
     private class GetAddressTask extends AsyncTask<Integer, Void, ArrayList<String>> {
 
         final Context mContext;
@@ -183,6 +198,7 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
                     for (int i = 0; i < addressesList.size(); ++i) {
                         addressesList.add(formatAddress(addresses.get(i)));
                     }
+
                     return addressesList;
                 } else {
                     return null;

@@ -8,6 +8,9 @@
 
 package com.chdryra.android.mygenerallibrary;
 
+/**
+ * GridViewable data viewed as an upper string and lower string in a GridView cell.
+ */
 public class GVDualString implements GVData {
 
     private final String mUpper;

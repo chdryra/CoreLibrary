@@ -17,10 +17,8 @@ import android.os.Bundle;
  * "Cancel".
  * <p>
  * There is a static method <code>showDeleteConfirmDialog(.)</code> that can be called to show
- * the default confirmation dialog.
+ * the default confirmation dialog. This is preferable to constructing the dialog yourself.
  * </p>
- *
- * @see #showDeleteConfirmDialog(String, android.app.Fragment, int, android.app.FragmentManager)
  */
 public class DialogDeleteConfirmFragment extends DialogAlert {
     public static final  ActionType DELETE_CONFIRM     = ActionType.YES;
@@ -33,9 +31,10 @@ public class DialogDeleteConfirmFragment extends DialogAlert {
     /**
      * Shows a standard delete confirm dialog. This should be used rather than the constructor.
      *
-     * @param deleteWhat: Title of dialog will be "Delete (deleteWhat)?"
-     * @param targetFragment: The fragment that will receive the answer.
-     * @param requestCode: The requestCode that the fragment issued and listens for on the callback.
+     * @param deleteWhat:      Title of dialog will be "Delete (deleteWhat)?"
+     * @param targetFragment:  The fragment that will receive the answer.
+     * @param requestCode:     The requestCode that the fragment issued and listens for on the
+     *                   callback.
      * @param fragmentManager: The fragment manager that handles the showing of the dialog.
      */
     public static void showDeleteConfirmDialog(String deleteWhat, Fragment targetFragment,
@@ -49,15 +48,15 @@ public class DialogDeleteConfirmFragment extends DialogAlert {
     }
 
     @Override
+    protected String getAlertString() {
+        String deleteWhat = getArguments().getString(DELETE_WHAT);
+        return deleteWhat != null ? DELETE + " " + deleteWhat + "?" : DELETE + "?";
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRightButtonAction(DELETE_CONFIRM);
         setLeftButtonAction(DELETE_CANCEL);
-    }
-
-    @Override
-    protected String getAlertString() {
-        String deleteWhat = getArguments().getString(DELETE_WHAT);
-        return deleteWhat != null ? DELETE + " " + deleteWhat + "?" : DELETE + "?";
     }
 }

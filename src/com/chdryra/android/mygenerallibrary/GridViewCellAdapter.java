@@ -14,14 +14,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+/**
+ * Allows a collection of items that follow the GridViewable interface to be viewed as a sorted
+ * collection of grid cells in a GridView with a specified cell width and cell height.
+ * <p/>
+ * <p>
+ * Uses the ViewHolder pattern in Android for views that use components from a limited
+ * reusable pool. Grid cell views are only searched for and inflated once then stored in the
+ * tags of the reuseable objects. The data within these is overwritten with whatever is
+ * required for their reuse. Aids memory and speed performance.
+ * </p>
+ *
+ * @see <a href="http://developer.android.com/training/improving-layouts/smooth-scrolling
+ * .html#ViewHolder">ViewHolder pattern</a>
+ * @see com.chdryra.android.mygenerallibrary.ViewHolder
+ * @see com.chdryra.android.mygenerallibrary.GVData
+ */
 public class GridViewCellAdapter extends BaseAdapter {
     private final Activity        mActivity;
     private final int             mCellWidth;
     private final int             mCellHeight;
     private       GridViewable<?> mData;
 
-    public GridViewCellAdapter(Activity activity, GridViewable<? extends GVData> data,
-                               int cellWidth, int cellHeight) {
+    public GridViewCellAdapter(Activity activity, GridViewable<?> data, int cellWidth,
+                               int cellHeight) {
         mActivity = activity;
         mData = data;
         mCellWidth = cellWidth;
@@ -60,7 +76,8 @@ public class GridViewCellAdapter extends BaseAdapter {
             vh = (ViewHolder) convertView.getTag();
         }
 
-        convertView = vh.updateView((GVData) getItem(position));
+        vh.updateView((GVData) getItem(position));
+        convertView = vh.getView();
         convertView.setTag(vh);
         convertView.getLayoutParams().height = mCellHeight;
         convertView.getLayoutParams().width = mCellWidth;
@@ -68,6 +85,13 @@ public class GridViewCellAdapter extends BaseAdapter {
         return convertView;
     }
 
+    /**
+     * Interface that a collection of items must follow if the items are to be viewable in a
+     * GridView using a GridViewCellAdapter. Utilises the ViewHolder android pattern.
+     * @param <T>: the item type in the collection.
+     *
+     * @see com.chdryra.android.mygenerallibrary.ViewHolder
+     */
     public interface GridViewable<T> extends Iterable<T> {
         public int size();
 

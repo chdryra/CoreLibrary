@@ -19,17 +19,14 @@ import android.widget.Button;
  * <p>
  * Subclasses need to override <code>createDialogUI()</code> to return a View (similar to
  * <code>onCreateView(.)</code> in fragments) that defines the look of the Dialog. This method
- * is called by <code>onCreateDialog(.)</code>.
+ * is called by <code>onCreateDialog(.)</code> which combines it with the buttons.
  * </p>
  * <p/>
- * <p>o
+ * <p>
  * There are a bunch of functions that can be called in the <code>onCreate(.)</code> method when
- * inheriting from this class to tailor the behaviour of the dialog for example dialog title,
+ * inheriting from this class to tailor the behaviour of the dialog, for example dialog title,
  * button labels, button actions, dismiss dialog on button press etc.
  * </p>
- *
- * @see #createDialogUI(android.view.ViewGroup)
- * @see #onCreateDialog(android.os.Bundle)
  */
 public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment {
     protected Button             mMiddleButton;
@@ -40,13 +37,6 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
     @Override
     protected abstract View createDialogUI(ViewGroup parent);
 
-    /**
-     * By default sets up left button as "Cancel", middle as "Other" and right button as "Done". Can
-     * override this to set up other button actions and button/dialog behaviour to tailor the
-     * Dialog. See the other methods for parameters that can be set.
-     * @param savedInstanceState
-     *
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,43 +87,18 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
         return buttons;
     }
 
-    /**
-     * By default sends the ActivityResultCode bound to the middle button.
-     *
-     * @see #setMiddleButtonAction(DialogTwoButtonFragment.ActionType)
-     * @see #setMiddleButtonResultCode(ActivityResultCode)
-     */
     protected void onMiddleButtonClick() {
         sendResult(mMiddleButtonResult);
     }
 
-    /**
-     * The result code to bind to the middle button. By default, <code>onMiddleButtonClick()</code>
-     * sends this result code to the commissioning activity.
-     * @param resultCode: the ActivityResultCode to bind to the button.
-     *
-     * @see #onMiddleButtonClick()
-     * @see ActivityResultCode
-     */
     protected void setMiddleButtonResultCode(ActivityResultCode resultCode) {
         mMiddleButtonResult = resultCode;
     }
 
-    /**
-     * The text label to show on the middle button.
-     *
-     * @param middleButtonText: the button label.
-     */
     protected void setMiddleButtonText(String middleButtonText) {
         mMiddleButtonText = middleButtonText;
     }
 
-    /**
-     * Can bind predefined ActivityResultCodes and labels using the ActionType enum.
-     * @param action: the action type to bind to the button.
-     *
-     * @see DialogTwoButtonFragment.ActionType
-     */
     protected void setMiddleButtonAction(ActionType action) {
         mMiddleButtonText = getTitleForAction(action);
         mMiddleButtonResult = action.getResultCode();

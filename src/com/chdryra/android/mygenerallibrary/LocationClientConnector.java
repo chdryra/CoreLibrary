@@ -19,6 +19,9 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.model.LatLng;
 
+/**
+ * Handles connection to Google Play services for Places API lookup tasks.
+ */
 public class LocationClientConnector implements GooglePlayServicesClient.ConnectionCallbacks,
         GooglePlayServicesClient.OnConnectionFailedListener {
 
@@ -94,6 +97,10 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
         Log.i(TAG, "LocationClient disconnected");
     }
 
+    /**
+     * Callbacks for classes that want know when the Location Client has connected and found a
+     * location.
+     */
     public interface Locatable {
         public void onLocated(LatLng latLng);
 
