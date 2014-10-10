@@ -11,8 +11,11 @@ package com.chdryra.android.mygenerallibrary;
 import com.chdryra.android.mygenerallibrary.GridViewCellAdapter.GridViewable;
 
 /**
- * Collection for GVData objects that facilitate the ViewHolder pattern. The <code>sort()</code>
- * requirement of GridViewable is provided by the base class SortableList<T>.
+ * An iterable collection for GVData objects that facilitate the ViewHolder pattern and implement
+ * GridViewable.
+ * <p>
+ * The <code>sort()</code> requirement of GridViewable is provided by SortableList<T>.
+ * </p>
  *
  * @param <T>: a type that implements GVData.
  * @see com.chdryra.android.mygenerallibrary.GridViewCellAdapter
