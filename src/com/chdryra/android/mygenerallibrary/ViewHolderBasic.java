@@ -9,10 +9,9 @@
 package com.chdryra.android.mygenerallibrary;
 
 import android.app.Activity;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.HashMap;
 
 /**
  * Primary implementation of the ViewHolder interface for the ViewHolder pattern used in
@@ -25,15 +24,15 @@ import java.util.HashMap;
  * </p>
  */
 public abstract class ViewHolderBasic implements ViewHolder {
-    private final int                    mLayout;
-    private final int[]                  mUpdateableViewIds;
-    private final HashMap<Integer, View> mUpdateableViews;
-    protected     View                   mInflated;
+    private final int               mLayout;
+    private final int[]             mUpdateableViewIds;
+    private final SparseArray<View> mUpdateableViews;
+    protected     View              mInflated;
 
     protected ViewHolderBasic(int layoutId, int[] viewIds) {
         mLayout = layoutId;
         mUpdateableViewIds = viewIds;
-        mUpdateableViews = new HashMap<Integer, View>(mUpdateableViewIds.length);
+        mUpdateableViews = new SparseArray<View>(mUpdateableViewIds.length);
     }
 
     @Override
