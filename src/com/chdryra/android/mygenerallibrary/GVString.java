@@ -8,14 +8,30 @@
 
 package com.chdryra.android.mygenerallibrary;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Wrapper class for Strings that implements GVData.
  */
-public class GVString implements GVData {
+public class GVString implements GVData, Parcelable {
+    public static final Parcelable.Creator<GVString> CREATOR = new Parcelable.Creator<GVString>() {
+        public GVString createFromParcel(Parcel in) {
+            return new GVString(in);
+        }
+
+        public GVString[] newArray(int size) {
+            return new GVString[size];
+        }
+    };
     private final String mString;
 
     public GVString(String string) {
         mString = string;
+    }
+
+    public GVString(Parcel in) {
+        mString = in.readString();
     }
 
     @Override
@@ -55,6 +71,16 @@ public class GVString implements GVData {
         int result = 1;
         result = prime * result + ((mString == null) ? 0 : mString.hashCode());
         return result;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(mString);
     }
 }
 
