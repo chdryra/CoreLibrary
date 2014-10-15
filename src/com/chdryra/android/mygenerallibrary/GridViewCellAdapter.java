@@ -67,8 +67,10 @@ public class GridViewCellAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder vh;
+        GVData data = (GVData) getItem(position);
+        if (!data.isValidForDisplay()) return null;
 
+        ViewHolder vh;
         if (convertView == null) {
             vh = mData.getViewHolder(position);
             vh.inflate(mActivity, parent);
@@ -76,7 +78,7 @@ public class GridViewCellAdapter extends BaseAdapter {
             vh = (ViewHolder) convertView.getTag();
         }
 
-        vh.updateView((GVData) getItem(position));
+        vh.updateView(data);
         convertView = vh.getView();
         convertView.setTag(vh);
         convertView.getLayoutParams().height = mCellHeight;
@@ -88,8 +90,8 @@ public class GridViewCellAdapter extends BaseAdapter {
     /**
      * Interface that a collection of items must follow if the items are to be viewable in a
      * GridView using a GridViewCellAdapter. Utilises the ViewHolder android pattern.
-     * @param <T>: the item type in the collection.
      *
+     * @param <T>: the item type in the collection.
      * @see com.chdryra.android.mygenerallibrary.ViewHolder
      */
     public interface GridViewable<T> extends Iterable<T> {

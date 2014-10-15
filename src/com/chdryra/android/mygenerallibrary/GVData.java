@@ -18,6 +18,14 @@ public interface GVData {
 
     public ViewHolder getViewHolder();
 
+    /**
+     * Check to see if wrapped data is considered valid for display, for example nonNull,
+     * has length/size etc.
+     *
+     * @return boolean: wrapped data passes checks.
+     */
+    public boolean isValidForDisplay();
+
     @Override
     public boolean equals(Object o);
 

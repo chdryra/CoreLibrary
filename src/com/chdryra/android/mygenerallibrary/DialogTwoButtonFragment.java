@@ -147,14 +147,14 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         mDismissOnRightClick = true;
     }
 
-    protected Intent getNewReturnDataIntent() {
+    protected Intent createNewReturnData() {
         mReturnData = new Intent();
         return mReturnData;
     }
 
-    protected Intent getCurrentReturnDataIntent() {
+    protected Intent getReturnData() {
         if (mReturnData == null) {
-            return getNewReturnDataIntent();
+            return createNewReturnData();
         } else {
             return mReturnData;
         }
@@ -166,7 +166,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         }
 
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode.get(),
-                getCurrentReturnDataIntent());
+                getReturnData());
         mReturnData = null;
 
         if (resultCode.equals(mLeftButtonResult) && mDismissOnLeftClick) {

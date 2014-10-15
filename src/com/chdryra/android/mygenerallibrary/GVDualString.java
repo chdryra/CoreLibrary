@@ -35,6 +35,11 @@ public class GVDualString implements GVData {
     }
 
     @Override
+    public boolean isValidForDisplay() {
+        return (mUpper != null && mUpper.length() > 0) || (mLower != null && mLower.length() > 0);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof GVDualString)) return false;
