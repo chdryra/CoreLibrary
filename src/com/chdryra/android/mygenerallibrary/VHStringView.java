@@ -41,6 +41,14 @@ public class VHStringView extends ViewHolderBasic {
         mGetter = getter;
     }
 
+    /**
+     * Simple interface for extracting strings to display on the grid cell from GVData more
+     * complex than GVString.
+     */
+    public interface GVDataStringGetter {
+        public String getString(GVData data);
+    }
+
     @Override
     public void updateView(GVData data) {
         if (mTextView == null) mTextView = (TextView) getView(mTextViewId);
@@ -55,13 +63,5 @@ public class VHStringView extends ViewHolderBasic {
                 return string != null ? string.get() : null;
             }
         };
-    }
-
-    /**
-     * Simple interface for extracting strings to display on the grid cell from GVData more
-     * complex than GVString.
-     */
-    public interface GVDataStringGetter {
-        public String getString(GVData data);
     }
 }

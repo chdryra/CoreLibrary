@@ -8,17 +8,36 @@
 
 package com.chdryra.android.mygenerallibrary;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * GridViewable data viewed as an upper string and lower string in a GridView cell.
  */
 public class GVDualString implements GVData {
 
+    public static final Parcelable.Creator<GVDualString> CREATOR = new Parcelable
+            .Creator<GVDualString>
+            () {
+        public GVDualString createFromParcel(Parcel in) {
+            return new GVDualString(in);
+        }
+
+        public GVDualString[] newArray(int size) {
+            return new GVDualString[size];
+        }
+    };
     private final String mUpper;
     private final String mLower;
 
     public GVDualString(String upper, String lower) {
         mUpper = upper;
         mLower = lower;
+    }
+
+    public GVDualString(Parcel in) {
+        mUpper = in.readString();
+        mLower = in.readString();
     }
 
     public String getUpper() {
@@ -56,5 +75,16 @@ public class GVDualString implements GVData {
         int result = mUpper != null ? mUpper.hashCode() : 0;
         result = 31 * result + (mLower != null ? mLower.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(mUpper);
+        parcel.writeString(mLower);
     }
 }

@@ -69,6 +69,40 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
      */
     protected abstract View createDialogUI(ViewGroup parent);
 
+    /**
+     * Enum that provides ActionResultCodes and associated text labels for some common actions.
+     *
+     * @see ActivityResultCode
+     */
+    public static enum ActionType {
+        CANCEL(ActivityResultCode.CANCEL, R.string.gl_action_cancel_text),
+        DONE(ActivityResultCode.DONE, R.string.gl_action_done_text),
+        OTHER(ActivityResultCode.OTHER, R.string.gl_action_other_text),
+        EDIT(ActivityResultCode.EDIT, R.string.gl_action_edit_text),
+        ADD(ActivityResultCode.ADD, R.string.gl_action_add_text),
+        DELETE(ActivityResultCode.DELETE, R.string.gl_action_delete_text),
+        CLEAR(ActivityResultCode.CLEAR, R.string.gl_action_clear_text),
+        OK(ActivityResultCode.OK, R.string.gl_action_ok_text),
+        YES(ActivityResultCode.YES, R.string.gl_action_yes_text),
+        NO(ActivityResultCode.NO, R.string.gl_action_no_text);
+
+        private final ActivityResultCode mResultCode;
+        private final int                mLabelId;
+
+        private ActionType(ActivityResultCode resultCode, int labelId) {
+            mResultCode = resultCode;
+            mLabelId = labelId;
+        }
+
+        public ActivityResultCode getResultCode() {
+            return mResultCode;
+        }
+
+        public String getLabel(Context context) {
+            return context.getResources().getString(mLabelId);
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -246,39 +280,5 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         }
 
         return dialog;
-    }
-
-    /**
-     * Enum that provides ActionResultCodes and associated text labels for some common actions.
-     *
-     * @see ActivityResultCode
-     */
-    public static enum ActionType {
-        CANCEL(ActivityResultCode.CANCEL, R.string.gl_action_cancel_text),
-        DONE(ActivityResultCode.DONE, R.string.gl_action_done_text),
-        OTHER(ActivityResultCode.OTHER, R.string.gl_action_other_text),
-        EDIT(ActivityResultCode.EDIT, R.string.gl_action_edit_text),
-        ADD(ActivityResultCode.ADD, R.string.gl_action_add_text),
-        DELETE(ActivityResultCode.DELETE, R.string.gl_action_delete_text),
-        CLEAR(ActivityResultCode.CLEAR, R.string.gl_action_clear_text),
-        OK(ActivityResultCode.OK, R.string.gl_action_ok_text),
-        YES(ActivityResultCode.YES, R.string.gl_action_yes_text),
-        NO(ActivityResultCode.NO, R.string.gl_action_no_text);
-
-        private final ActivityResultCode mResultCode;
-        private final int                mLabelId;
-
-        private ActionType(ActivityResultCode resultCode, int labelId) {
-            mResultCode = resultCode;
-            mLabelId = labelId;
-        }
-
-        public ActivityResultCode getResultCode() {
-            return mResultCode;
-        }
-
-        public String getLabel(Context context) {
-            return context.getResources().getString(mLabelId);
-        }
     }
 }

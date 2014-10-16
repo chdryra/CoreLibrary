@@ -39,6 +39,16 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
         mLocationClient = new LocationClient(mActivity, this, this);
     }
 
+    /**
+     * Callbacks for classes that want know when the Location Client has connected and found a
+     * location.
+     */
+    public interface Locatable {
+        public void onLocated(LatLng latLng);
+
+        public void onLocationClientConnected(LatLng latLng);
+    }
+
     public void connect() {
         if (!mLocationClient.isConnected()) {
             mLocationClient.connect();
@@ -95,16 +105,6 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
     @Override
     public void onDisconnected() {
         Log.i(TAG, "LocationClient disconnected");
-    }
-
-    /**
-     * Callbacks for classes that want know when the Location Client has connected and found a
-     * location.
-     */
-    public interface Locatable {
-        public void onLocated(LatLng latLng);
-
-        public void onLocationClientConnected(LatLng latLng);
     }
 
 }

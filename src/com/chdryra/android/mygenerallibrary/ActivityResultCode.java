@@ -8,6 +8,8 @@
 
 package com.chdryra.android.mygenerallibrary;
 
+import android.app.Activity;
+
 /**
  * Encapsulates integers representing return flags. Usually for activities and fragments returning
  * results to other activities, fragments etc.
@@ -34,8 +36,17 @@ package com.chdryra.android.mygenerallibrary;
  * </p>
  */
 public enum ActivityResultCode {
-    CANCEL(0), DONE(1), OTHER(2), EDIT(3), ADD(4), DELETE(5), CLEAR(6), OK(7), UP(8), YES(9),
-    NO(10);
+    OK(Activity.RESULT_OK),
+    CANCEL(Activity.RESULT_CANCELED),
+    OTHER(Activity.RESULT_FIRST_USER),
+    DONE(OTHER.get() + 1),
+    EDIT(DONE.get() + 1),
+    ADD(EDIT.get() + 1),
+    DELETE(ADD.get() + 1),
+    CLEAR(DELETE.get() + 1),
+    UP(CLEAR.get() + 1),
+    YES(UP.get() + 1),
+    NO(YES.get() + 1);
 
     private final int mValue;
 

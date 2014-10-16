@@ -38,10 +38,10 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
     private static final String NO_LOCATION        = "location not found...";
     private static final int    TEXT_VIEW_RESOURCE = android.R.layout.simple_list_item_1;
 
-    private final LatLng mLatLng;
-    private ArrayList<String> mLocationSuggestions;
-    private ArrayList<String> mLocationDefaultSuggestions;
-    private String mPrimaryDefaultSuggestion;
+    private final LatLng            mLatLng;
+    private       ArrayList<String> mLocationSuggestions;
+    private       ArrayList<String> mLocationDefaultSuggestions;
+    private       String            mPrimaryDefaultSuggestion;
 
     public LocationNameAdapter(Context context, LatLng latlng, int numberSuggestions,
                                String primaryDefaultSuggestion) {
@@ -63,6 +63,75 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
             }
 
             notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * Finds nearest names given a LatLng on a separate thread using FetcherPlacesAPI. If this
+     * returns nothing, tries to use Android's built in Geocoder class.
+     */
+    private class GetAddressTask extends AsyncTask<Integer, Void, ArrayList<String>> {
+
+        final Context mContext;
+        final LatLng  mLatLng;
+
+        public GetAddressTask(Context context, LatLng latlng) {
+            super();
+            mContext = context;
+            mLatLng = latlng;
+        }
+
+        @Override
+        protected ArrayList<String> doInBackground(Integer... params) {
+            Integer numberToGet = params[0];
+
+            ArrayList<String> namesFromGoogle = FetcherPlacesAPI.fetchNearestNames(mLatLng,
+                    numberToGet);
+
+            if (namesFromGoogle.size() > 0) {
+                return namesFromGoogle;
+            } else {
+                //Try using Geocoder
+                Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+
+                List<Address> addresses = null;
+                try {
+                    addresses = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude,
+                            numberToGet);
+                } catch (IOException e1) {
+                    Log.e(TAG, "IOException: trying to get address using latitude " + mLatLng
+                            .latitude + ", longitude " + mLatLng.longitude, e1);
+                    Log.i(TAG, "Address is null");
+                } catch (IllegalArgumentException e2) {
+                    Log.e(TAG, "IllegalArgumentException: trying to get address using latitude " +
+                            mLatLng.latitude + ", longitude " + mLatLng.longitude, e2);
+                    Log.i(TAG, "Address is null");
+                }
+
+                if (addresses != null && addresses.size() > 0) {
+                    ArrayList<String> addressesList = new ArrayList<String>();
+                    for (int i = 0; i < addressesList.size(); ++i) {
+                        addressesList.add(formatAddress(addresses.get(i)));
+                    }
+
+                    return addressesList;
+                } else {
+                    return null;
+                }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> addresses) {
+            super.onPostExecute(addresses);
+            if (addresses != null) {
+                mLocationDefaultSuggestions = addresses;
+                if (mPrimaryDefaultSuggestion != null) {
+                    mLocationDefaultSuggestions.add(0, mPrimaryDefaultSuggestion);
+                }
+                mLocationSuggestions = new ArrayList<String>(mLocationDefaultSuggestions);
+                notifyDataSetChanged();
+            }
         }
     }
 
@@ -149,74 +218,5 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
                 // Locality is usually a city
                 address.getLocality() != null ?
                         ", " + address.getLocality() : "");
-    }
-
-    /**
-     * Finds nearest names given a LatLng on a separate thread using FetcherPlacesAPI. If this
-     * returns nothing, tries to use Android's built in Geocoder class.
-     */
-    private class GetAddressTask extends AsyncTask<Integer, Void, ArrayList<String>> {
-
-        final Context mContext;
-        final LatLng  mLatLng;
-
-        public GetAddressTask(Context context, LatLng latlng) {
-            super();
-            mContext = context;
-            mLatLng = latlng;
-        }
-
-        @Override
-        protected ArrayList<String> doInBackground(Integer... params) {
-            Integer numberToGet = params[0];
-
-            ArrayList<String> namesFromGoogle = FetcherPlacesAPI.fetchNearestNames(mLatLng,
-                    numberToGet);
-
-            if (namesFromGoogle.size() > 0) {
-                return namesFromGoogle;
-            } else {
-                //Try using Geocoder
-                Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
-
-                List<Address> addresses = null;
-                try {
-                    addresses = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude,
-                            numberToGet);
-                } catch (IOException e1) {
-                    Log.e(TAG, "IOException: trying to get address using latitude " + mLatLng
-                            .latitude + ", longitude " + mLatLng.longitude, e1);
-                    Log.i(TAG, "Address is null");
-                } catch (IllegalArgumentException e2) {
-                    Log.e(TAG, "IllegalArgumentException: trying to get address using latitude " +
-                            mLatLng.latitude + ", longitude " + mLatLng.longitude, e2);
-                    Log.i(TAG, "Address is null");
-                }
-
-                if (addresses != null && addresses.size() > 0) {
-                    ArrayList<String> addressesList = new ArrayList<String>();
-                    for (int i = 0; i < addressesList.size(); ++i) {
-                        addressesList.add(formatAddress(addresses.get(i)));
-                    }
-
-                    return addressesList;
-                } else {
-                    return null;
-                }
-            }
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<String> addresses) {
-            super.onPostExecute(addresses);
-            if (addresses != null) {
-                mLocationDefaultSuggestions = addresses;
-                if (mPrimaryDefaultSuggestion != null) {
-                    mLocationDefaultSuggestions.add(0, mPrimaryDefaultSuggestion);
-                }
-                mLocationSuggestions = new ArrayList<String>(mLocationDefaultSuggestions);
-                notifyDataSetChanged();
-            }
-        }
     }
 }
