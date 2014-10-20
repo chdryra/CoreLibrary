@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * For the ViewHolder pattern used by GridViewCellAdapter. Needs to be initially inflated,
- * then updated when reused.
+ * For the ViewHolder pattern used by ListView-type Adapters which utilise item views from a
+ * small, reuseable pool. Needs to be initially inflated, then updated when reused.
  *
  * @see <a href="http://developer.android.com/training/improving-layouts/smooth-scrolling
  * .html#ViewHolder">ViewHolder pattern</a>
@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 public interface ViewHolder {
     public void inflate(Activity activity, ViewGroup parent);
 
-    public void updateView(GVData data);
+    public void updateView(ViewHolderData data);
 
     public View getView();
 }

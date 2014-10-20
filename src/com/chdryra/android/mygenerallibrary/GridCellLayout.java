@@ -18,7 +18,7 @@ import android.widget.FrameLayout;
  * defining the look of a grid cell.
  *
  * @see com.chdryra.android.mygenerallibrary.GridViewCellAdapter
- * @see com.chdryra.android.mygenerallibrary.GVData
+ * @see ViewHolderData
  */
 class GridCellLayout extends FrameLayout {
 

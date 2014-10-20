@@ -16,26 +16,26 @@ import android.widget.TextView;
  * complex GVData by specifying a GVDataStringGetter that knows how to extract a string from the
  * data.
  */
-public class VHStringView extends ViewHolderBasic {
+public class VHString extends ViewHolderBasic {
     private static final int LAYOUT   = R.layout.grid_cell_string_view;
     private static final int TEXTVIEW = R.id.text_view;
 
     private int mTextViewId = TEXTVIEW;
     private TextView           mTextView;
-    private GVDataStringGetter mGetter;
+    private VHDataStringGetter mGetter;
 
-    public VHStringView() {
+    public VHString() {
         super(LAYOUT, new int[]{TEXTVIEW});
         initDefaultGetter();
     }
 
-    public VHStringView(int layoutId, int textViewId) {
+    public VHString(int layoutId, int textViewId) {
         super(layoutId, new int[]{textViewId});
         mTextViewId = textViewId;
         initDefaultGetter();
     }
 
-    public VHStringView(int layoutId, int textViewId, GVDataStringGetter getter) {
+    public VHString(int layoutId, int textViewId, VHDataStringGetter getter) {
         super(layoutId, new int[]{textViewId});
         mTextViewId = textViewId;
         mGetter = getter;
@@ -45,22 +45,22 @@ public class VHStringView extends ViewHolderBasic {
      * Simple interface for extracting strings to display on the grid cell from GVData more
      * complex than GVString.
      */
-    public interface GVDataStringGetter {
-        public String getString(GVData data);
+    public interface VHDataStringGetter {
+        public String getString(ViewHolderData data);
     }
 
     @Override
-    public void updateView(GVData data) {
+    public void updateView(ViewHolderData data) {
         if (mTextView == null) mTextView = (TextView) getView(mTextViewId);
         if (data != null) mTextView.setText(mGetter.getString(data));
     }
 
     private void initDefaultGetter() {
-        mGetter = new GVDataStringGetter() {
+        mGetter = new VHDataStringGetter() {
             @Override
-            public String getString(GVData data) {
-                GVString string = (GVString) data;
-                return string != null ? string.get() : null;
+            public String getString(ViewHolderData data) {
+                VHDString string = (VHDString) data;
+                return string != null && string.isValidForDisplay() ? string.get() : null;
             }
         };
     }

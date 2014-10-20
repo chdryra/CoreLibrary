@@ -28,40 +28,23 @@ import android.widget.BaseAdapter;
  * @see <a href="http://developer.android.com/training/improving-layouts/smooth-scrolling
  * .html#ViewHolder">ViewHolder pattern</a>
  * @see com.chdryra.android.mygenerallibrary.ViewHolder
- * @see com.chdryra.android.mygenerallibrary.GVData
+ * @see ViewHolderData
  */
 public class GridViewCellAdapter extends BaseAdapter {
-    private final Activity        mActivity;
-    private final int             mCellWidth;
-    private final int             mCellHeight;
-    private       GridViewable<?> mData;
+    private final Activity                               mActivity;
+    private final int                                    mCellWidth;
+    private final int                                    mCellHeight;
+    private       SortableList<? extends ViewHolderData> mData;
 
-    public GridViewCellAdapter(Activity activity, GridViewable<?> data, int cellWidth,
-                               int cellHeight) {
+    public GridViewCellAdapter(Activity activity, SortableList<? extends ViewHolderData> data,
+                               int cellWidth, int cellHeight) {
         mActivity = activity;
         mData = data;
         mCellWidth = cellWidth;
         mCellHeight = cellHeight;
     }
 
-    /**
-     * Interface that a collection of items must follow if the items are to be viewable in a
-     * GridView using a GridViewCellAdapter. Utilises the ViewHolder android pattern.
-     *
-     * @param <T>: the item type in the collection.
-     * @see com.chdryra.android.mygenerallibrary.ViewHolder
-     */
-    public interface GridViewable<T> extends Iterable<T> {
-        public int size();
-
-        public T getItem(int position);
-
-        public ViewHolder getViewHolder(int position);
-
-        public void sort();
-    }
-
-    public void setData(GridViewable<?> data) {
+    public void setData(SortableList<? extends ViewHolderData> data) {
         mData = data;
         notifyDataSetChanged();
     }
@@ -72,7 +55,7 @@ public class GridViewCellAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public ViewHolderData getItem(int position) {
         mData.sort();
         return mData.getItem(position);
     }
@@ -84,12 +67,12 @@ public class GridViewCellAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        GVData data = (GVData) getItem(position);
+        ViewHolderData data = getItem(position);
         if (!data.isValidForDisplay()) return null;
 
         ViewHolder vh;
         if (convertView == null) {
-            vh = mData.getViewHolder(position);
+            vh = data.getViewHolder();
             vh.inflate(mActivity, parent);
         } else {
             vh = (ViewHolder) convertView.getTag();

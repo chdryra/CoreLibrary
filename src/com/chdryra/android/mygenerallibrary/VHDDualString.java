@@ -14,28 +14,28 @@ import android.os.Parcelable;
 /**
  * GridViewable data viewed as an upper string and lower string in a GridView cell.
  */
-public class GVDualString implements GVData {
+public class VHDDualString implements ViewHolderData {
 
-    public static final Parcelable.Creator<GVDualString> CREATOR = new Parcelable
-            .Creator<GVDualString>
+    public static final Parcelable.Creator<VHDDualString> CREATOR = new Parcelable
+            .Creator<VHDDualString>
             () {
-        public GVDualString createFromParcel(Parcel in) {
-            return new GVDualString(in);
+        public VHDDualString createFromParcel(Parcel in) {
+            return new VHDDualString(in);
         }
 
-        public GVDualString[] newArray(int size) {
-            return new GVDualString[size];
+        public VHDDualString[] newArray(int size) {
+            return new VHDDualString[size];
         }
     };
     private final String mUpper;
     private final String mLower;
 
-    public GVDualString(String upper, String lower) {
+    public VHDDualString(String upper, String lower) {
         mUpper = upper;
         mLower = lower;
     }
 
-    public GVDualString(Parcel in) {
+    public VHDDualString(Parcel in) {
         mUpper = in.readString();
         mLower = in.readString();
     }
@@ -50,7 +50,7 @@ public class GVDualString implements GVData {
 
     @Override
     public ViewHolder getViewHolder() {
-        return new VHDualStringView();
+        return new VHDualString();
     }
 
     @Override
@@ -61,9 +61,9 @@ public class GVDualString implements GVData {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GVDualString)) return false;
+        if (!(o instanceof VHDDualString)) return false;
 
-        GVDualString that = (GVDualString) o;
+        VHDDualString that = (VHDDualString) o;
 
         return !(mLower != null ? !mLower.equals(that.mLower) : that.mLower != null) && !(mUpper
                 != null ? !mUpper.equals(that.mUpper) : that.mUpper != null);
@@ -77,14 +77,4 @@ public class GVDualString implements GVData {
         return result;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(mUpper);
-        parcel.writeString(mLower);
-    }
 }

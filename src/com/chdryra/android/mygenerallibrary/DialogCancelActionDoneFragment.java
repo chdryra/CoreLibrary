@@ -98,7 +98,7 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         dismissDialogOnMiddleClick();
     }
 
-    protected void setKeyboardDoActionOnEditText(EditText editText) {
+    public void setKeyboardDoActionOnEditText(EditText editText) {
         editText.setImeOptions(EditorInfo.IME_ACTION_GO);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -111,7 +111,7 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         });
     }
 
-    protected void setKeyboardDoDoneOnEditText(EditText editText) {
+    public void setKeyboardDoDoneOnEditText(EditText editText) {
         editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

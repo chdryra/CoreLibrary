@@ -60,7 +60,7 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
         return false;
     }
 
-    protected void setDeleteWhatTitle(String deleteWhat) {
+    public void setDeleteWhatTitle(String deleteWhat) {
         mDeleteWhat = deleteWhat;
         mDeleteConfirmation = true;
     }

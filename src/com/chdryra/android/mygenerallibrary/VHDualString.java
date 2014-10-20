@@ -13,7 +13,7 @@ import android.widget.TextView;
 /**
  * Simple ViewHolder for GVDualString. Displays an upper and lower string.
  */
-public class VHDualStringView extends ViewHolderBasic {
+public class VHDualString extends ViewHolderBasic {
     private static final int LAYOUT   = R.layout.grid_cell_dual_string;
     private static final int UPPER    = R.id.upper_text_view;
     private              int mUpperID = UPPER;
@@ -22,23 +22,23 @@ public class VHDualStringView extends ViewHolderBasic {
     protected TextView mUpper;
     protected TextView mLower;
 
-    public VHDualStringView() {
+    public VHDualString() {
         super(LAYOUT, new int[]{UPPER, LOWER});
     }
 
-    public VHDualStringView(int layoutID, int upperTextViewID, int lowerTextViewID) {
+    public VHDualString(int layoutID, int upperTextViewID, int lowerTextViewID) {
         super(layoutID, new int[]{upperTextViewID, lowerTextViewID});
         mUpperID = upperTextViewID;
         mLowerID = lowerTextViewID;
     }
 
     @Override
-    public void updateView(GVData data) {
+    public void updateView(ViewHolderData data) {
         if (mUpper == null) mUpper = (TextView) getView(mUpperID);
         if (mLower == null) mLower = (TextView) getView(mLowerID);
 
-        GVDualString dual = (GVDualString) data;
-        if (dual != null) {
+        VHDDualString dual = (VHDDualString) data;
+        if (dual != null && dual.isValidForDisplay()) {
             mUpper.setText(dual.getUpper());
             mLower.setText(dual.getLower());
         }
