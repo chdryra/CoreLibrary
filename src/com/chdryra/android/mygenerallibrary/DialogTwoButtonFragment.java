@@ -57,19 +57,6 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
     private boolean mShowKeyboardOnLaunch = true;
 
     /**
-     * Subclasses need to override this to return the dialog UI to show above the Dialog buttons.
-     *
-     * @param parent: by default a LinearLayout that will be passed that will hold the return View
-     *                followed by the buttons. If the View is inflated from an XML file using a
-     *                layout inflater, "parent" should be passed as the parent ViewGroup parameter
-     *                to the inflater.
-     * @return View: the main UI to show above the buttons in the dialog.
-     * @see #onCreateDialog(android.os.Bundle)
-     * @see #getButtons(android.view.ViewGroup)
-     */
-    protected abstract View createDialogUI(ViewGroup parent);
-
-    /**
      * Enum that provides ActionResultCodes and associated text labels for some common actions.
      *
      * @see ActivityResultCode
@@ -102,6 +89,19 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
             return context.getResources().getString(mLabelId);
         }
     }
+
+    /**
+     * Subclasses need to override this to return the dialog UI to show above the Dialog buttons.
+     *
+     * @param parent: by default a LinearLayout that will be passed that will hold the return View
+     *                followed by the buttons. If the View is inflated from an XML file using a
+     *                layout inflater, "parent" should be passed as the parent ViewGroup parameter
+     *                to the inflater.
+     * @return View: the main UI to show above the buttons in the dialog.
+     * @see #onCreateDialog(android.os.Bundle)
+     * @see #getButtons(android.view.ViewGroup)
+     */
+    protected abstract View createDialogUI(ViewGroup parent);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -160,7 +160,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         return type.getLabel(getActivity());
     }
 
-    protected void setDialogTitle(String dialogTitle) {
+    public void setDialogTitle(String dialogTitle) {
         if (dialogTitle != null) {
             mDialogTitle = dialogTitle;
             mNoTitle = false;
@@ -169,7 +169,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         }
     }
 
-    protected void hideKeyboardOnLaunch() {
+    public void hideKeyboardOnLaunch() {
         mShowKeyboardOnLaunch = false;
     }
 
