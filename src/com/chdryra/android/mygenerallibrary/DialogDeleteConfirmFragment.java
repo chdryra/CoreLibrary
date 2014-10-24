@@ -13,17 +13,17 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 
 /**
- * A standardised delete confirmation alert dialog. Asks the user to confirm with a "Yes" or
- * "Cancel".
+ * A standard delete confirmation alert dialog. Asks the user to confirm with a "Yes" or "Cancel".
  * <p>
- * There is a static method <code>showDeleteConfirmDialog(.)</code> that can be called to show
+ * There is a static method {@link #showDeleteConfirmDialog(String, android.app.Fragment, int,
+ * android.app.FragmentManager)} that can be called to show
  * the default confirmation dialog. This is preferable to constructing the dialog yourself.
  * </p>
  */
 public class DialogDeleteConfirmFragment extends DialogAlert {
     public static final  ActionType DELETE_CONFIRM     = ActionType.YES;
     private static final String     DELETE_WHAT        = "com.chdryra.android.mygenerallibrary" +
-            ".delete_what";
+                                                         ".delete_what";
     private static final String     DELETE             = "Delete";
     private static final String     DELETE_CONFIRM_TAG = "DeleteConfirm";
     private static final ActionType DELETE_CANCEL      = ActionType.CANCEL;

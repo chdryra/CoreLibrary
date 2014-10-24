@@ -11,8 +11,8 @@ package com.chdryra.android.mygenerallibrary;
 import android.app.Activity;
 
 /**
- * Encapsulates integers representing return flags. Usually for activities and fragments returning
- * results to other activities, fragments etc.
+ * Encapsulates integers representing return flags (result codes). Usually for activities and
+ * fragments returning results to other activities, fragments etc.
  * <p/>
  * <p>
  * Activities often start other activities using <code>startActivityForResult(.)</code>and
@@ -23,16 +23,9 @@ import android.app.Activity;
  * be a ripe source of bugs.
  * </p>
  * <p>
- * This enum wraps integers to represent common result codes. If the commissioning activity and
- * result-generating activity only ever use and refer to ActivityResultCode to generate and
- * interrogate result codes, neither has to care about the integers themselves and what they
- * represent.
- * </p>
- * <p/>
- * <p>
- * The static <code>get(int resultCode)</code> method finds the ActivityResultCode for an integer
- * result code passed back to, say, <code>onActivityResult(.)</code>. The <code>equals(.)</code>
- * methods can compare result codes.
+ * If the commissioning activity and result-generating activity only ever use and refer to
+ * ActivityResultCode to generate and interrogate result codes, neither has to care about the
+ * integers themselves and what they represent.
  * </p>
  */
 public enum ActivityResultCode {

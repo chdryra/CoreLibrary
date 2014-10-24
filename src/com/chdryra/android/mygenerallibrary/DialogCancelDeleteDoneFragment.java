@@ -14,9 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Standardised 3-button Dialog for "Cancel" (left button), "Delete" (middle button),
- * "Done" (right button). By default will show a delete confirmation alert Dialog if Delete is
- * pressed and <code>hasDataToDelete()</code> returns true.
+ * Standard 3-button Dialog for "Cancel" (left button), "Delete" (middle button),
+ * "Done" (right button). By default will show a delete confirmation dialog
+ * {@link com.chdryra.android.mygenerallibrary.DialogDeleteConfirmFragment} if "Delete" is pressed
+ * and {@link #hasDataToDelete()} returns true.
  */
 public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionDoneFragment {
     private static final int DELETE_CONFIRM = 0;
@@ -81,6 +82,6 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
 
     private void showDeleteConfirmDialog() {
         DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat,
-                DialogCancelDeleteDoneFragment.this, DELETE_CONFIRM, getFragmentManager());
+                                                            DialogCancelDeleteDoneFragment.this, DELETE_CONFIRM, getFragmentManager());
     }
 }

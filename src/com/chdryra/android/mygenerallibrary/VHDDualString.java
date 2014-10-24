@@ -9,24 +9,13 @@
 package com.chdryra.android.mygenerallibrary;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
- * GridViewable data viewed as an upper string and lower string in a GridView cell.
+ * Wrapper class for 2 Strings that implements {@link ViewHolderData}. Used for viewing upper and
+ * lower text in a GridView cell using the
+ * {@link com.chdryra.android.mygenerallibrary.GridViewCellAdapter} framework.
  */
 public class VHDDualString implements ViewHolderData {
-
-    public static final Parcelable.Creator<VHDDualString> CREATOR = new Parcelable
-            .Creator<VHDDualString>
-            () {
-        public VHDDualString createFromParcel(Parcel in) {
-            return new VHDDualString(in);
-        }
-
-        public VHDDualString[] newArray(int size) {
-            return new VHDDualString[size];
-        }
-    };
     private final String mUpper;
     private final String mLower;
 
@@ -66,7 +55,9 @@ public class VHDDualString implements ViewHolderData {
         VHDDualString that = (VHDDualString) o;
 
         return !(mLower != null ? !mLower.equals(that.mLower) : that.mLower != null) && !(mUpper
-                != null ? !mUpper.equals(that.mUpper) : that.mUpper != null);
+                                                                                          != null
+                                                                                          ?
+                                                                                          !mUpper.equals(that.mUpper) : that.mUpper != null);
 
     }
 

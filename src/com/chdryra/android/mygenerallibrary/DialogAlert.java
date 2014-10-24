@@ -14,15 +14,19 @@ import android.view.ViewGroup;
 
 /**
  * Simple abstract class for building alert dialogs, for example user confirmation requests etc.
- * Need to override <code>getAlertString()</code> to specify the question to the user. Default
+ * Need to override {@link #getAlertString()} to specify the question to the user. Default
  * button actions are "Yes" and "No".
  */
 public abstract class DialogAlert extends DialogTwoButtonFragment {
-    private final ActionType mActionRight = ActionType.YES;
-    private final ActionType mActionLeft  = ActionType.NO;
 
     protected abstract String getAlertString();
 
+    /**
+     * Returns null view to keep alert simply a question and 2 buttons.
+     *
+     * @param parent: irrelevant in this case
+     * @return null
+     */
     @Override
     protected final View createDialogUI(ViewGroup parent) {
         return null;
@@ -31,8 +35,8 @@ public abstract class DialogAlert extends DialogTwoButtonFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRightButtonAction(mActionRight);
-        setLeftButtonAction(mActionLeft);
+        setRightButtonAction(ActionType.YES);
+        setLeftButtonAction(ActionType.NO);
         setDialogTitle(getAlertString());
         dismissDialogOnRightClick();
         dismissDialogOnLeftClick();

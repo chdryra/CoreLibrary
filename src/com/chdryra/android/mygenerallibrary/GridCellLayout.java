@@ -14,11 +14,8 @@ import android.widget.FrameLayout;
 
 /**
  * Explicit nomenclature for a style to use as cells in a GridView utilising the
- * GridViewCellAdapter framework. Declared so that it can be clearly used in XML layout files when
- * defining the look of a grid cell.
- *
- * @see com.chdryra.android.mygenerallibrary.GridViewCellAdapter
- * @see ViewHolderData
+ * {@link GridViewCellAdapter} framework. Declared so that it can be clearly used in XML layout
+ * files when defining the look of a grid cell.
  */
 class GridCellLayout extends FrameLayout {
 

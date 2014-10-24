@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Standardised fragment for an activity with  "Delete", "Done" and "Up" icons in the action bar.
+ * Standard fragment for an activity with  "Delete", "Done" and "Up" icons in the action bar.
  * <p>
  * Shows a "Delete" (bin) and "Done" (tick) icon in the action bar. Also shows an "Up" icon by
  * default effectively allowing a "Cancel" operation. Manages delete confirmation if delete
@@ -166,6 +166,6 @@ public class FragmentDeleteDone extends Fragment {
 
     private void showDeleteConfirmDialog() {
         DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat,
-                FragmentDeleteDone.this, DELETE_CONFIRM, getFragmentManager());
+                                                            FragmentDeleteDone.this, DELETE_CONFIRM, getFragmentManager());
     }
 }

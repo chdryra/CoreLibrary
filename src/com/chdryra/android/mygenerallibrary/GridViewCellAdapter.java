@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 /**
- * Allows a collection of items that follow the GridViewable interface to be viewed as a sorted
- * collection of grid cells in a GridView with a specified cell width and cell height.
+ * Allows a collection of items to be viewed as a sorted collection of grid cells in a GridView
+ * with a specified cell width and cell height.
  * <p/>
  * <p>
  * Uses the ViewHolder pattern in Android for views that use components from a limited
@@ -28,7 +28,6 @@ import android.widget.BaseAdapter;
  * @see <a href="http://developer.android.com/training/improving-layouts/smooth-scrolling
  * .html#ViewHolder">ViewHolder pattern</a>
  * @see com.chdryra.android.mygenerallibrary.ViewHolder
- * @see ViewHolderData
  */
 public class GridViewCellAdapter extends BaseAdapter {
     private final Activity                               mActivity;

@@ -25,16 +25,19 @@ import android.widget.LinearLayout.LayoutParams;
  * A standard unified look and action for 2 button dialogs. Dialogs often have to do quite similar
  * things that rarely require more than 2 or 3 buttons.
  * <p>
- * Subclasses need to override <code>createDialogUI()</code> to return a View (similar to
+ * Subclasses need to override {@link #createDialogUI(android.view.ViewGroup)} to return a View
+ * (similar to
  * <code>onCreateView(.)</code> in fragments) that defines the look of the Dialog. This method
- * is called by <code>onCreateDialog(.)</code> which combines it with the buttons returned by
+ * is called by {@link #onCreateDialog(android.os.Bundle)} which combines it with the buttons
+ * returned by
  * <code>getButtons(.)</code>.
  * </p>
  * <p/>
  * <p>
  * There are a bunch of functions that can be called in the <code>onCreate(.)</code> method when
- * inheriting from this class to tailor the behaviour of the dialog, for example dialog title,
- * button labels, button actions, dismiss dialog on button press etc.
+ * inheriting from this class to tailor the behaviour of the dialog,
+ * for example setting dialog title, button labels, button actions,
+ * dismiss dialog on button press etc.
  * </p>
  */
 public abstract class DialogTwoButtonFragment extends DialogFragment {
@@ -110,6 +113,12 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         setRightButtonAction(ActionType.DONE);
     }
 
+    /**
+     * Calls {@link #buildDialog()}
+     *
+     * @param savedInstanceState: instance state from rotations etc.
+     * @return: built dialog object
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return buildDialog();
@@ -200,7 +209,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         }
 
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode.get(),
-                getReturnData());
+                                             getReturnData());
         mReturnData = null;
 
         if (resultCode.equals(mLeftButtonResult) && mDismissOnLeftClick) {
@@ -253,7 +262,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 
         LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         LayoutParams lp1 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT,
-                1.0f);
+                                            1.0f);
 
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -276,7 +285,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 
         if (mShowKeyboardOnLaunch) {
             dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams
-                    .SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                                                        .SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
 
         return dialog;

@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Standardised 3-button Dialog for "Cancel" (left button), "Add" (middle button),
+ * Standard 3-button Dialog for "Cancel" (left button), "Add" (middle button),
  * "Done" (right button).
  */
 public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDoneFragment {

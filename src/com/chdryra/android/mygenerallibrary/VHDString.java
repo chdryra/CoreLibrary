@@ -9,7 +9,7 @@
 package com.chdryra.android.mygenerallibrary;
 
 /**
- * Wrapper class for Strings that implements GVData.
+ * Wrapper class for Strings that implements {@link ViewHolderData}.
  */
 public class VHDString implements ViewHolderData {
     private final String mString;

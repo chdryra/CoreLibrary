@@ -17,15 +17,13 @@ package com.chdryra.android.mygenerallibrary;
 /**
  * Items that can be in a collection that facilitates the ViewHolder pattern.
  * <p>
- * Provides a ViewHolder and know if the wrapped data is displayable, for example
+ * Provides a {@link ViewHolder} and knows if the wrapped data is displayable, for example
  * nonNull, has appropriate length/size etc.
  * </p>
  * <p>
  * Should also provide appropriate equals/hashcode implementations to ensure correct
  * lookup in a collection.
  * </p>
- *
- * @see com.chdryra.android.mygenerallibrary.ViewHolder
  */
 public interface ViewHolderData {
 

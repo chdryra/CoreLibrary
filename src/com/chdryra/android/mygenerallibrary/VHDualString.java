@@ -11,7 +11,8 @@ package com.chdryra.android.mygenerallibrary;
 import android.widget.TextView;
 
 /**
- * Simple ViewHolder for GVDualString. Displays an upper and lower string.
+ * Simple {@link com.chdryra.android.mygenerallibrary.ViewHolder} for
+ * {@link com.chdryra.android.mygenerallibrary.VHDDualString}. Displays an upper and lower string.
  */
 public class VHDualString extends ViewHolderBasic {
     private static final int LAYOUT   = R.layout.grid_cell_dual_string;

@@ -10,10 +10,10 @@ package com.chdryra.android.mygenerallibrary;
 
 
 /**
- * An iterable, sortable collection of ViewHolderData objects that facilitate the ViewHolder
+ * An iterable, sortable collection of {@link ViewHolderData} objects that facilitate the ViewHolder
  * pattern.
  *
- * @param <T>: a type that implements ViewHolderData.
+ * @param <T>: a type that implements {@link ViewHolderData}.
  */
 public abstract class VHDataList<T extends ViewHolderData> extends SortableList<T> {
 }

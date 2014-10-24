@@ -11,10 +11,11 @@ package com.chdryra.android.mygenerallibrary;
 import android.widget.TextView;
 
 /**
- * Simple ViewHolder for displaying strings on a grid cell. By default it assumes the data will
- * be updated using GVString objects. However, one can construct a string display for more
- * complex GVData by specifying a GVDataStringGetter that knows how to extract a string from the
- * data.
+ * Simple {@link ViewHolder} for displaying strings on a grid cell. By default it assumes the data
+ * will be updated using {@link VHDString} objects. However, one can construct a string display
+ * for more complex {@link com.chdryra.android.mygenerallibrary.ViewHolderData} by specifying a
+ * {@link com.chdryra.android.mygenerallibrary.VHString.VHDataStringGetter} that knows how to
+ * extract a string from the data.
  */
 public class VHString extends ViewHolderBasic {
     private static final int LAYOUT   = R.layout.grid_cell_string_view;
@@ -42,8 +43,11 @@ public class VHString extends ViewHolderBasic {
     }
 
     /**
-     * Simple interface for extracting strings to display on the grid cell from GVData more
-     * complex than GVString.
+     * Simple interface for extracting strings from data more complex than {@link com.chdryra
+     * .android.mygenerallibrary.VHString} in order to use the {@link
+     * com.chdryra.android.mygenerallibrary.VHString} ViewHolder. For example,
+     * simple text display cells in the {@link com.chdryra.android.mygenerallibrary
+     * .GridViewCellAdapter} framework.
      */
     public interface VHDataStringGetter {
         public String getString(ViewHolderData data);

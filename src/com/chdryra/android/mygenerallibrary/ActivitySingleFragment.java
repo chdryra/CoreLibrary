@@ -14,7 +14,7 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 
 /**
- * Activities commonly only have one fragment for the UI (on phones anyway) so this abstract
+ * Activities often only have one fragment for the UI (on phones anyway) so this abstract
  * class takes care of the fragment transaction when Activities are created and populated with a
  * single fragment. Just need to inherit from it and override the <code>createFragment()</code>
  * method. This is a common Android pattern.

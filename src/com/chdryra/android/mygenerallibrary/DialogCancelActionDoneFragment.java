@@ -20,7 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 /**
- * Standardised 3-button Dialog for "Cancel" (left button), specified action (middle button),
+ * Standard 3-button Dialog for "Cancel" (left button), specified action (middle button),
  * "Done" (right button).
  */
 @SuppressWarnings("EmptyMethod")
