@@ -15,13 +15,13 @@ import android.view.ViewGroup;
 
 /**
  * Primary implementation of the {@link com.chdryra.android.mygenerallibrary.ViewHolder}
- * interface for the ViewHolder pattern used in GridViewCellAdapter.
+ * interface for the ViewHolder pattern used in {@link GridViewCellAdapter}.
  * <p/>
  * <p>
- * Need to implement <code>updateView(.)</code> to update the list of updateable views
+ * Need to implement {@link #updateView(ViewHolderData)} to update the list of updateable views
  * (referenced by viewIds passed to the constructor) when new
  * {@link com.chdryra.android.mygenerallibrary.ViewHolderData} is presented.
- * Use <code>getView(int viewId)</code> to retrieve these views once the layout is inflated.
+ * Use {@link  #getView(int)} to retrieve these views once the layout is inflated.
  * </p>
  */
 public abstract class ViewHolderBasic implements ViewHolder {

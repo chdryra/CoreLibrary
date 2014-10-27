@@ -10,7 +10,8 @@ package com.chdryra.android.mygenerallibrary;
 
 
 /**
- * An iterable, sortable collection of {@link ViewHolderData} objects that facilitate the ViewHolder
+ * An iterable, sortable collection of {@link ViewHolderData} objects that facilitate the
+ * {@link ViewHolder}
  * pattern.
  *
  * @param <T>: a type that implements {@link ViewHolderData}.

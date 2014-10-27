@@ -30,11 +30,12 @@ import android.widget.LinearLayout.LayoutParams;
  * <code>onCreateView(.)</code> in fragments) that defines the look of the Dialog. This method
  * is called by {@link #onCreateDialog(android.os.Bundle)} which combines it with the buttons
  * returned by
- * <code>getButtons(.)</code>.
+ * {@link #getButtons(android.view.ViewGroup)}.
  * </p>
  * <p/>
  * <p>
- * There are a bunch of functions that can be called in the <code>onCreate(.)</code> method when
+ * There are a bunch of functions that can be called in the {@link #onCreate(android.os.Bundle)}
+ * method when
  * inheriting from this class to tailor the behaviour of the dialog,
  * for example setting dialog title, button labels, button actions,
  * dismiss dialog on button press etc.
