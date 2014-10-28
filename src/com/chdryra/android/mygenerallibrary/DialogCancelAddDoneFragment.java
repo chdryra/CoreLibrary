@@ -11,7 +11,6 @@ package com.chdryra.android.mygenerallibrary;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 
 /**
  * Standard 3-button Dialog for "Cancel" (left button), "Add" (middle button),
@@ -19,7 +18,7 @@ import android.view.ViewGroup;
  */
 public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDoneFragment {
 
-    protected abstract View createDialogUI(ViewGroup parent);
+    protected abstract View createDialogUI();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

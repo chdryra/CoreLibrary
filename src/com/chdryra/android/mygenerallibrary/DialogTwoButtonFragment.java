@@ -25,7 +25,7 @@ import android.widget.LinearLayout.LayoutParams;
  * A standard unified look and action for 2 button dialogs. Dialogs often have to do quite similar
  * things that rarely require more than 2 or 3 buttons.
  * <p>
- * Subclasses need to override {@link #createDialogUI(android.view.ViewGroup)} to return a View
+ * Subclasses need to override {@link #createDialogUI()} to return a View
  * (similar to
  * <code>onCreateView(.)</code> in fragments) that defines the look of the Dialog. This method
  * is called by {@link #onCreateDialog(android.os.Bundle)} which combines it with the buttons
@@ -97,15 +97,11 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
     /**
      * Subclasses need to override this to return the dialog UI to show above the Dialog buttons.
      *
-     * @param parent: by default a LinearLayout that will be passed that will hold the return View
-     *                followed by the buttons. If the View is inflated from an XML file using a
-     *                layout inflater, "parent" should be passed as the parent ViewGroup parameter
-     *                to the inflater.
      * @return View: the main UI to show above the buttons in the dialog.
      * @see #onCreateDialog(android.os.Bundle)
      * @see #getButtons(android.view.ViewGroup)
      */
-    protected abstract View createDialogUI(ViewGroup parent);
+    protected abstract View createDialogUI();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,7 +114,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
      * Calls {@link #buildDialog()}
      *
      * @param savedInstanceState: instance state from rotations etc.
-     * @return: built dialog object
+     * @return Dialog: built dialog object
      */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -138,22 +134,6 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 
     protected void onRightButtonClick() {
         sendResult(mRightButtonResult);
-    }
-
-    protected void setLeftButtonResultCode(ActivityResultCode resultCode) {
-        mLeftButtonResult = resultCode;
-    }
-
-    protected void setRightButtonResultCode(ActivityResultCode resultCode) {
-        mRightButtonResult = resultCode;
-    }
-
-    public void setLeftButtonText(String leftButtonText) {
-        mLeftButtonText = leftButtonText;
-    }
-
-    public void setRightButtonText(String rightButtonText) {
-        mRightButtonText = rightButtonText;
     }
 
     public void setLeftButtonAction(ActionType action) {
@@ -230,7 +210,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
      *                "parent" should be passed as the parent ViewGroup parameter to the inflater.
      * @return View: the button UI for the Dialog.
      * @see #onCreateDialog(android.os.Bundle)
-     * @see #createDialogUI(android.view.ViewGroup)
+     * @see #createDialogUI()
      */
     protected View getButtons(ViewGroup parent) {
         View buttons = getActivity().getLayoutInflater().inflate(
@@ -271,7 +251,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 
         //Hacky layout params to get listview dialogUIs to render properly.
         //Need to set layout weight of 1 on it...
-        View dialogUi = createDialogUI(layout);
+        View dialogUi = createDialogUI();
         if (dialogUi != null) {
             layout.addView(dialogUi, lp1);
         }
@@ -290,5 +270,13 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         }
 
         return dialog;
+    }
+
+    void clickLeftButton() {
+        mLeftButton.performClick();
+    }
+
+    void clickRightButton() {
+        mRightButton.performClick();
     }
 }

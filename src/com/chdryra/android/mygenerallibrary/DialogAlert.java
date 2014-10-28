@@ -10,7 +10,6 @@ package com.chdryra.android.mygenerallibrary;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 
 /**
  * Simple abstract class for building alert dialogs, for example user confirmation requests etc.
@@ -24,11 +23,10 @@ public abstract class DialogAlert extends DialogTwoButtonFragment {
     /**
      * Returns null view to keep alert simply a question and 2 buttons.
      *
-     * @param parent: irrelevant in this case
      * @return null
      */
     @Override
-    protected final View createDialogUI(ViewGroup parent) {
+    protected final View createDialogUI() {
         return null;
     }
 

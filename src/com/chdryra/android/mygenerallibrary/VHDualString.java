@@ -20,14 +20,14 @@ public class VHDualString extends ViewHolderBasic {
     private              int mUpperID = UPPER;
     private static final int LOWER    = R.id.lower_text_view;
     private              int mLowerID = LOWER;
-    protected TextView mUpper;
-    protected TextView mLower;
+    private TextView mUpper;
+    private TextView mLower;
 
     public VHDualString() {
         super(LAYOUT, new int[]{UPPER, LOWER});
     }
 
-    public VHDualString(int layoutID, int upperTextViewID, int lowerTextViewID) {
+    protected VHDualString(int layoutID, int upperTextViewID, int lowerTextViewID) {
         super(layoutID, new int[]{upperTextViewID, lowerTextViewID});
         mUpperID = upperTextViewID;
         mLowerID = lowerTextViewID;

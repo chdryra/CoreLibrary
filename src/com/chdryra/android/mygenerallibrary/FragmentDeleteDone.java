@@ -160,12 +160,13 @@ public class FragmentDeleteDone extends Fragment {
         mDismissOnDone = dismiss;
     }
 
-    protected void setDismissOnDelete(boolean dismiss) {
-        mDismissOnDelete = dismiss;
+    protected void dismissOnDelete() {
+        mDismissOnDelete = true;
     }
 
     private void showDeleteConfirmDialog() {
         DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat,
-                                                            FragmentDeleteDone.this, DELETE_CONFIRM, getFragmentManager());
+                                                            FragmentDeleteDone.this,
+                                                            DELETE_CONFIRM, getFragmentManager());
     }
 }

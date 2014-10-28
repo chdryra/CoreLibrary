@@ -30,13 +30,13 @@ public class VHString extends ViewHolderBasic {
         initDefaultGetter();
     }
 
-    public VHString(int layoutId, int textViewId) {
+    protected VHString(int layoutId, int textViewId) {
         super(layoutId, new int[]{textViewId});
         mTextViewId = textViewId;
         initDefaultGetter();
     }
 
-    public VHString(int layoutId, int textViewId, VHDataStringGetter getter) {
+    protected VHString(int layoutId, int textViewId, VHDataStringGetter getter) {
         super(layoutId, new int[]{textViewId});
         mTextViewId = textViewId;
         mGetter = getter;

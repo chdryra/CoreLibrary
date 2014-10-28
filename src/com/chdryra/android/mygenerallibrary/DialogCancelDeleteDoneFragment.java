@@ -11,7 +11,6 @@ package com.chdryra.android.mygenerallibrary;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 
 /**
  * Standard 3-button Dialog for "Cancel" (left button), "Delete" (middle button),
@@ -25,7 +24,8 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
     private boolean mDeleteConfirmation = true;
     private String mDeleteWhat;
 
-    protected abstract View createDialogUI(ViewGroup parent);
+    @Override
+    protected abstract View createDialogUI();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,10 +48,6 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
         if (hasDataToDelete()) {
             onDeleteButtonClick();
         }
-    }
-
-    protected void noDeleteConfirmation() {
-        mDeleteConfirmation = false;
     }
 
     protected void onDeleteButtonClick() {
@@ -82,6 +78,7 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
 
     private void showDeleteConfirmDialog() {
         DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat,
-                                                            DialogCancelDeleteDoneFragment.this, DELETE_CONFIRM, getFragmentManager());
+                                                            DialogCancelDeleteDoneFragment.this,
+                                                            DELETE_CONFIRM, getFragmentManager());
     }
 }

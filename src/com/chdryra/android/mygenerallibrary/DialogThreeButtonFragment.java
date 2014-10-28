@@ -17,13 +17,13 @@ import android.widget.Button;
  * 3 button extension of {@link com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment}
  */
 public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment {
-    protected Button             mMiddleButton;
-    private   String             mMiddleButtonText;
-    private   ActivityResultCode mMiddleButtonResult;
+    private Button             mMiddleButton;
+    private String             mMiddleButtonText;
+    private ActivityResultCode mMiddleButtonResult;
     private boolean mDismissOnMiddleClick = false;
 
     @Override
-    protected abstract View createDialogUI(ViewGroup parent);
+    protected abstract View createDialogUI();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,10 +79,6 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
         sendResult(mMiddleButtonResult);
     }
 
-    protected void setMiddleButtonResultCode(ActivityResultCode resultCode) {
-        mMiddleButtonResult = resultCode;
-    }
-
     protected void setMiddleButtonText(String middleButtonText) {
         mMiddleButtonText = middleButtonText;
     }
@@ -94,5 +90,9 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
 
     protected void dismissDialogOnMiddleClick() {
         mDismissOnMiddleClick = true;
+    }
+
+    void clickMiddleButton() {
+        mMiddleButton.performClick();
     }
 }

@@ -9,13 +9,10 @@
 package com.chdryra.android.mygenerallibrary;
 
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -25,11 +22,10 @@ import android.widget.TextView;
  */
 @SuppressWarnings("EmptyMethod")
 public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFragment {
-    private Button mActionButton;
-    private Button mDoneButton;
     private boolean mActionOnDone = false;
 
-    protected abstract View createDialogUI(ViewGroup parent);
+    @Override
+    protected abstract View createDialogUI();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,15 +46,6 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        mActionButton = mMiddleButton;
-        mDoneButton = mRightButton;
-
-        return dialog;
-    }
-
-    @Override
     protected final void onLeftButtonClick() {
         onCancelButtonClick();
         super.onLeftButtonClick();
@@ -67,7 +54,7 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
     @Override
     protected final void onRightButtonClick() {
         if (mActionOnDone) {
-            mActionButton.performClick();
+            clickMiddleButton();
         }
         onDoneButtonClick();
         super.onRightButtonClick();
@@ -104,7 +91,7 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_GO) {
-                    mActionButton.performClick();
+                    clickMiddleButton();
                 }
                 return false;
             }
@@ -117,7 +104,7 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    mDoneButton.performClick();
+                    clickRightButton();
                 }
                 return false;
             }

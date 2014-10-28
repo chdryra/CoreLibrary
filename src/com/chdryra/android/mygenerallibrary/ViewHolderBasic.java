@@ -28,7 +28,7 @@ public abstract class ViewHolderBasic implements ViewHolder {
     private final int               mLayout;
     private final int[]             mUpdateableViewIds;
     private final SparseArray<View> mUpdateableViews;
-    protected     View              mInflated;
+    private       View              mInflated;
 
     protected ViewHolderBasic(int layoutId, int[] viewIds) {
         mLayout = layoutId;

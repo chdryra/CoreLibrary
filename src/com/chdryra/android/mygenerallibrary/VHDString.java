@@ -14,7 +14,7 @@ package com.chdryra.android.mygenerallibrary;
 public class VHDString implements ViewHolderData {
     private final String mString;
 
-    public VHDString() {
+    protected VHDString() {
         mString = null;
     }
 

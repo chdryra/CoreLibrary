@@ -23,7 +23,7 @@ public abstract class SortableList<T> implements Iterable<T> {
     protected final LinkedList<T> mData     = new LinkedList<T>();
     private         boolean       mIsSorted = false;
 
-    public SortableList() {
+    protected SortableList() {
 
     }
 
@@ -48,7 +48,7 @@ public abstract class SortableList<T> implements Iterable<T> {
         public void remove() {
             if (position <= 0) {
                 throw new IllegalStateException("Have to do at least one next() before you can " +
-                        "delete");
+                                                "delete");
             } else {
                 mData.remove((getItem(position - 1)));
             }
@@ -60,7 +60,7 @@ public abstract class SortableList<T> implements Iterable<T> {
         mIsSorted = false;
     }
 
-    public void add(SortableList<T> list) {
+    protected void add(SortableList<T> list) {
         for (T item : list) {
             mData.add(item);
         }
@@ -80,10 +80,6 @@ public abstract class SortableList<T> implements Iterable<T> {
         return mData.contains(item);
     }
 
-    public int indexOf(T item) {
-        return mData.indexOf(item);
-    }
-
     public int size() {
         return mData.size();
     }
@@ -96,7 +92,7 @@ public abstract class SortableList<T> implements Iterable<T> {
         sort(getDefaultComparator());
     }
 
-    public void sort(Comparator<T> comparator) {
+    void sort(Comparator<T> comparator) {
         if (!isSorted()) {
             Collections.sort(mData, comparator);
         }
@@ -116,7 +112,7 @@ public abstract class SortableList<T> implements Iterable<T> {
         };
     }
 
-    public boolean isSorted() {
+    boolean isSorted() {
         return mIsSorted;
     }
 
