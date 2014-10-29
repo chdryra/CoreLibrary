@@ -23,7 +23,8 @@ import com.google.android.gms.maps.model.LatLng;
  * Handles connection to Google Play services for Places API lookup tasks.
  */
 public class LocationClientConnector implements GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener {
+                                                GooglePlayServicesClient
+                                                        .OnConnectionFailedListener {
 
     private static final String TAG                                   = "LocationClientConnector";
     private static final int    MAX_CONNECTION_TRIES                  = 3;
@@ -75,14 +76,14 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
         if (connectionResult.hasResolution()) {
             try {
                 connectionResult.startResolutionForResult(mActivity,
-                        CONNECTION_FAILURE_RESOLUTION_REQUEST);
+                                                          CONNECTION_FAILURE_RESOLUTION_REQUEST);
             } catch (IntentSender.SendIntentException e) {
                 if (++mNumberConnectionTries < MAX_CONNECTION_TRIES) {
                     Log.i(TAG, "Problems contacting location services. Trying again...");
                     mLocationClient.connect();
                 } else {
                     Log.e(TAG, "Tried contacting location services " + MAX_CONNECTION_TRIES + "" +
-                            " times. Problems persist.", e);
+                               " times. Problems persist.", e);
                 }
             }
         } else {
@@ -96,7 +97,7 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
         Location location = mLocationClient.getLastLocation();
         if (location != null) {
             mLocatable.onLocationClientConnected(new LatLng(location.getLatitude(),
-                    location.getLongitude()));
+                                                            location.getLongitude()));
         }
 
         Log.i(TAG, "LocationClient connected");

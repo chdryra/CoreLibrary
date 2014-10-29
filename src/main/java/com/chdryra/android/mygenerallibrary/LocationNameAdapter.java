@@ -86,7 +86,7 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
             Integer numberToGet = params[0];
 
             ArrayList<String> namesFromGoogle = FetcherPlacesAPI.fetchNearestNames(mLatLng,
-                    numberToGet);
+                                                                                   numberToGet);
 
             if (namesFromGoogle.size() > 0) {
                 return namesFromGoogle;
@@ -97,14 +97,14 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
                 List<Address> addresses = null;
                 try {
                     addresses = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude,
-                            numberToGet);
+                                                         numberToGet);
                 } catch (IOException e1) {
                     Log.e(TAG, "IOException: trying to get address using latitude " + mLatLng
                             .latitude + ", longitude " + mLatLng.longitude, e1);
                     Log.i(TAG, "Address is null");
                 } catch (IllegalArgumentException e2) {
                     Log.e(TAG, "IllegalArgumentException: trying to get address using latitude " +
-                            mLatLng.latitude + ", longitude " + mLatLng.longitude, e2);
+                               mLatLng.latitude + ", longitude " + mLatLng.longitude, e2);
                     Log.i(TAG, "Address is null");
                 }
 
@@ -214,9 +214,9 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
                 "%s%s",
                 // If there's a street address, add it
                 address.getMaxAddressLineIndex() > 0 ?
-                        address.getAddressLine(0) : "",
+                address.getAddressLine(0) : "",
                 // Locality is usually a city
                 address.getLocality() != null ?
-                        ", " + address.getLocality() : "");
+                ", " + address.getLocality() : "");
     }
 }

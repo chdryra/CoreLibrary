@@ -102,7 +102,7 @@ public class ImageHelper {
 
         try {
             return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
-                    matrix, true);
+                                       matrix, true);
         } catch (OutOfMemoryError e) {
             Log.i(TAG, "OutOfMemoryError: trying to rotate bitmap. Returning original bitmap");
             e.printStackTrace();
@@ -244,7 +244,7 @@ public class ImageHelper {
             final int halfWidth = width / 2;
 
             while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
+                   && (halfWidth / inSampleSize) > reqWidth) {
                 inSampleSize *= 2;
             }
         }
