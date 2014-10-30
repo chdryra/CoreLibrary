@@ -10,6 +10,7 @@ apply plugin: 'com.android.library'
 
 dependencies {
     compile project(':RemoteAPIFetchers')
+    //compile project('C/Dev/Android/RemoteAPIFetchers')
 }
 
 android {
