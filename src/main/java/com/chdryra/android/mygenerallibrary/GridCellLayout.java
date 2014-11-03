@@ -17,7 +17,7 @@ import android.widget.FrameLayout;
  * {@link GridViewCellAdapter} framework. Declared so that it can be clearly used in XML layout
  * files when defining the look of a grid cell.
  */
-class GridCellLayout extends FrameLayout {
+public class GridCellLayout extends FrameLayout {
 
     public GridCellLayout(Context context) {
         super(context);
