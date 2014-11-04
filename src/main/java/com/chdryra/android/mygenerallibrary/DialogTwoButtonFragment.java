@@ -272,11 +272,11 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         return dialog;
     }
 
-    void clickLeftButton() {
+    public void clickLeftButton() {
         mLeftButton.performClick();
     }
 
-    void clickRightButton() {
+    public void clickRightButton() {
         mRightButton.performClick();
     }
 }

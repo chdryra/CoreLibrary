@@ -20,23 +20,21 @@ import android.os.Bundle;
  * method. This is a common Android pattern.
  */
 public abstract class ActivitySingleFragment extends Activity {
+    public static final int FRAGMENT_ID = R.id.fragmentContainer;
+
     protected abstract Fragment createFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutResId());
+        setContentView(R.layout.activity_fragment);
 
         FragmentManager fm = getFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
+        Fragment fragment = fm.findFragmentById(FRAGMENT_ID);
 
         if (fragment == null) {
             fragment = createFragment();
-            fm.beginTransaction().add(R.id.fragmentContainer, fragment).commit();
+            fm.beginTransaction().add(FRAGMENT_ID, fragment).commit();
         }
-    }
-
-    private int getLayoutResId() {
-        return R.layout.activity_fragment;
     }
 }

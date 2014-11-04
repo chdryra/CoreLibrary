@@ -20,7 +20,7 @@ import android.os.Bundle;
  * the default confirmation dialog. This is preferable to constructing the dialog yourself.
  * </p>
  */
-public class DialogDeleteConfirmFragment extends DialogAlert {
+public class DialogDeleteConfirmFragment extends DialogAlertFragment {
     public static final  ActionType DELETE_CONFIRM     = ActionType.YES;
     private static final String     DELETE_WHAT        = "com.chdryra.android.mygenerallibrary" +
                                                          ".delete_what";
@@ -48,7 +48,7 @@ public class DialogDeleteConfirmFragment extends DialogAlert {
     }
 
     @Override
-    protected String getAlertString() {
+    public String getAlertString() {
         String deleteWhat = getArguments().getString(DELETE_WHAT);
         return deleteWhat != null ? DELETE + " " + deleteWhat + "?" : DELETE + "?";
     }

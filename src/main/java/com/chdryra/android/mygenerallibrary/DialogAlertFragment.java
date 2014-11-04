@@ -16,8 +16,7 @@ import android.view.View;
  * Need to override {@link #getAlertString()} to specify the question to the user. Default
  * button actions are "Yes" and "No".
  */
-public abstract class DialogAlert extends DialogTwoButtonFragment {
-
+public abstract class DialogAlertFragment extends DialogTwoButtonFragment {
     protected abstract String getAlertString();
 
     /**
