@@ -42,6 +42,9 @@ import android.widget.LinearLayout.LayoutParams;
  * </p>
  */
 public abstract class DialogTwoButtonFragment extends DialogFragment {
+    public static final ActionType LEFT_BUTTON_DEFAULT  = ActionType.CANCEL;
+    public static final ActionType RIGHT_BUTTON_DEFAULT = ActionType.DONE;
+
     protected Button mLeftButton;
     protected Button mRightButton;
 
@@ -57,7 +60,6 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
     private String mDialogTitle;
     private Intent mReturnData;
 
-    private boolean mNoTitle              = true;
     private boolean mShowKeyboardOnLaunch = true;
 
     /**
@@ -106,8 +108,8 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setLeftButtonAction(ActionType.CANCEL);
-        setRightButtonAction(ActionType.DONE);
+        setLeftButtonAction(LEFT_BUTTON_DEFAULT);
+        setRightButtonAction(RIGHT_BUTTON_DEFAULT);
     }
 
     /**
@@ -151,12 +153,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
     }
 
     public void setDialogTitle(String dialogTitle) {
-        if (dialogTitle != null) {
-            mDialogTitle = dialogTitle;
-            mNoTitle = false;
-        } else {
-            mNoTitle = true;
-        }
+        mDialogTitle = dialogTitle;
     }
 
     public void hideKeyboardOnLaunch() {
@@ -257,7 +254,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         }
         layout.addView(getButtons(layout), lp);
 
-        if (mNoTitle) {
+        if (mDialogTitle == null || mDialogTitle.length() == 0) {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
 
@@ -278,5 +275,13 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 
     public void clickRightButton() {
         mRightButton.performClick();
+    }
+
+    public String getLeftButtonText() {
+        return (String) mLeftButton.getText();
+    }
+
+    public String getRightButtonText() {
+        return (String) mRightButton.getText();
     }
 }

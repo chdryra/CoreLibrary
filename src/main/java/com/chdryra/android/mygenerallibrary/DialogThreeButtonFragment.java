@@ -17,6 +17,8 @@ import android.widget.Button;
  * 3 button extension of {@link com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment}
  */
 public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment {
+    public static final ActionType MIDDLE_BUTTON_DEFAULT = ActionType.OTHER;
+
     private Button             mMiddleButton;
     private String             mMiddleButtonText;
     private ActivityResultCode mMiddleButtonResult;
@@ -28,7 +30,7 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setMiddleButtonAction(ActionType.OTHER);
+        setMiddleButtonAction(MIDDLE_BUTTON_DEFAULT);
     }
 
     @Override
@@ -79,10 +81,6 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
         sendResult(mMiddleButtonResult);
     }
 
-    protected void setMiddleButtonText(String middleButtonText) {
-        mMiddleButtonText = middleButtonText;
-    }
-
     protected void setMiddleButtonAction(ActionType action) {
         mMiddleButtonText = getTitleForAction(action);
         mMiddleButtonResult = action.getResultCode();
@@ -92,7 +90,15 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
         mDismissOnMiddleClick = true;
     }
 
-    void clickMiddleButton() {
+    public void clickMiddleButton() {
         mMiddleButton.performClick();
+    }
+
+    public String getMiddleButtonText() {
+        return (String) mMiddleButton.getText();
+    }
+
+    protected void setMiddleButtonText(String middleButtonText) {
+        mMiddleButtonText = middleButtonText;
     }
 }
