@@ -187,7 +187,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         }
 
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode.get(),
-                                             getReturnData());
+                getReturnData());
         mReturnData = null;
 
         if (resultCode.equals(mLeftButtonResult) && mDismissOnLeftClick) {
@@ -240,7 +240,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 
         LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         LayoutParams lp1 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT,
-                                            1.0f);
+                1.0f);
 
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -263,7 +263,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 
         if (mShowKeyboardOnLaunch) {
             dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams
-                                                        .SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                    .SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
 
         return dialog;
