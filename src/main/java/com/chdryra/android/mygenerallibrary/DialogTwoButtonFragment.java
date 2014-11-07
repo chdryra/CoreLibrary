@@ -42,8 +42,8 @@ import android.widget.LinearLayout.LayoutParams;
  * </p>
  */
 public abstract class DialogTwoButtonFragment extends DialogFragment {
-    public static final ActionType LEFT_BUTTON_DEFAULT  = ActionType.CANCEL;
-    public static final ActionType RIGHT_BUTTON_DEFAULT = ActionType.DONE;
+    public static final ActionType LEFT_BUTTON_DEFAULT_ACTION  = ActionType.CANCEL;
+    public static final ActionType RIGHT_BUTTON_DEFAULT_ACTION = ActionType.DONE;
 
     protected Button mLeftButton;
     protected Button mRightButton;
@@ -108,8 +108,8 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setLeftButtonAction(LEFT_BUTTON_DEFAULT);
-        setRightButtonAction(RIGHT_BUTTON_DEFAULT);
+        setLeftButtonAction(LEFT_BUTTON_DEFAULT_ACTION);
+        setRightButtonAction(RIGHT_BUTTON_DEFAULT_ACTION);
     }
 
     /**

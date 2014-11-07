@@ -22,11 +22,12 @@ import android.os.Bundle;
  */
 public class DialogDeleteConfirmFragment extends DialogAlertFragment {
     public static final  ActionType DELETE_CONFIRM     = ActionType.YES;
+    public static final ActionType DELETE_CANCEL = ActionType.CANCEL;
     private static final String     DELETE_WHAT        = "com.chdryra.android.mygenerallibrary" +
                                                          ".delete_what";
     private static final String     DELETE             = "Delete";
     private static final String     DELETE_CONFIRM_TAG = "DeleteConfirm";
-    private static final ActionType DELETE_CANCEL      = ActionType.CANCEL;
+
 
     /**
      * Shows a standard delete confirm dialog. This should be used rather than the constructor.
@@ -49,7 +50,11 @@ public class DialogDeleteConfirmFragment extends DialogAlertFragment {
 
     @Override
     public String getAlertString() {
-        String deleteWhat = getArguments().getString(DELETE_WHAT);
+        String deleteWhat = null;
+        if (getArguments() != null) {
+            deleteWhat = getArguments().getString(DELETE_WHAT);
+        }
+
         return deleteWhat != null ? DELETE + " " + deleteWhat + "?" : DELETE + "?";
     }
 

@@ -17,7 +17,7 @@ import android.widget.Button;
  * 3 button extension of {@link com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment}
  */
 public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment {
-    public static final ActionType MIDDLE_BUTTON_DEFAULT = ActionType.OTHER;
+    public static final ActionType MIDDLE_BUTTON_DEFAULT_ACTION = ActionType.OTHER;
 
     private Button             mMiddleButton;
     private String             mMiddleButtonText;
@@ -30,7 +30,7 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setMiddleButtonAction(MIDDLE_BUTTON_DEFAULT);
+        setMiddleButtonAction(MIDDLE_BUTTON_DEFAULT_ACTION);
     }
 
     @Override

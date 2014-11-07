@@ -17,6 +17,9 @@ import android.view.View;
  * button actions are "Yes" and "No".
  */
 public abstract class DialogAlertFragment extends DialogTwoButtonFragment {
+    public static final ActionType NEGATIVE_ACTION = ActionType.NO;
+    public static final ActionType POSITVE_ACTION  = ActionType.YES;
+
     protected abstract String getAlertString();
 
     /**
@@ -32,11 +35,11 @@ public abstract class DialogAlertFragment extends DialogTwoButtonFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRightButtonAction(ActionType.YES);
-        setLeftButtonAction(ActionType.NO);
-        setDialogTitle(getAlertString());
-        dismissDialogOnRightClick();
+        setLeftButtonAction(NEGATIVE_ACTION);
+        setRightButtonAction(POSITVE_ACTION);
         dismissDialogOnLeftClick();
+        dismissDialogOnRightClick();
+        setDialogTitle(getAlertString());
         hideKeyboardOnLaunch();
     }
 }
