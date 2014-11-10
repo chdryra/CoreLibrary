@@ -25,6 +25,14 @@ import android.view.ViewGroup;
  * </p>
  */
 public class FragmentDeleteDone extends Fragment {
+    public static final int                MENU_ID        = R.menu.menu_delete_done;
+    public static final int                MENU_UP_ID     = android.R.id.home;
+    public static final int                MENU_DELETE_ID = R.id.menu_item_delete;
+    public static final int                MENU_DONE_ID   = R.id.menu_item_done;
+    public static final ActivityResultCode RESULT_UP      = ActivityResultCode.UP;
+    public static final ActivityResultCode RESULT_DELETE  = ActivityResultCode.DELETE;
+    public static final ActivityResultCode RESULT_DONE    = ActivityResultCode.DONE;
+
     private static final int DELETE_CONFIRM = 0;
 
     private boolean mDismissOnDone   = true;
@@ -74,23 +82,23 @@ public class FragmentDeleteDone extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_delete_done, menu);
+        inflater.inflate(MENU_ID, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == android.R.id.home) {
+        if (itemId == MENU_UP_ID) {
             doUpSelected();
             return true;
-        } else if (itemId == R.id.menu_item_delete) {
+        } else if (itemId == MENU_DELETE_ID) {
             if (hasDataToDelete()) {
                 showDeleteConfirmDialog();
             } else {
                 doDeleteSelected();
             }
             return true;
-        } else if (itemId == R.id.menu_item_done) {
+        } else if (itemId == MENU_DONE_ID) {
             doDoneSelected();
             return true;
         } else {
@@ -100,14 +108,14 @@ public class FragmentDeleteDone extends Fragment {
 
     private void doUpSelected() {
         onUpSelected();
-        sendResult(ActivityResultCode.UP);
+        sendResult(RESULT_UP);
         getActivity().finish();
     }
 
     private void doDeleteSelected() {
         if (hasDataToDelete()) {
             onDeleteSelected();
-            sendResult(ActivityResultCode.DELETE);
+            sendResult(RESULT_DELETE);
             if (mDismissOnDelete) {
                 getActivity().finish();
             }
@@ -116,7 +124,7 @@ public class FragmentDeleteDone extends Fragment {
 
     private void doDoneSelected() {
         onDoneSelected();
-        sendResult(ActivityResultCode.DONE);
+        sendResult(RESULT_DONE);
         if (mDismissOnDone) {
             getActivity().finish();
         }
@@ -127,18 +135,18 @@ public class FragmentDeleteDone extends Fragment {
     }
 
     protected void sendResult(ActivityResultCode resultCode) {
-        getActivity().setResult(resultCode.get(), getCurrentReturnDataIntent());
+        getActivity().setResult(resultCode.get(), getCurrentReturnData());
     }
 
-    protected Intent getCurrentReturnDataIntent() {
+    protected Intent getCurrentReturnData() {
         if (mReturnData == null) {
-            return getNewReturnDataIntent();
+            return getNewReturnData();
         } else {
             return mReturnData;
         }
     }
 
-    protected Intent getNewReturnDataIntent() {
+    protected Intent getNewReturnData() {
         mReturnData = new Intent();
         return mReturnData;
     }

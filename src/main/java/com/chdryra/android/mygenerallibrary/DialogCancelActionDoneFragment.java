@@ -23,7 +23,7 @@ import android.widget.TextView;
 @SuppressWarnings("EmptyMethod")
 public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFragment {
     public static ActionType CANCEL_ACTION      = ActionType.CANCEL;
-    public static ActionType DEFAULT_ACTION     = ActionType.OTHER;
+    public static ActionType ACTION_ACTION = ActionType.OTHER;
     public static ActionType DONE_ACTION        = ActionType.DONE;
     public static int        KEYBOARD_DO_ACTION = EditorInfo.IME_ACTION_GO;
     public static int        KEYBOARD_DO_DONE   = EditorInfo.IME_ACTION_DONE;
@@ -38,7 +38,7 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         super.onCreate(savedInstanceState);
 
         setLeftButtonAction(CANCEL_ACTION);
-        setMiddleButtonAction(DEFAULT_ACTION);
+        setMiddleButtonAction(ACTION_ACTION);
         setRightButtonAction(DONE_ACTION);
 
         dismissDialogOnLeftClick();

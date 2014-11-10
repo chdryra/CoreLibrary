@@ -19,9 +19,9 @@ import android.view.View;
  * and {@link #hasDataToDelete()} returns true.
  */
 public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionDoneFragment {
-    private static final int DELETE_CONFIRM = 0;
+    public static final ActionType DELETE_ACTION               = ActionType.DELETE;
+    public static final int        DELETE_CONFIRM_REQUEST_CODE = 0;
 
-    private boolean mDeleteConfirmation = true;
     private String mDeleteWhat;
 
     @Override
@@ -30,13 +30,13 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setActionButtonAction(ActionType.DELETE);
+        setActionButtonAction(DELETE_ACTION);
         dismissDialogOnActionClick();
     }
 
     @Override
     protected final void onMiddleButtonClick() {
-        if (hasDataToDelete() && mDeleteConfirmation) {
+        if (hasDataToDelete()) {
             showDeleteConfirmDialog();
         } else {
             super.onMiddleButtonClick();
@@ -46,11 +46,11 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
     @Override
     protected final void onActionButtonClick() {
         if (hasDataToDelete()) {
-            onDeleteButtonClick();
+            onConfirmedDeleteButtonClick();
         }
     }
 
-    protected void onDeleteButtonClick() {
+    protected void onConfirmedDeleteButtonClick() {
     }
 
     protected boolean hasDataToDelete() {
@@ -59,26 +59,26 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
 
     public void setDeleteWhatTitle(String deleteWhat) {
         mDeleteWhat = deleteWhat;
-        mDeleteConfirmation = true;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case DELETE_CONFIRM:
-                if (DialogDeleteConfirmFragment.DELETE_CONFIRM.getResultCode().equals(resultCode)) {
-                    super.onMiddleButtonClick();
-                }
-                break;
-            default:
-                super.onActivityResult(requestCode, resultCode, data);
-                break;
+        if (requestCode == DELETE_CONFIRM_REQUEST_CODE) {
+            if (DialogDeleteConfirmFragment.DELETE_CONFIRM.getResultCode().equals(resultCode)) {
+                super.onMiddleButtonClick();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
     private void showDeleteConfirmDialog() {
         DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat,
-                                                            DialogCancelDeleteDoneFragment.this,
-                                                            DELETE_CONFIRM, getFragmentManager());
+                DialogCancelDeleteDoneFragment.this, DELETE_CONFIRM_REQUEST_CODE,
+                getFragmentManager());
+    }
+
+    public void clickDeleteButton() {
+        clickActionButton();
     }
 }

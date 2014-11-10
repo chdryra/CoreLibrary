@@ -22,12 +22,11 @@ import android.os.Bundle;
  */
 public class DialogDeleteConfirmFragment extends DialogAlertFragment {
     public static final  ActionType DELETE_CONFIRM     = ActionType.YES;
-    public static final ActionType DELETE_CANCEL = ActionType.CANCEL;
+    public static final  ActionType DELETE_CANCEL      = ActionType.CANCEL;
+    public static final  String     DELETE_CONFIRM_TAG = "DeleteConfirm";
     private static final String     DELETE_WHAT        = "com.chdryra.android.mygenerallibrary" +
-                                                         ".delete_what";
+            ".delete_what";
     private static final String     DELETE             = "Delete";
-    private static final String     DELETE_CONFIRM_TAG = "DeleteConfirm";
-
 
     /**
      * Shows a standard delete confirm dialog. This should be used rather than the constructor.
@@ -39,7 +38,7 @@ public class DialogDeleteConfirmFragment extends DialogAlertFragment {
      * @param fragmentManager: The fragment manager that handles the showing of the dialog.
      */
     public static void showDeleteConfirmDialog(String deleteWhat, Fragment targetFragment,
-                                               int requestCode, FragmentManager fragmentManager) {
+            int requestCode, FragmentManager fragmentManager) {
         DialogDeleteConfirmFragment dialog = new DialogDeleteConfirmFragment();
         Bundle args = new Bundle();
         args.putString(DELETE_WHAT, deleteWhat);
@@ -63,5 +62,13 @@ public class DialogDeleteConfirmFragment extends DialogAlertFragment {
         super.onCreate(savedInstanceState);
         setRightButtonAction(DELETE_CONFIRM);
         setLeftButtonAction(DELETE_CANCEL);
+    }
+
+    public void clickConfirmButton() {
+        clickRightButton();
+    }
+
+    public void clickCancelButton() {
+        clickLeftButton();
     }
 }

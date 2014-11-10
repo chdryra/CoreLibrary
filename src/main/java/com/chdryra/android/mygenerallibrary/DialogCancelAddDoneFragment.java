@@ -17,13 +17,14 @@ import android.view.View;
  * "Done" (right button).
  */
 public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDoneFragment {
+    public static final ActionType ADD_ACTION = ActionType.ADD;
 
     protected abstract View createDialogUI();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setActionButtonAction(ActionType.ADD);
+        setActionButtonAction(ADD_ACTION);
         performActionOnDone();
     }
 
@@ -33,5 +34,9 @@ public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDone
     }
 
     protected void onAddButtonClick() {
+    }
+
+    public void clickAddButton() {
+        clickActionButton();
     }
 }
