@@ -15,12 +15,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 /**
- * Allows a collection of items to be viewed as a sorted collection of grid cells in a GridView
- * with a specified cell width and cell height.
+ * Allows a collection of items to be viewed as a sorted collection of views with a specified view
+ * width and height.
  * <p/>
  * <p>
  * Uses the ViewHolder pattern in Android for views that use components from a limited
- * reusable pool. Grid cell views are only searched for and inflated once then stored in the
+ * reusable pool. Item views are only searched for and inflated once then stored in the
  * tags of the reuseable objects. The data within these is overwritten with whatever is
  * required for their reuse. Aids memory and speed performance.
  * </p>
@@ -29,18 +29,18 @@ import android.widget.BaseAdapter;
  * .html#ViewHolder">ViewHolder pattern</a>
  * @see com.chdryra.android.mygenerallibrary.ViewHolder
  */
-public class GridViewCellAdapter extends BaseAdapter {
+public class ViewHolderAdapter extends BaseAdapter {
     private final Activity                               mActivity;
-    private final int                                    mCellWidth;
-    private final int                                    mCellHeight;
+    private final int mViewWidth;
+    private final int mViewHeight;
     private       SortableList<? extends ViewHolderData> mData;
 
-    public GridViewCellAdapter(Activity activity, SortableList<? extends ViewHolderData> data,
-                               int cellWidth, int cellHeight) {
+    public ViewHolderAdapter(Activity activity, SortableList<? extends ViewHolderData> data,
+            int viewWidth, int viewHeight) {
         mActivity = activity;
         mData = data;
-        mCellWidth = cellWidth;
-        mCellHeight = cellHeight;
+        mViewWidth = viewWidth;
+        mViewHeight = viewHeight;
     }
 
     public void setData(SortableList<? extends ViewHolderData> data) {
@@ -80,8 +80,8 @@ public class GridViewCellAdapter extends BaseAdapter {
         vh.updateView(data);
         convertView = vh.getView();
         convertView.setTag(vh);
-        convertView.getLayoutParams().height = mCellHeight;
-        convertView.getLayoutParams().width = mCellWidth;
+        convertView.getLayoutParams().height = mViewHeight;
+        convertView.getLayoutParams().width = mViewWidth;
 
         return convertView;
     }

@@ -8,14 +8,10 @@
 
 package com.chdryra.android.mygenerallibrary;
 
-import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -36,22 +32,116 @@ public class ImageHelper {
     protected ImageHelper() {
     }
 
-    protected static String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
+    public ImageHelper(String imageFilePath) {
+        setImageFilePath(imageFilePath);
     }
 
-    private static Bitmap rotateBitmapUsingExif(String imageFilePath, Bitmap bitmap) {
+    public String getImageFilePath() {
+        return mImageFilePath;
+    }
+
+    protected void setImageFilePath(String imageFilePath) {
+        mImageFilePath = imageFilePath;
+        mEXIF = null;
+        getEXIF();
+    }
+
+    public boolean bitmapExists() {
+        BitmapFactory.Options options = getInDecodeBoundsOptions();
+        BitmapFactory.decodeFile(mImageFilePath, options);
+        return options.outHeight != -1;
+    }
+
+    public Bitmap getBitmap(int maxWidth, int maxHeight) {
+        BitmapFactory.Options options = getInDecodeBoundsOptions();
+        options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);
+        options.inJustDecodeBounds = false;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(mImageFilePath, options);
+        bitmap = rotateBitmapUsingExif(mImageFilePath, bitmap);
+
+        return bitmap;
+    }
+
+    public LatLng getLatLngFromEXIF() {
+        LatLng latlng = null;
+        EXIFtoLatLngConverter converter = new EXIFtoLatLngConverter(getEXIF());
+
+        if (converter.isValid()) latlng = converter.getLatLng();
+
+        return latlng;
+    }
+
+    public ExifInterface getEXIF() {
+        if (mImageFilePath != null) {
+            if (mEXIF == null) {
+                try {
+                    mEXIF = new ExifInterface(mImageFilePath);
+                } catch (IOException e) {
+                    //OK for EXIF to be null if none found
+                    Log.i(TAG, "IOEXception: No EXIF found in " + mImageFilePath);
+                }
+            }
+        } else {
+            mEXIF = null;
+        }
+
+        return mEXIF;
+    }
+
+    public boolean createImageFile() throws IOException {
+        File file = new File(mImageFilePath);
+        try {
+            if (!file.exists() && mImageFilePath != null) {
+                if (file.getParentFile().mkdirs()) Log.i(TAG, "Created " + mImageFilePath);
+                return file.createNewFile();
+            }
+        } catch (IOException e) {
+            //Caller should handle exception
+            throw new IOException(ERROR_CREATING_FILE_MESSAGE, e);
+        }
+
+        return false;
+    }
+
+    public void deleteImageFile() {
+        File file = new File(mImageFilePath);
+        if (file.exists() && !file.delete()) {
+            Log.i(TAG, "Problem deleting file: " + mImageFilePath);
+        }
+
+        mImageFilePath = null;
+        mEXIF = null;
+    }
+
+    private BitmapFactory.Options getInDecodeBoundsOptions() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(mImageFilePath, options);
+
+        return options;
+    }
+
+    private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+        return inSampleSize;
+    }
+
+
+    private Bitmap rotateBitmapUsingExif(String imageFilePath, Bitmap bitmap) {
         ExifInterface exif = null;
         try {
             exif = new ExifInterface(imageFilePath);
@@ -102,174 +192,11 @@ public class ImageHelper {
 
         try {
             return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
-                                       matrix, true);
+                    matrix, true);
         } catch (OutOfMemoryError e) {
             Log.i(TAG, "OutOfMemoryError: trying to rotate bitmap. Returning original bitmap");
             e.printStackTrace();
             return bitmap;
         }
-    }
-
-    /**
-     * Converts image EXIF data to LatLng objects.
-     */
-    private class EXIFtoLatLngConverter {
-        private boolean mIsValid = false;
-        private Double mLatitude, mLongitude;
-
-        public EXIFtoLatLngConverter(ExifInterface exif) {
-            String lat = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
-            String latRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
-            String lng = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
-            String lngRef = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
-
-            if (lat != null && latRef != null && lng != null && lngRef != null) {
-                mIsValid = true;
-
-                //Latitude in [-90,+90] depending on hemisphere
-                //Latitude in [-180,+180] depending on hemisphere
-                mLatitude = latRef.equals("N") ? toDegreesDecimal(lat) : -toDegreesDecimal(lat);
-                mLongitude = lngRef.equals("E") ? toDegreesDecimal(lng) : -toDegreesDecimal(lng);
-            }
-        }
-
-        private Double toDegreesDecimal(String DMS) {
-            //Want degree decimal format from rational DMS format.
-            //Exif: in ""degrees, minutes, seconds"" (DMS) in rational format.
-            //Degree Decimal = degrees + minutes/60 + seconds/3600.
-
-            String[] sDMS = DMS.split(",", 3);
-            String[] sD = sDMS[0].split("/", 2);
-            String[] sM = sDMS[1].split("/", 2);
-            String[] sS = sDMS[2].split("/", 2);
-
-            Double degrees = Double.valueOf(sD[0]) / Double.valueOf(sD[1]);
-            Double minutes = Double.valueOf(sM[0]) / Double.valueOf(sM[1]);
-            Double seconds = Double.valueOf(sS[0]) / Double.valueOf(sS[1]);
-
-            return degrees + (minutes / 60) + (seconds / 3600);
-        }
-
-        public LatLng getLatLng() {
-            if (isValid()) {
-                return new LatLng(mLatitude, mLongitude);
-            } else {
-                return null;
-            }
-        }
-
-        public boolean isValid() {
-            return mIsValid;
-        }
-    }
-
-    protected String getImageFilePath() {
-        return mImageFilePath;
-    }
-
-    protected void setImageFilePath(String imageFilePath) {
-        mImageFilePath = imageFilePath;
-        mEXIF = null;
-        getEXIF();
-    }
-
-    ExifInterface getEXIF() {
-        if (mImageFilePath != null) {
-            if (mEXIF == null) {
-                try {
-                    mEXIF = new ExifInterface(mImageFilePath);
-                } catch (IOException e) {
-                    //OK for EXIF to be null if none found
-                    Log.i(TAG, "IOEXception: No EXIF found in " + mImageFilePath);
-                }
-            }
-        } else {
-            mEXIF = null;
-        }
-
-        return mEXIF;
-    }
-
-    protected boolean createImageFile() throws IOException {
-        File file = new File(mImageFilePath);
-        try {
-            if (!file.exists() && mImageFilePath != null) {
-                if (file.getParentFile().mkdirs()) Log.i(TAG, "Created " + mImageFilePath);
-                return file.createNewFile();
-            }
-        } catch (IOException e) {
-            //Caller should handle exception
-            throw new IOException(ERROR_CREATING_FILE_MESSAGE, e);
-        }
-
-        return false;
-    }
-
-    protected void deleteImageFile() {
-        File file = new File(mImageFilePath);
-        if (file.exists() && !file.delete()) {
-            Log.i(TAG, "Problem deleting file: " + mImageFilePath);
-        }
-
-        mImageFilePath = null;
-        mEXIF = null;
-    }
-
-    protected Bitmap getBitmap(int maxWidth, int maxHeight) {
-        BitmapFactory.Options options = getInDecodeBoundsOptions();
-        options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);
-        options.inJustDecodeBounds = false;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(mImageFilePath, options);
-        bitmap = rotateBitmapUsingExif(mImageFilePath, bitmap);
-        return bitmap;
-    }
-
-    private BitmapFactory.Options getInDecodeBoundsOptions() {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(mImageFilePath, options);
-
-        return options;
-    }
-
-    private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            while ((halfHeight / inSampleSize) > reqHeight
-                   && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-        return inSampleSize;
-    }
-
-    protected boolean bitmapExists() {
-        BitmapFactory.Options options = getInDecodeBoundsOptions();
-        BitmapFactory.decodeFile(mImageFilePath, options);
-        return options.outHeight != -1;
-    }
-
-    protected LatLng getLatLngFromEXIF() {
-        LatLng latlng = null;
-
-        if (hasGPSTag()) {
-            EXIFtoLatLngConverter converter = new EXIFtoLatLngConverter(mEXIF);
-            latlng = converter.getLatLng();
-        }
-
-        return latlng;
-    }
-
-    boolean hasGPSTag() {
-        EXIFtoLatLngConverter converter = new EXIFtoLatLngConverter(getEXIF());
-        return converter.isValid();
     }
 }

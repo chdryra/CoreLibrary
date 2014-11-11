@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 /**
  * Primary implementation of the {@link com.chdryra.android.mygenerallibrary.ViewHolder}
- * interface for the ViewHolder pattern used in {@link GridViewCellAdapter}.
+ * interface for the ViewHolder pattern used in {@link ViewHolderAdapter}.
  * <p/>
  * <p>
  * Need to implement {@link #updateView(ViewHolderData)} to update the list of updateable views

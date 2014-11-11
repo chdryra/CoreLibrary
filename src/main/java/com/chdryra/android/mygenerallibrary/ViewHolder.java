@@ -18,7 +18,7 @@ import android.view.ViewGroup;
  *
  * @see <a href="http://developer.android.com/training/improving-layouts/smooth-scrolling
  * .html#ViewHolder">ViewHolder pattern</a>
- * @see com.chdryra.android.mygenerallibrary.GridViewCellAdapter
+ * @see ViewHolderAdapter
  */
 public interface ViewHolder {
     public void inflate(Activity activity, ViewGroup parent);

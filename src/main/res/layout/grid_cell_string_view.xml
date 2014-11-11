@@ -7,9 +7,10 @@
   -->
 
 
-<com.chdryra.android.mygenerallibrary.GridCellLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                     android:layout_width="match_parent"
-                                                     android:layout_height="match_parent">
+<com.chdryra.android.mygenerallibrary.ViewHolderLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/text_view "
@@ -20,4 +21,4 @@
         android:gravity="center"/>
 
 
-</com.chdryra.android.mygenerallibrary.GridCellLayout>
+</com.chdryra.android.mygenerallibrary.ViewHolderLayout>

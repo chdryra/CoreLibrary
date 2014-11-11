@@ -13,7 +13,7 @@ import android.os.Parcel;
 /**
  * Wrapper class for 2 Strings that implements {@link ViewHolderData}. Used for viewing upper and
  * lower text in a GridView cell using the
- * {@link com.chdryra.android.mygenerallibrary.GridViewCellAdapter} framework.
+ * {@link ViewHolderAdapter} framework.
  */
 public class VHDDualString implements ViewHolderData {
     private final String mUpper;
@@ -55,9 +55,7 @@ public class VHDDualString implements ViewHolderData {
         VHDDualString that = (VHDDualString) o;
 
         return !(mLower != null ? !mLower.equals(that.mLower) : that.mLower != null) && !(mUpper
-                                                                                          != null
-                                                                                          ?
-                                                                                          !mUpper.equals(that.mUpper) : that.mUpper != null);
+                != null ? !mUpper.equals(that.mUpper) : that.mUpper != null);
 
     }
 

@@ -74,7 +74,7 @@ public class FragmentDeleteDone extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         setDisplayHomeAsUp();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -91,12 +91,8 @@ public class FragmentDeleteDone extends Fragment {
         if (itemId == MENU_UP_ID) {
             doUpSelected();
             return true;
-        } else if (itemId == MENU_DELETE_ID) {
-            if (hasDataToDelete()) {
-                showDeleteConfirmDialog();
-            } else {
-                doDeleteSelected();
-            }
+        } else if (itemId == MENU_DELETE_ID && hasDataToDelete()) {
+            showDeleteConfirmDialog();
             return true;
         } else if (itemId == MENU_DONE_ID) {
             doDoneSelected();
@@ -115,8 +111,8 @@ public class FragmentDeleteDone extends Fragment {
     private void doDeleteSelected() {
         if (hasDataToDelete()) {
             onDeleteSelected();
-            sendResult(RESULT_DELETE);
             if (mDismissOnDelete) {
+                sendResult(RESULT_DELETE);
                 getActivity().finish();
             }
         }
@@ -124,8 +120,8 @@ public class FragmentDeleteDone extends Fragment {
 
     private void doDoneSelected() {
         onDoneSelected();
-        sendResult(RESULT_DONE);
         if (mDismissOnDone) {
+            sendResult(RESULT_DONE);
             getActivity().finish();
         }
     }
@@ -174,7 +170,7 @@ public class FragmentDeleteDone extends Fragment {
 
     private void showDeleteConfirmDialog() {
         DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat,
-                                                            FragmentDeleteDone.this,
-                                                            DELETE_CONFIRM, getFragmentManager());
+                FragmentDeleteDone.this,
+                DELETE_CONFIRM, getFragmentManager());
     }
 }
