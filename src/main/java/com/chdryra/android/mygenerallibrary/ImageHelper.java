@@ -8,121 +8,114 @@
 
 package com.chdryra.android.mygenerallibrary;
 
+import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A hotchpotch of image related tasks that can be performed on behalf of, or on, one image file.
  */
 public class ImageHelper {
-    private static final String TAG                         = "ImageHelper";
-    private static final String ERROR_CREATING_FILE_MESSAGE = "Error creating file!";
+    private static final String TAG = "ImageHelper";
 
-    private String        mImageFilePath;
-    private ExifInterface mEXIF;
-
-    protected ImageHelper() {
-    }
-
-    public ImageHelper(String imageFilePath) {
-        setImageFilePath(imageFilePath);
-    }
-
-    public String getImageFilePath() {
-        return mImageFilePath;
-    }
-
-    protected void setImageFilePath(String imageFilePath) {
-        mImageFilePath = imageFilePath;
-        mEXIF = null;
-        getEXIF();
-    }
-
-    public boolean bitmapExists() {
-        BitmapFactory.Options options = getInDecodeBoundsOptions();
-        BitmapFactory.decodeFile(mImageFilePath, options);
+    public static boolean bitmapExists(String filePath) {
+        BitmapFactory.Options options = getInDecodeBoundsOptions(filePath);
+        BitmapFactory.decodeFile(filePath, options);
         return options.outHeight != -1;
     }
 
-    public Bitmap getBitmap(int maxWidth, int maxHeight) {
-        BitmapFactory.Options options = getInDecodeBoundsOptions();
+    public static Bitmap getBitmap(String filePath, int maxWidth, int maxHeight) {
+        BitmapFactory.Options options = getInDecodeBoundsOptions(filePath);
         options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);
         options.inJustDecodeBounds = false;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(mImageFilePath, options);
-        bitmap = rotateBitmapUsingExif(mImageFilePath, bitmap);
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
+        bitmap = rotateBitmapUsingExif(filePath, bitmap);
 
         return bitmap;
     }
 
-    public LatLng getLatLngFromEXIF() {
+    public static LatLng getLatLngFromEXIF(ExifInterface exif) {
         LatLng latlng = null;
-        EXIFtoLatLngConverter converter = new EXIFtoLatLngConverter(getEXIF());
+        EXIFtoLatLngConverter converter = new EXIFtoLatLngConverter(exif);
 
         if (converter.isValid()) latlng = converter.getLatLng();
 
         return latlng;
     }
 
-    public ExifInterface getEXIF() {
-        if (mImageFilePath != null) {
-            if (mEXIF == null) {
-                try {
-                    mEXIF = new ExifInterface(mImageFilePath);
-                } catch (IOException e) {
-                    //OK for EXIF to be null if none found
-                    Log.i(TAG, "IOEXception: No EXIF found in " + mImageFilePath);
-                }
+    public static ExifInterface getEXIF(String filePath) {
+        ExifInterface exif = null;
+        if (filePath != null && filePath.length() > 0) {
+            try {
+                exif = new ExifInterface(filePath);
+            } catch (IOException e) {
+                //OK for EXIF to be null if none found
+                Log.i(TAG, "IOEXception: No EXIF found in " + filePath);
             }
-        } else {
-            mEXIF = null;
         }
 
-        return mEXIF;
+        return exif;
     }
 
-    public boolean createImageFile() throws IOException {
-        File file = new File(mImageFilePath);
-        try {
-            if (!file.exists() && mImageFilePath != null) {
-                if (file.getParentFile().mkdirs()) Log.i(TAG, "Created " + mImageFilePath);
-                return file.createNewFile();
-            }
-        } catch (IOException e) {
-            //Caller should handle exception
-            throw new IOException(ERROR_CREATING_FILE_MESSAGE, e);
+    public static Intent getImageChooserIntents(Activity activity, String imageFileForCapture) {
+        File imageFile = new File(imageFileForCapture);
+        Uri imageUri = Uri.fromFile(imageFile);
+
+        //Create intents
+        final List<Intent> cameraIntents = new ArrayList<Intent>();
+        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        final PackageManager packageManager = activity.getPackageManager();
+        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for (ResolveInfo res : listCam) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName,
+                    res.activityInfo.name));
+            intent.setPackage(packageName);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            cameraIntents.add(intent);
         }
 
-        return false;
+        final Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media
+                        .EXTERNAL_CONTENT_URI);
+        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new
+                Parcelable[cameraIntents.size()]));
+
+        return chooserIntent;
     }
 
-    public void deleteImageFile() {
-        File file = new File(mImageFilePath);
-        if (file.exists() && !file.delete()) {
-            Log.i(TAG, "Problem deleting file: " + mImageFilePath);
-        }
-
-        mImageFilePath = null;
-        mEXIF = null;
-    }
-
-    private BitmapFactory.Options getInDecodeBoundsOptions() {
+    private static BitmapFactory.Options getInDecodeBoundsOptions(String filePath) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(mImageFilePath, options);
+        BitmapFactory.decodeFile(filePath, options);
 
         return options;
     }
 
-    private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
+            int reqHeight) {
         final int height = options.outHeight;
         final int width = options.outWidth;
         int inSampleSize = 1;
@@ -141,7 +134,7 @@ public class ImageHelper {
     }
 
 
-    private Bitmap rotateBitmapUsingExif(String imageFilePath, Bitmap bitmap) {
+    private static Bitmap rotateBitmapUsingExif(String imageFilePath, Bitmap bitmap) {
         ExifInterface exif = null;
         try {
             exif = new ExifInterface(imageFilePath);
@@ -199,4 +192,48 @@ public class ImageHelper {
             return bitmap;
         }
     }
+
+    public static String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    public Intent getImageChooserIntents(Activity activity, File fileForImageCapture) {
+        //Set up image file for capture
+        Uri imageUri = Uri.fromFile(fileForImageCapture);
+
+        //Create intents
+        final List<Intent> cameraIntents = new ArrayList<Intent>();
+        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        final PackageManager packageManager = activity.getPackageManager();
+        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for (ResolveInfo res : listCam) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName,
+                    res.activityInfo.name));
+            intent.setPackage(packageName);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            cameraIntents.add(intent);
+        }
+
+        final Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new
+                Parcelable[cameraIntents.size()]));
+
+        return chooserIntent;
+    }
+
 }

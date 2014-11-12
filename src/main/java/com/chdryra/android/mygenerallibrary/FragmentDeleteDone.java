@@ -33,7 +33,7 @@ public class FragmentDeleteDone extends Fragment {
     public static final ActivityResultCode RESULT_DELETE  = ActivityResultCode.DELETE;
     public static final ActivityResultCode RESULT_DONE    = ActivityResultCode.DONE;
 
-    private static final int DELETE_CONFIRM = 0;
+    private static final int DELETE_CONFIRM = 314;
 
     private boolean mDismissOnDone   = true;
     private boolean mDismissOnDelete = false;

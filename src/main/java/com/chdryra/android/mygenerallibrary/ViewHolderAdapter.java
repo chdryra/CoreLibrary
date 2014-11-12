@@ -31,8 +31,8 @@ import android.widget.BaseAdapter;
  */
 public class ViewHolderAdapter extends BaseAdapter {
     private final Activity                               mActivity;
-    private final int mViewWidth;
-    private final int mViewHeight;
+    private final int                                    mViewWidth;
+    private final int                                    mViewHeight;
     private       SortableList<? extends ViewHolderData> mData;
 
     public ViewHolderAdapter(Activity activity, SortableList<? extends ViewHolderData> data,

@@ -8,7 +8,6 @@
 
 package com.chdryra.android.mygenerallibrary;
 
-import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
@@ -22,22 +21,27 @@ import java.io.IOException;
 public class FileIncrementor {
     private static final String TAG                         = "FileCreator";
     private static final String ERROR_CREATING_FILE_MESSAGE = "Error creating file";
-    private static final String ERROR_NO_STORAGE_MESSAGE    = "No storage available";
+    private static final String ERROR_FILE_EXISTS = "File exists";
 
-    private String mSystemDir;
-    private String mDirectory;
+    private File mDirectory;
     private String mFileName;
     private String mExtension;
     private long mFileCounter = 0;
 
-    public FileIncrementor(String systemDir, String dir, String fileName, String extension) {
-        mSystemDir = systemDir;
-        mDirectory = dir;
+    public FileIncrementor(File systemDir, String newDir, String fileName, String extension) {
+        if (!systemDir.exists()) {
+            Log.e(TAG, "systemDir must exist!");
+            return;
+        }
+
+        mDirectory = new File(systemDir, newDir);
+        mDirectory.mkdirs();
+
         mFileName = fileName;
         mExtension = extension;
     }
 
-    public void clearDirectory() {
+    public void deleteCreatedFiles() {
         while (mFileCounter > 0) {
             File file = getFile(1);
             if (!deleteFile(file)) {
@@ -47,42 +51,38 @@ public class FileIncrementor {
         }
     }
 
-    public boolean createNewFile() throws IOException {
-        boolean success;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            File file = getFile(0);
-            mFileCounter++;
+    public void deleteCreatedDirectory() {
+        deleteRecursive(mDirectory);
+    }
 
-            if (file.exists()) return createNewFile();
+    public File createNewFile() throws IOException {
+        File file = getFile(0);
+        mFileCounter++;
+        if (file.exists()) return createNewFile();
 
-            success = createFile(file);
+        if (createFile(file)) {
+            return file;
         } else {
-            throw new IOException(ERROR_NO_STORAGE_MESSAGE);
+            mFileCounter--;
+            throw new IOException(ERROR_FILE_EXISTS);
         }
+    }
 
+    public boolean deleteLastFile() {
+        File lastFile = getFile(1);
+        boolean success = lastFile.delete();
+        if (success) mFileCounter--;
         return success;
     }
 
-    public File getLastFileCreated() {
-        File file;
-        long i = 1;
-        do {
-            file = getFile(i);
-        } while (!file.exists() && i++ < mFileCounter);
-
-        return file;
-    }
-
     private File getFile(long offsetFromCounter) {
-        File dir = new File(mSystemDir, mDirectory);
-
         long number = Math.max(mFileCounter - offsetFromCounter, 0);
-        String numberExt = "_" + number;
+        String numberExt = "_" + String.valueOf(number);
         String fileName;
         if (mFileName != null && mFileName.length() > 0) {
             fileName = number > 0 ? mFileName + numberExt : mFileName;
         } else {
-            fileName = numberExt;
+            fileName = mDirectory.getName() + numberExt;
         }
 
         String extension = null;
@@ -90,25 +90,15 @@ public class FileIncrementor {
             extension = "." + mExtension;
         }
 
-        return new File(dir, fileName + extension);
+        return new File(mDirectory, fileName + extension);
     }
 
     private boolean createFile(File file) throws IOException {
         try {
-            if (!file.exists()) {
-                if (file.mkdirs()) {
-                    Log.i(TAG, "Created " + file.toString());
-                    return file.exists();
-                } else {
-                    return file.createNewFile();
-                }
-            }
+            return file.createNewFile();
         } catch (IOException e) {
-            //Caller should handle exception
             throw new IOException(ERROR_CREATING_FILE_MESSAGE, e);
         }
-
-        return false;
     }
 
     private boolean deleteFile(File file) {
@@ -121,5 +111,15 @@ public class FileIncrementor {
         }
 
         return success;
+    }
+
+    private void deleteRecursive(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory()) {
+            for (File child : fileOrDirectory.listFiles()) {
+                deleteRecursive(child);
+            }
+        }
+
+        fileOrDirectory.delete();
     }
 }
