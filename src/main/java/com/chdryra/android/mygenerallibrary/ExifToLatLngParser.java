@@ -17,11 +17,11 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 11/11/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class EXIFtoLatLngConverter {
+public class ExifToLatLngParser {
     private boolean mIsValid = false;
     private Double mLatitude, mLongitude;
 
-    public EXIFtoLatLngConverter(ExifInterface exif) {
+    public ExifToLatLngParser(ExifInterface exif) {
         String lat = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
         String latRef = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
         String lng = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
@@ -32,9 +32,40 @@ public class EXIFtoLatLngConverter {
 
             //Latitude in [-90,+90] depending on hemisphere
             //Latitude in [-180,+180] depending on hemisphere
-            mLatitude = latRef.equals("N") ? toDegreesDecimal(lat) : -toDegreesDecimal(lat);
-            mLongitude = lngRef.equals("E") ? toDegreesDecimal(lng) : -toDegreesDecimal(lng);
+            if (latRef.equals("N")) {
+                mLatitude = toDegreesDecimal(lat);
+            } else if (latRef.equals("S")) {
+                mLatitude = -toDegreesDecimal(lat);
+            } else {
+                mIsValid = false;
+            }
+
+            if (lngRef.equals("E")) {
+                mLongitude = toDegreesDecimal(lng);
+            } else if (lngRef.equals("W")) {
+                mLongitude = -toDegreesDecimal(lng);
+            } else {
+                mIsValid = false;
+            }
+
+            if (mIsValid) {
+                if (mLatitude > 90 || mLatitude < -90 || mLongitude > 180 || mLongitude < -180) {
+                    mIsValid = false;
+                }
+            }
         }
+    }
+
+    public LatLng getLatLng() {
+        if (isValid()) {
+            return new LatLng(mLatitude, mLongitude);
+        } else {
+            return null;
+        }
+    }
+
+    public boolean isValid() {
+        return mIsValid;
     }
 
     private Double toDegreesDecimal(String DMS) {
@@ -52,17 +83,5 @@ public class EXIFtoLatLngConverter {
         Double seconds = Double.valueOf(sS[0]) / Double.valueOf(sS[1]);
 
         return degrees + (minutes / 60) + (seconds / 3600);
-    }
-
-    public LatLng getLatLng() {
-        if (isValid()) {
-            return new LatLng(mLatitude, mLongitude);
-        } else {
-            return null;
-        }
-    }
-
-    public boolean isValid() {
-        return mIsValid;
     }
 }

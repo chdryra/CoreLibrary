@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A hotchpotch of image related tasks that can be performed on behalf of, or on, one image file.
+ * A hotchpotch of image related tasks that can be performed on an image file.
  */
 public class ImageHelper {
     private static final String TAG = "ImageHelper";
@@ -56,7 +56,7 @@ public class ImageHelper {
 
     public static LatLng getLatLngFromEXIF(ExifInterface exif) {
         LatLng latlng = null;
-        EXIFtoLatLngConverter converter = new EXIFtoLatLngConverter(exif);
+        ExifToLatLngParser converter = new ExifToLatLngParser(exif);
 
         if (converter.isValid()) latlng = converter.getLatLng();
 
