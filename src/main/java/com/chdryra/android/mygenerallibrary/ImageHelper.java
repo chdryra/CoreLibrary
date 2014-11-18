@@ -10,11 +10,9 @@ package com.chdryra.android.mygenerallibrary;
 
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -38,120 +36,34 @@ public class ImageHelper {
     private static final String TAG = "ImageHelper";
 
     public static boolean bitmapExists(String filePath) {
-        BitmapFactory.Options options = getInDecodeBoundsOptions(filePath);
-        BitmapFactory.decodeFile(filePath, options);
-        return options.outHeight != -1;
+        BitmapFactory.Options options = getBitmapInfo(filePath);
+        return options.outHeight > 0;
     }
 
-    public static Bitmap getBitmap(String filePath, int maxWidth, int maxHeight) {
-        BitmapFactory.Options options = getInDecodeBoundsOptions(filePath);
-        options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);
+    public static Bitmap getBitmap(String filePath, int reqWidth, int reqHeight) {
+        BitmapFactory.Options options = getBitmapInfo(filePath);
+        options.inSampleSize = getInSampleSize(options.outHeight, options.outWidth, reqHeight,
+                reqWidth);
         options.inJustDecodeBounds = false;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
-        bitmap = rotateBitmapUsingExif(filePath, bitmap);
-
-        return bitmap;
+        return BitmapFactory.decodeFile(filePath, options);
     }
 
-    public static LatLng getLatLngFromEXIF(ExifInterface exif) {
-        LatLng latlng = null;
-        ExifToLatLngParser converter = new ExifToLatLngParser(exif);
+    public static Bitmap rescalePreservingAspectRatio(Bitmap bitmap, int maxWidth, int maxHeight) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float ratioWidthToHeight = (float) width / height;
 
-        if (converter.isValid()) latlng = converter.getLatLng();
+        float newWidth = width > height ? maxWidth : maxHeight * ratioWidthToHeight;
+        float newHeight = newWidth / ratioWidthToHeight;
 
-        return latlng;
+        return Bitmap.createScaledBitmap(bitmap, (int) newWidth, (int) newHeight, true);
     }
 
-    public static ExifInterface getEXIF(String filePath) {
-        ExifInterface exif = null;
-        if (filePath != null && filePath.length() > 0) {
-            try {
-                exif = new ExifInterface(filePath);
-            } catch (IOException e) {
-                //OK for EXIF to be null if none found
-                Log.i(TAG, "IOEXception: No EXIF found in " + filePath);
-            }
-        }
-
-        return exif;
-    }
-
-    public static Intent getImageChooserIntents(Activity activity, String imageFileForCapture) {
-        File imageFile = new File(imageFileForCapture);
-        Uri imageUri = Uri.fromFile(imageFile);
-
-        //Create intents
-        final List<Intent> cameraIntents = new ArrayList<Intent>();
-        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        final PackageManager packageManager = activity.getPackageManager();
-        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-        for (ResolveInfo res : listCam) {
-            final String packageName = res.activityInfo.packageName;
-            final Intent intent = new Intent(captureIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName,
-                    res.activityInfo.name));
-            intent.setPackage(packageName);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            cameraIntents.add(intent);
-        }
-
-        final Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media
-                        .EXTERNAL_CONTENT_URI);
-        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new
-                Parcelable[cameraIntents.size()]));
-
-        return chooserIntent;
-    }
-
-    private static BitmapFactory.Options getInDecodeBoundsOptions(String filePath) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(filePath, options);
-
-        return options;
-    }
-
-    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
-            int reqHeight) {
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-        return inSampleSize;
-    }
-
-
-    private static Bitmap rotateBitmapUsingExif(String imageFilePath, Bitmap bitmap) {
-        ExifInterface exif = null;
-        try {
-            exif = new ExifInterface(imageFilePath);
-        } catch (IOException e) {
-            //OK for EXIF to be null if not found
-            Log.i(TAG, "IOException: No EXIF found in " + imageFilePath);
-        }
-
-        if (exif == null) {
-            return bitmap;
-        }
-
+    public static Bitmap rotateBitmapUsingExif(ExifInterface exif, Bitmap bitmap) {
         int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
 
-        if (orientation == 1) {
-            return bitmap;
-        }
+        if (orientation == 1) return bitmap;
 
         Matrix matrix = new Matrix();
         switch (orientation) {
@@ -193,24 +105,32 @@ public class ImageHelper {
         }
     }
 
-    public static String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
+    public static LatLng getLatLngFromEXIF(ExifInterface exif) {
+        LatLng latLng = null;
+        float[] ll = new float[2];
+        if (exif.getLatLong(ll)) {
+            latLng = new LatLng(ll[0], ll[1]);
         }
+
+        return latLng;
     }
 
-    public Intent getImageChooserIntents(Activity activity, File fileForImageCapture) {
-        //Set up image file for capture
-        Uri imageUri = Uri.fromFile(fileForImageCapture);
+    public static ExifInterface getEXIF(String filePath) {
+        ExifInterface exif = null;
+        if (filePath != null && filePath.length() > 0) {
+            try {
+                exif = new ExifInterface(filePath);
+            } catch (IOException e) {
+                //OK for EXIF to be null if none found
+                Log.i(TAG, "IOEXception: No EXIF found in " + filePath);
+            }
+        }
+
+        return exif;
+    }
+
+    public static Intent getImageChooserIntents(Activity activity, String imageFileForCapture) {
+        Uri imageUri = Uri.fromFile(new File(imageFileForCapture));
 
         //Create intents
         final List<Intent> cameraIntents = new ArrayList<Intent>();
@@ -236,4 +156,26 @@ public class ImageHelper {
         return chooserIntent;
     }
 
+    private static BitmapFactory.Options getBitmapInfo(String filePath) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, options);
+
+        return options;
+    }
+
+    private static int getInSampleSize(int height, int width, int reqHeight, int reqWidth) {
+        int inSampleSize = 1;
+
+        //Need to find greatest power of 2 that yields an image >= required dimensions
+        if (height > 0 && width > 0 && reqHeight > 0 && reqWidth > 0 && height > reqHeight &&
+                width > reqWidth) {
+            int bitsHeight = 31 - Integer.numberOfLeadingZeros(height / reqHeight);
+            int bitsWidth = 31 - Integer.numberOfLeadingZeros(width / reqWidth);
+            int bits = Math.min(bitsHeight, bitsWidth);
+            inSampleSize = 1 << bits;
+        }
+
+        return inSampleSize;
+    }
 }
