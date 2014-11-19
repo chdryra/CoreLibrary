@@ -23,8 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
  * Handles connection to Google Play services for Places API lookup tasks.
  */
 public class LocationClientConnector implements GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient
-                .OnConnectionFailedListener {
+        GooglePlayServicesClient.OnConnectionFailedListener {
 
     private static final String TAG                                   = "LocationClientConnector";
     private static final int    MAX_CONNECTION_TRIES                  = 3;
@@ -34,12 +33,6 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
     private final Locatable      mLocatable;
     private int mNumberConnectionTries = 0;
 
-    public LocationClientConnector(Activity activity, Locatable locatable) {
-        mActivity = activity;
-        mLocatable = locatable;
-        mLocationClient = new LocationClient(mActivity, this, this);
-    }
-
     /**
      * Callbacks for classes that want know when the Location Client has connected and found a
      * location.
@@ -48,6 +41,12 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
         public void onLocated(LatLng latLng);
 
         public void onLocationClientConnected(LatLng latLng);
+    }
+
+    public LocationClientConnector(Activity activity, Locatable locatable) {
+        mActivity = activity;
+        mLocatable = locatable;
+        mLocationClient = new LocationClient(mActivity, this, this);
     }
 
     public void connect() {
@@ -60,15 +59,16 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
         mLocationClient.disconnect();
     }
 
-    public void locate() {
+    public boolean locate() {
         if (mLocationClient.isConnected()) {
-            return;
+            Location location = mLocationClient.getLastLocation();
+            if (location != null) {
+                mLocatable.onLocated(new LatLng(location.getLatitude(), location.getLongitude()));
+                return true;
+            }
         }
 
-        Location location = mLocationClient.getLastLocation();
-        if (location != null) {
-            mLocatable.onLocated(new LatLng(location.getLatitude(), location.getLongitude()));
-        }
+        return false;
     }
 
     @Override
@@ -107,5 +107,4 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
     public void onDisconnected() {
         Log.i(TAG, "LocationClient disconnected");
     }
-
 }
