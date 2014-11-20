@@ -27,27 +27,19 @@ import java.util.Locale;
  * On: 19/11/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class FetcherPlaceSuggestions {
+public class PlaceSuggester {
     private final Context               mContext;
     private final LatLng                mLatLng;
-    private final ArrayList<FetchCompleteListener> mListeners;
+    private final FetchCompleteListener mListener;
 
     public interface FetchCompleteListener {
         public void onAddressesFound(ArrayList<String> addresses);
     }
 
-    public FetcherPlaceSuggestions(Context context, LatLng latlng) {
+    public PlaceSuggester(Context context, LatLng latlng, FetchCompleteListener listener) {
         mContext = context;
         mLatLng = latlng;
-        mListeners = new ArrayList<FetchCompleteListener>();
-    }
-
-    public void registerListener(FetchCompleteListener listener) {
-        mListeners.add(listener);
-    }
-
-    public void unRegisterListener(FetchCompleteListener listener) {
-        mListeners.remove(listener);
+        mListener = listener;
     }
 
     public void fetch(int number) {
@@ -74,10 +66,10 @@ public class FetcherPlaceSuggestions {
 
         @Override
         protected ArrayList<String> doInBackground(Integer... params) {
-            ArrayList<String> namesFromGoogle = new ArrayList<String>();
-            if (mLatLng == null) return namesFromGoogle;
-
             Integer numberToGet = params[0];
+            ArrayList<String> namesFromGoogle = new ArrayList<String>();
+            if (mLatLng == null || numberToGet == 0) return namesFromGoogle;
+
             namesFromGoogle = FetcherPlacesAPI.fetchNearestNames(mLatLng, numberToGet);
 
             if (namesFromGoogle.size() > 0) {
@@ -116,9 +108,7 @@ public class FetcherPlaceSuggestions {
         @Override
         protected void onPostExecute(ArrayList<String> addresses) {
             super.onPostExecute(addresses);
-            for (FetchCompleteListener listener : mListeners) {
-                listener.onAddressesFound(addresses);
-            }
+            mListener.onAddressesFound(addresses);
         }
     }
 }
