@@ -2,7 +2,6 @@
 package com.chdryra.android.mygenerallibrary;
 
 import android.graphics.Bitmap;
-import android.media.ExifInterface;
 import android.os.AsyncTask;
 
 /**
@@ -33,12 +32,12 @@ public class BitmapLoader {
         protected Bitmap doInBackground(Integer... params) {
             int maxWidth = params[0];
             int maxHeight = params[1];
-            Bitmap bitmap = ImageHelper.getBitmap(mFile, maxWidth, maxHeight);
-            Bitmap exactRescale = ImageHelper.rescalePreservingAspectRatio(bitmap, maxWidth,
-                    maxHeight);
 
-            ExifInterface exif = ImageHelper.getEXIF(mFile);
-            return ImageHelper.rotateBitmapUsingExif(exif, exactRescale);
+            //TODO separate out post processing into separate tasks. Should just be loading.
+            Bitmap bitmap = ImageHelper.getBitmap(mFile, maxWidth, maxHeight);
+            Bitmap rescaled = ImageHelper.rescalePreservingAspectRatio(bitmap, maxWidth, maxHeight);
+
+            return ImageHelper.rotateBitmapUsingExif(ImageHelper.getEXIF(mFile), rescaled);
         }
 
         @Override

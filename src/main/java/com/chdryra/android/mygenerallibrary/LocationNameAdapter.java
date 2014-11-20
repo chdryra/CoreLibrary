@@ -13,9 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import com.chdryra.android.remoteapifetchers.FetcherPlacesAPI;
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
 
 /**
@@ -26,53 +23,39 @@ import java.util.ArrayList;
  * @see com.chdryra.android.remoteapifetchers.FetcherPlacesAPI
  */
 public class LocationNameAdapter extends ArrayAdapter<String> implements Filterable,
-        AddressSuggestionsFetcher.FetchCompleteListener {
-    private static final String TAG                = "LocationNameAdapter";
+        FetcherPlaceSuggestions.FetchCompleteListener {
     private static final String SEARCHING          = "searching nearby...";
     private static final String NO_LOCATION        = "location not found...";
     private static final int    TEXT_VIEW_RESOURCE = android.R.layout.simple_list_item_1;
 
-    private final LatLng            mLatLng;
-    private       ArrayList<String> mLocationSuggestions;
-    private       ArrayList<String> mLocationDefaultSuggestions;
-    private       String            mPrimaryDefaultSuggestion;
+    private ArrayList<String>         mSuggestions;
+    private ArrayList<String>         mDefaultSuggestions;
+    private String                    mPrimaryDefault;
+    private FetcherPlacesAutoComplete mFetcherAutoComplete;
 
-    public LocationNameAdapter(Context context, LatLng latlng, int numberSuggestions,
-            String primaryDefaultSuggestion) {
+    public LocationNameAdapter(Context context, FetcherPlaceSuggestions fetcherSuggestions,
+            FetcherPlacesAutoComplete fetcherAutoComplete, int numberSuggestions,
+            String primaryDefault) {
         super(context, TEXT_VIEW_RESOURCE);
-        mLatLng = latlng;
+
+        mPrimaryDefault = primaryDefault;
+        mFetcherAutoComplete = fetcherAutoComplete;
         if (numberSuggestions > 0) {
-            if (primaryDefaultSuggestion != null && primaryDefaultSuggestion.length() > 0) {
-                mPrimaryDefaultSuggestion = primaryDefaultSuggestion;
-                numberSuggestions--;
-            }
-
-            mLocationSuggestions = new ArrayList<String>();
-            if (mLatLng != null) {
-                mLocationSuggestions.add(SEARCHING);
-                AddressSuggestionsFetcher fetcher = new AddressSuggestionsFetcher(context,
-                        mLatLng, this);
-                fetcher.fetch(numberSuggestions);
-            } else {
-                mLocationSuggestions.add(NO_LOCATION);
-            }
-
-            notifyDataSetChanged();
+            mSuggestions = new ArrayList<String>();
+            mSuggestions.add(SEARCHING);
+            fetcherSuggestions.registerListener(this);
+            fetcherSuggestions.fetch(numberSuggestions);
         }
     }
 
     @Override
     public int getCount() {
-        if (mLocationSuggestions != null) {
-            return mLocationSuggestions.size();
-        } else {
-            return 0;
-        }
+        return mSuggestions != null ? mSuggestions.size() : 0;
     }
 
     @Override
     public String getItem(int index) {
-        return mLocationSuggestions.get(index);
+        return mSuggestions.get(index);
     }
 
     @Override
@@ -85,21 +68,21 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
 
                 if (constraint != null && constraint.length() > 0) {
                     //TODO need to put autocomplete fetching on a separate thread somehow.
-                    ArrayList<String> suggestions = FetcherPlacesAPI.fetchAutoCompleteSuggestions
-                            (constraint.toString(), mLatLng);
+                    ArrayList<String> suggestions = mFetcherAutoComplete.fetch(constraint.toString
+                            ());
 
                     ArrayList<String> shortened = new ArrayList<String>();
                     for (String suggestion : suggestions) {
                         shortened.add(formatAddress(suggestion));
                     }
 
-                    mLocationSuggestions = shortened;
-                } else if (mLocationDefaultSuggestions != null) {
-                    mLocationSuggestions = mLocationDefaultSuggestions;
+                    mSuggestions = shortened;
+                } else if (mDefaultSuggestions != null) {
+                    mSuggestions = mDefaultSuggestions;
                 }
 
-                filterResults.values = mLocationSuggestions;
-                filterResults.count = mLocationSuggestions.size();
+                filterResults.values = mSuggestions;
+                filterResults.count = mSuggestions.size();
 
                 return filterResults;
             }
@@ -125,11 +108,18 @@ public class LocationNameAdapter extends ArrayAdapter<String> implements Filtera
 
     @Override
     public void onAddressesFound(ArrayList<String> addresses) {
-        mLocationDefaultSuggestions = addresses;
-        if (mPrimaryDefaultSuggestion != null) {
-            mLocationDefaultSuggestions.add(0, mPrimaryDefaultSuggestion);
+        if (addresses.size() == 0) {
+            mSuggestions = new ArrayList<String>();
+            mSuggestions.add(NO_LOCATION);
+        } else {
+            mDefaultSuggestions = addresses;
+            if (mPrimaryDefault != null && mPrimaryDefault.length() > 0) {
+                mDefaultSuggestions.add(0, mPrimaryDefault);
+            }
+
+            mSuggestions = new ArrayList<String>(mDefaultSuggestions);
         }
-        mLocationSuggestions = new ArrayList<String>(mLocationDefaultSuggestions);
+
         notifyDataSetChanged();
     }
 

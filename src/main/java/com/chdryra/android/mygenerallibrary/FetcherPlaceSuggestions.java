@@ -27,20 +27,27 @@ import java.util.Locale;
  * On: 19/11/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddressSuggestionsFetcher {
+public class FetcherPlaceSuggestions {
     private final Context               mContext;
     private final LatLng                mLatLng;
-    private final FetchCompleteListener mListener;
+    private final ArrayList<FetchCompleteListener> mListeners;
 
     public interface FetchCompleteListener {
         public void onAddressesFound(ArrayList<String> addresses);
     }
 
-    public AddressSuggestionsFetcher(Context context, LatLng latlng,
-            FetchCompleteListener listener) {
+    public FetcherPlaceSuggestions(Context context, LatLng latlng) {
         mContext = context;
         mLatLng = latlng;
-        mListener = listener;
+        mListeners = new ArrayList<FetchCompleteListener>();
+    }
+
+    public void registerListener(FetchCompleteListener listener) {
+        mListeners.add(listener);
+    }
+
+    public void unRegisterListener(FetchCompleteListener listener) {
+        mListeners.remove(listener);
     }
 
     public void fetch(int number) {
@@ -67,10 +74,11 @@ public class AddressSuggestionsFetcher {
 
         @Override
         protected ArrayList<String> doInBackground(Integer... params) {
-            Integer numberToGet = params[0];
+            ArrayList<String> namesFromGoogle = new ArrayList<String>();
+            if (mLatLng == null) return namesFromGoogle;
 
-            ArrayList<String> namesFromGoogle = FetcherPlacesAPI.fetchNearestNames(mLatLng,
-                    numberToGet);
+            Integer numberToGet = params[0];
+            namesFromGoogle = FetcherPlacesAPI.fetchNearestNames(mLatLng, numberToGet);
 
             if (namesFromGoogle.size() > 0) {
                 return namesFromGoogle;
@@ -108,8 +116,8 @@ public class AddressSuggestionsFetcher {
         @Override
         protected void onPostExecute(ArrayList<String> addresses) {
             super.onPostExecute(addresses);
-            if (addresses != null) {
-                mListener.onAddressesFound(addresses);
+            for (FetchCompleteListener listener : mListeners) {
+                listener.onAddressesFound(addresses);
             }
         }
     }
