@@ -30,19 +30,19 @@ import java.util.Locale;
 public class PlaceSuggester {
     private final Context               mContext;
     private final LatLng                mLatLng;
-    private final FetchCompleteListener mListener;
+    private final SuggestionsListener mListener;
 
-    public interface FetchCompleteListener {
-        public void onAddressesFound(ArrayList<String> addresses);
+    public interface SuggestionsListener {
+        public void onSuggestionsFound(ArrayList<String> addresses);
     }
 
-    public PlaceSuggester(Context context, LatLng latlng, FetchCompleteListener listener) {
+    public PlaceSuggester(Context context, LatLng latlng, SuggestionsListener listener) {
         mContext = context;
         mLatLng = latlng;
         mListener = listener;
     }
 
-    public void fetch(int number) {
+    public void getSuggestions(int number) {
         new AddressFinderTask().execute(number);
     }
 
@@ -108,7 +108,7 @@ public class PlaceSuggester {
         @Override
         protected void onPostExecute(ArrayList<String> addresses) {
             super.onPostExecute(addresses);
-            mListener.onAddressesFound(addresses);
+            mListener.onSuggestionsFound(addresses);
         }
     }
 }

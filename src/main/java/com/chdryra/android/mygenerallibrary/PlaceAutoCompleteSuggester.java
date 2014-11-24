@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * On: 20/11/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class PlaceAutoCompleteSuggester implements AutoCompleteAdapter.AutoCompleteSuggester {
+public class PlaceAutoCompleteSuggester implements StringFilterAdapter.StringFilter {
     private LatLng mLatLng;
 
     public PlaceAutoCompleteSuggester(LatLng latLng) {
@@ -26,7 +26,7 @@ public class PlaceAutoCompleteSuggester implements AutoCompleteAdapter.AutoCompl
     }
 
     @Override
-    public ArrayList<String> getSuggestions(String query) {
+    public ArrayList<String> filter(String query) {
         ArrayList<String> suggestions = FetcherPlacesAPI.fetchAutoCompleteSuggestions(query,
                 mLatLng);
 

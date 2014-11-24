@@ -21,10 +21,13 @@ public class ObjectHolder {
         mData = new Hashtable<String, Object>();
     }
 
-    public void addObject(String key, Object object) {
+    public boolean addObject(String key, Object object) {
         if (!mData.containsKey(key)) {
             mData.put(key, object);
+            return true;
         }
+
+        return false;
     }
 
     public Object getObject(String key) {
