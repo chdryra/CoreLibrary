@@ -19,65 +19,26 @@ import java.util.NoSuchElementException;
  *
  * @param <T>: type of the items.
  */
-public abstract class SortableList<T> implements Iterable<T> {
+public class SortableList<T> implements Iterable<T> {
+    public static final String NO_ELEMENT    = "No more elements left";
+    public static final String ILLEGAL_STATE = "Have to do at least one next() before you can " +
+            "delete";
     protected final LinkedList<T> mData     = new LinkedList<T>();
-    private         boolean       mIsSorted = false;
-
-    protected SortableList() {
-
-    }
-
-    class SLIterator implements Iterator<T> {
-        int position = 0;
-
-        @Override
-        public boolean hasNext() {
-            return position < size() && getItem(position) != null;
-        }
-
-        @Override
-        public T next() {
-            if (hasNext()) {
-                return getItem(position++);
-            } else {
-                throw new NoSuchElementException("No more elements left");
-            }
-        }
-
-        @Override
-        public void remove() {
-            if (position <= 0) {
-                throw new IllegalStateException("Have to do at least one next() before you can " +
-                        "delete");
-            } else {
-                mData.remove((getItem(position - 1)));
-            }
-        }
-    }
 
     public void add(T item) {
         mData.add(item);
-        mIsSorted = false;
-    }
-
-    protected void add(SortableList<T> list) {
-        for (T item : list) {
-            mData.add(item);
-        }
-        mIsSorted = false;
-    }
-
-    public void remove(T item) {
-        mData.remove(item);
-        mIsSorted = false;
-    }
-
-    public void removeAll() {
-        mData.clear();
     }
 
     public boolean contains(T item) {
         return mData.contains(item);
+    }
+
+    public void remove(T item) {
+        mData.remove(item);
+    }
+
+    public void removeAll() {
+        mData.clear();
     }
 
     public int size() {
@@ -92,18 +53,26 @@ public abstract class SortableList<T> implements Iterable<T> {
         sort(getDefaultComparator());
     }
 
-    void sort(Comparator<T> comparator) {
-        if (!isSorted()) {
-            Collections.sort(mData, comparator);
+    public void sort(Comparator<T> comparator) {
+        Collections.sort(mData, comparator);
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new SortableListIterator();
+    }
+
+    protected void add(SortableList<T> list) {
+        for (T item : list) {
+            add(item);
         }
-        mIsSorted = true;
     }
 
     protected Comparator<T> getDefaultComparator() {
         return new Comparator<T>() {
             @Override
             public int compare(T lhs, T rhs) {
-                if (mData.contains(lhs) && mData.contains(rhs)) {
+                if (contains(lhs) && contains(rhs)) {
                     return mData.indexOf(lhs) - mData.indexOf(rhs);
                 } else {
                     return 0;
@@ -112,12 +81,30 @@ public abstract class SortableList<T> implements Iterable<T> {
         };
     }
 
-    boolean isSorted() {
-        return mIsSorted;
-    }
+    public class SortableListIterator implements Iterator<T> {
+        int mPosition = 0;
 
-    @Override
-    public Iterator<T> iterator() {
-        return new SLIterator();
+        @Override
+        public boolean hasNext() {
+            return mPosition < size() && getItem(mPosition) != null;
+        }
+
+        @Override
+        public T next() {
+            if (hasNext()) {
+                return getItem(mPosition++);
+            } else {
+                throw new NoSuchElementException(NO_ELEMENT);
+            }
+        }
+
+        @Override
+        public void remove() {
+            if (mPosition > 0) {
+                mData.remove((getItem(mPosition - 1)));
+            } else {
+                throw new IllegalStateException(ILLEGAL_STATE);
+            }
+        }
     }
 }
