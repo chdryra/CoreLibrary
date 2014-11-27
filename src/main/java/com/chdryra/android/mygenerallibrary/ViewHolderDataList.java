@@ -16,5 +16,5 @@ package com.chdryra.android.mygenerallibrary;
  *
  * @param <T>: a type that implements {@link ViewHolderData}.
  */
-public class VHDataList<T extends ViewHolderData> extends SortableList<T> {
+public class ViewHolderDataList<T extends ViewHolderData> extends SortableList<T> {
 }

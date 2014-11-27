@@ -8,11 +8,9 @@
 
 package com.chdryra.android.mygenerallibrary;
 
-import android.os.Parcel;
-
 /**
  * Wrapper class for 2 Strings that implements {@link ViewHolderData}. Used for viewing upper and
- * lower text in a GridView cell using the
+ * lower text in a list item using the
  * {@link ViewHolderAdapter} framework.
  */
 public class VHDDualString implements ViewHolderData {
@@ -24,11 +22,6 @@ public class VHDDualString implements ViewHolderData {
         mLower = lower;
     }
 
-    public VHDDualString(Parcel in) {
-        mUpper = in.readString();
-        mLower = in.readString();
-    }
-
     public String getUpper() {
         return mUpper;
     }
@@ -38,7 +31,7 @@ public class VHDDualString implements ViewHolderData {
     }
 
     @Override
-    public ViewHolder getViewHolder() {
+    public ViewHolder newViewHolder() {
         return new VHDualString();
     }
 
@@ -65,5 +58,4 @@ public class VHDDualString implements ViewHolderData {
         result = 31 * result + (mLower != null ? mLower.hashCode() : 0);
         return result;
     }
-
 }

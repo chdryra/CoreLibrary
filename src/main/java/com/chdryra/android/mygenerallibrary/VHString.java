@@ -25,8 +25,20 @@ public class VHString extends ViewHolderBasic {
     private TextView           mTextView;
     private VHDataStringGetter mGetter;
 
+    /**
+     * Simple interface for extracting strings from data more complex than {@link com.chdryra
+     * .android.mygenerallibrary.VHDString} in order to use the {@link
+     * com.chdryra.android.mygenerallibrary.VHString} ViewHolder. For example,
+     * simple text display cells in the {@link com.chdryra.android.mygenerallibrary
+     * .ViewHolderAdapter}
+     * framework.
+     */
+    public interface VHDataStringGetter {
+        public String getString(ViewHolderData data);
+    }
+
     public VHString() {
-        super(LAYOUT, new int[]{TEXTVIEW});
+        this(LAYOUT, TEXTVIEW);
         initDefaultGetter();
     }
 
@@ -40,17 +52,6 @@ public class VHString extends ViewHolderBasic {
         super(layoutId, new int[]{textViewId});
         mTextViewId = textViewId;
         mGetter = getter;
-    }
-
-    /**
-     * Simple interface for extracting strings from data more complex than {@link com.chdryra
-     * .android.mygenerallibrary.VHString} in order to use the {@link
-     * com.chdryra.android.mygenerallibrary.VHString} ViewHolder. For example,
-     * simple text display cells in the {@link com.chdryra.android.mygenerallibrary
-     * .GridViewCellAdapter} framework.
-     */
-    public interface VHDataStringGetter {
-        public String getString(ViewHolderData data);
     }
 
     @Override

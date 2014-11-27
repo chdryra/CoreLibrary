@@ -21,9 +21,9 @@ import java.io.IOException;
 public class FileIncrementor {
     private static final String TAG                         = "FileCreator";
     private static final String ERROR_CREATING_FILE_MESSAGE = "Error creating file";
-    private static final String ERROR_FILE_EXISTS = "File exists";
+    private static final String ERROR_FILE_EXISTS           = "File exists";
 
-    private File mDirectory;
+    private File   mDirectory;
     private String mFileName;
     private String mExtension;
     private long mFileCounter = 0;
@@ -63,6 +63,7 @@ public class FileIncrementor {
         if (createFile(file)) {
             return file;
         } else {
+            //Should never get here....
             mFileCounter--;
             throw new IOException(ERROR_FILE_EXISTS);
         }

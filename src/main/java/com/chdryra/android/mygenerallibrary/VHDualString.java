@@ -24,7 +24,7 @@ public class VHDualString extends ViewHolderBasic {
     private TextView mLower;
 
     public VHDualString() {
-        super(LAYOUT, new int[]{UPPER, LOWER});
+        this(LAYOUT, UPPER, LOWER);
     }
 
     protected VHDualString(int layoutID, int upperTextViewID, int lowerTextViewID) {

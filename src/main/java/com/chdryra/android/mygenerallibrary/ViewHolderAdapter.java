@@ -33,17 +33,17 @@ public class ViewHolderAdapter extends BaseAdapter {
     private final Activity                               mActivity;
     private final int                                    mViewWidth;
     private final int                                    mViewHeight;
-    private       SortableList<? extends ViewHolderData> mData;
+    private ViewHolderDataList mData;
 
-    public ViewHolderAdapter(Activity activity, SortableList<? extends ViewHolderData> data,
-            int viewWidth, int viewHeight) {
+    public ViewHolderAdapter(Activity activity, ViewHolderDataList data, int viewWidth,
+            int viewHeight) {
         mActivity = activity;
         mData = data;
         mViewWidth = viewWidth;
         mViewHeight = viewHeight;
     }
 
-    public void setData(SortableList<? extends ViewHolderData> data) {
+    public void setData(ViewHolderDataList data) {
         mData = data;
         notifyDataSetChanged();
     }
@@ -56,7 +56,7 @@ public class ViewHolderAdapter extends BaseAdapter {
     @Override
     public ViewHolderData getItem(int position) {
         mData.sort();
-        return mData.getItem(position);
+        return (ViewHolderData) mData.getItem(position);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ViewHolderAdapter extends BaseAdapter {
 
         ViewHolder vh;
         if (convertView == null) {
-            vh = data.getViewHolder();
+            vh = data.newViewHolder();
             vh.inflate(mActivity, parent);
         } else {
             vh = (ViewHolder) convertView.getTag();
