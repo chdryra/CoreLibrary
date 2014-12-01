@@ -28,8 +28,8 @@ import java.util.Locale;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PlaceSuggester {
-    private final Context               mContext;
-    private final LatLng                mLatLng;
+    private final Context             mContext;
+    private final LatLng              mLatLng;
     private final SuggestionsListener mListener;
 
     public interface SuggestionsListener {

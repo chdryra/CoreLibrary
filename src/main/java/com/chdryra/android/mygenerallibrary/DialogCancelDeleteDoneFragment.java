@@ -50,13 +50,6 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
         }
     }
 
-    protected void onConfirmedDeleteButtonClick() {
-    }
-
-    protected boolean hasDataToDelete() {
-        return false;
-    }
-
     public void setDeleteWhatTitle(String deleteWhat) {
         mDeleteWhat = deleteWhat;
     }
@@ -72,13 +65,20 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
         }
     }
 
+    public void clickDeleteButton() {
+        clickActionButton();
+    }
+
+    protected void onConfirmedDeleteButtonClick() {
+    }
+
+    protected boolean hasDataToDelete() {
+        return false;
+    }
+
     private void showDeleteConfirmDialog() {
         DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat,
                 DialogCancelDeleteDoneFragment.this, DELETE_CONFIRM_REQUEST_CODE,
                 getFragmentManager());
-    }
-
-    public void clickDeleteButton() {
-        clickActionButton();
     }
 }

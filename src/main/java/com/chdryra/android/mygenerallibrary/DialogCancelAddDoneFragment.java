@@ -33,10 +33,10 @@ public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDone
         onAddButtonClick();
     }
 
-    protected void onAddButtonClick() {
-    }
-
     public void clickAddButton() {
         clickActionButton();
+    }
+
+    protected void onAddButtonClick() {
     }
 }

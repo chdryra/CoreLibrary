@@ -20,10 +20,11 @@ import java.util.NoSuchElementException;
  * @param <T>: type of the items.
  */
 public class SortableList<T> implements Iterable<T> {
-    public static final String NO_ELEMENT    = "No more elements left";
-    public static final String ILLEGAL_STATE = "Have to do at least one next() before you can " +
+    public static final String        NO_ELEMENT    = "No more elements left";
+    public static final String        ILLEGAL_STATE = "Have to do at least one next() before you " +
+            "can " +
             "delete";
-    protected final LinkedList<T> mData     = new LinkedList<T>();
+    protected final     LinkedList<T> mData         = new LinkedList<T>();
 
     public void add(T item) {
         mData.add(item);

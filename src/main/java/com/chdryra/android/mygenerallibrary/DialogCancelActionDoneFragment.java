@@ -22,11 +22,11 @@ import android.widget.TextView;
  */
 @SuppressWarnings("EmptyMethod")
 public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFragment {
-    public static ActionType CANCEL_ACTION      = ActionType.CANCEL;
-    public static ActionType ACTION_ACTION      = ActionType.OTHER;
-    public static ActionType DONE_ACTION        = ActionType.DONE;
-    public static int        KEYBOARD_DO_ACTION = EditorInfo.IME_ACTION_GO;
-    public static int        KEYBOARD_DO_DONE   = EditorInfo.IME_ACTION_DONE;
+    public static final ActionType CANCEL_ACTION      = ActionType.CANCEL;
+    public static final ActionType ACTION_ACTION      = ActionType.OTHER;
+    public static final ActionType DONE_ACTION        = ActionType.DONE;
+    public static final int        KEYBOARD_DO_ACTION = EditorInfo.IME_ACTION_GO;
+    public static final int        KEYBOARD_DO_DONE   = EditorInfo.IME_ACTION_DONE;
 
     private boolean mActionOnDone = false;
 
@@ -49,42 +49,6 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
     protected void onMiddleButtonClick() {
         onActionButtonClick();
         super.onMiddleButtonClick();
-    }
-
-    @Override
-    protected final void onLeftButtonClick() {
-        onCancelButtonClick();
-        super.onLeftButtonClick();
-    }
-
-    @Override
-    protected final void onRightButtonClick() {
-        if (mActionOnDone) {
-            clickActionButton();
-        }
-        onDoneButtonClick();
-        super.onRightButtonClick();
-    }
-
-    protected void onCancelButtonClick() {
-    }
-
-    protected void onActionButtonClick() {
-    }
-
-    protected void onDoneButtonClick() {
-    }
-
-    protected void performActionOnDone() {
-        mActionOnDone = true;
-    }
-
-    protected void setActionButtonAction(ActionType action) {
-        setMiddleButtonAction(action);
-    }
-
-    protected void dismissDialogOnActionClick() {
-        dismissDialogOnMiddleClick();
     }
 
     public void setKeyboardDoActionOnEditText(EditText editText) {
@@ -131,5 +95,41 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
 
     protected void setActionButtonText(String actionButtonText) {
         setMiddleButtonText(actionButtonText);
+    }
+
+    @Override
+    protected final void onLeftButtonClick() {
+        onCancelButtonClick();
+        super.onLeftButtonClick();
+    }
+
+    @Override
+    protected final void onRightButtonClick() {
+        if (mActionOnDone) {
+            clickActionButton();
+        }
+        onDoneButtonClick();
+        super.onRightButtonClick();
+    }
+
+    protected void onCancelButtonClick() {
+    }
+
+    protected void onActionButtonClick() {
+    }
+
+    protected void onDoneButtonClick() {
+    }
+
+    protected void performActionOnDone() {
+        mActionOnDone = true;
+    }
+
+    protected void setActionButtonAction(ActionType action) {
+        setMiddleButtonAction(action);
+    }
+
+    protected void dismissDialogOnActionClick() {
+        dismissDialogOnMiddleClick();
     }
 }

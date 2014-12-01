@@ -1,4 +1,3 @@
-
 package com.chdryra.android.mygenerallibrary;
 
 import android.graphics.Bitmap;

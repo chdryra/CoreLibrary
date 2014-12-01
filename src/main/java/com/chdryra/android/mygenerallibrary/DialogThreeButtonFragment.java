@@ -77,6 +77,18 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
         return buttons;
     }
 
+    public void clickMiddleButton() {
+        mMiddleButton.performClick();
+    }
+
+    public String getMiddleButtonText() {
+        return (String) mMiddleButton.getText();
+    }
+
+    protected void setMiddleButtonText(String middleButtonText) {
+        mMiddleButtonText = middleButtonText;
+    }
+
     protected void onMiddleButtonClick() {
         sendResult(mMiddleButtonResult);
     }
@@ -88,17 +100,5 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
 
     protected void dismissDialogOnMiddleClick() {
         mDismissOnMiddleClick = true;
-    }
-
-    public void clickMiddleButton() {
-        mMiddleButton.performClick();
-    }
-
-    public String getMiddleButtonText() {
-        return (String) mMiddleButton.getText();
-    }
-
-    protected void setMiddleButtonText(String middleButtonText) {
-        mMiddleButtonText = middleButtonText;
     }
 }

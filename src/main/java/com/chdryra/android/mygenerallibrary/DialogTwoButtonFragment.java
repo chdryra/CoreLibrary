@@ -130,14 +130,6 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         super.onStop();
     }
 
-    protected void onLeftButtonClick() {
-        sendResult(mLeftButtonResult);
-    }
-
-    protected void onRightButtonClick() {
-        sendResult(mRightButtonResult);
-    }
-
     public void setLeftButtonAction(ActionType action) {
         mLeftButtonText = getTitleForAction(action);
         mLeftButtonResult = action.getResultCode();
@@ -148,16 +140,40 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         mRightButtonResult = action.getResultCode();
     }
 
-    protected String getTitleForAction(ActionType type) {
-        return type.getLabel(getActivity());
-    }
-
     public void setDialogTitle(String dialogTitle) {
         mDialogTitle = dialogTitle;
     }
 
     public void hideKeyboardOnLaunch() {
         mShowKeyboardOnLaunch = false;
+    }
+
+    public void clickLeftButton() {
+        mLeftButton.performClick();
+    }
+
+    public void clickRightButton() {
+        mRightButton.performClick();
+    }
+
+    public String getLeftButtonText() {
+        return (String) mLeftButton.getText();
+    }
+
+    public String getRightButtonText() {
+        return (String) mRightButton.getText();
+    }
+
+    protected void onLeftButtonClick() {
+        sendResult(mLeftButtonResult);
+    }
+
+    protected void onRightButtonClick() {
+        sendResult(mRightButtonResult);
+    }
+
+    protected String getTitleForAction(ActionType type) {
+        return type.getLabel(getActivity());
     }
 
     protected void dismissDialogOnLeftClick() {
@@ -267,21 +283,5 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         }
 
         return dialog;
-    }
-
-    public void clickLeftButton() {
-        mLeftButton.performClick();
-    }
-
-    public void clickRightButton() {
-        mRightButton.performClick();
-    }
-
-    public String getLeftButtonText() {
-        return (String) mLeftButton.getText();
-    }
-
-    public String getRightButtonText() {
-        return (String) mRightButton.getText();
     }
 }

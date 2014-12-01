@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PlaceAutoCompleteSuggester implements StringFilterAdapter.StringFilter {
-    private LatLng mLatLng;
+    private final LatLng mLatLng;
 
     public PlaceAutoCompleteSuggester(LatLng latLng) {
         mLatLng = latLng;

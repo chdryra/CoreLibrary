@@ -30,10 +30,10 @@ import android.widget.BaseAdapter;
  * @see com.chdryra.android.mygenerallibrary.ViewHolder
  */
 public class ViewHolderAdapter extends BaseAdapter {
-    private final Activity                               mActivity;
-    private final int                                    mViewWidth;
-    private final int                                    mViewHeight;
-    private ViewHolderDataList mData;
+    private final Activity           mActivity;
+    private final int                mViewWidth;
+    private final int                mViewHeight;
+    private       ViewHolderDataList mData;
 
     public ViewHolderAdapter(Activity activity, ViewHolderDataList data, int viewWidth,
             int viewHeight) {

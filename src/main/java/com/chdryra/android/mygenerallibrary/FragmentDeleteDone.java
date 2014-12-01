@@ -41,17 +41,6 @@ public class FragmentDeleteDone extends Fragment {
     private Intent mReturnData;
     private boolean mDisplayHomeAsUp = true;
 
-    protected void setDisplayHomeAsUp(boolean displayHomeAsUp) {
-        mDisplayHomeAsUp = displayHomeAsUp;
-        setDisplayHomeAsUp();
-    }
-
-    private void setDisplayHomeAsUp() {
-        if (getActivity().getActionBar() != null) {
-            getActivity().getActionBar().setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -102,28 +91,9 @@ public class FragmentDeleteDone extends Fragment {
         }
     }
 
-    private void doUpSelected() {
-        onUpSelected();
-        sendResult(RESULT_UP);
-        getActivity().finish();
-    }
-
-    private void doDeleteSelected() {
-        if (hasDataToDelete()) {
-            onDeleteSelected();
-            if (mDismissOnDelete) {
-                sendResult(RESULT_DELETE);
-                getActivity().finish();
-            }
-        }
-    }
-
-    private void doDoneSelected() {
-        onDoneSelected();
-        if (mDismissOnDone) {
-            sendResult(RESULT_DONE);
-            getActivity().finish();
-        }
+    protected void setDisplayHomeAsUp(boolean displayHomeAsUp) {
+        mDisplayHomeAsUp = displayHomeAsUp;
+        setDisplayHomeAsUp();
     }
 
     protected boolean hasDataToDelete() {
@@ -166,6 +136,36 @@ public class FragmentDeleteDone extends Fragment {
 
     protected void dismissOnDelete() {
         mDismissOnDelete = true;
+    }
+
+    private void setDisplayHomeAsUp() {
+        if (getActivity().getActionBar() != null) {
+            getActivity().getActionBar().setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
+        }
+    }
+
+    private void doUpSelected() {
+        onUpSelected();
+        sendResult(RESULT_UP);
+        getActivity().finish();
+    }
+
+    private void doDeleteSelected() {
+        if (hasDataToDelete()) {
+            onDeleteSelected();
+            if (mDismissOnDelete) {
+                sendResult(RESULT_DELETE);
+                getActivity().finish();
+            }
+        }
+    }
+
+    private void doDoneSelected() {
+        onDoneSelected();
+        if (mDismissOnDone) {
+            sendResult(RESULT_DONE);
+            getActivity().finish();
+        }
     }
 
     private void showDeleteConfirmDialog() {

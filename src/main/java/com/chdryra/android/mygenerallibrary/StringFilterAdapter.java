@@ -22,11 +22,10 @@ import java.util.ArrayList;
  * suggestions to be included via the constructor for when the constraint is null.
  */
 public class StringFilterAdapter extends ArrayAdapter<String> implements Filterable {
-    private static final int    TEXT_VIEW_RESOURCE = android.R.layout.simple_list_item_1;
-
+    private static final int TEXT_VIEW_RESOURCE = android.R.layout.simple_list_item_1;
+    private final StringFilter mStringFilter;
     private ArrayList<String> mFiltered           = new ArrayList<String>();
     private ArrayList<String> mDefaultSuggestions = new ArrayList<String>();
-    private StringFilter mStringFilter;
 
     public interface StringFilter {
         public ArrayList<String> filter(String query);
