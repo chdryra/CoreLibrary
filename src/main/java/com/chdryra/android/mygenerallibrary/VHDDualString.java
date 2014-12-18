@@ -17,6 +17,11 @@ public class VHDDualString implements ViewHolderData {
     private final String mUpper;
     private final String mLower;
 
+    protected VHDDualString() {
+        mUpper = null;
+        mLower = null;
+    }
+
     public VHDDualString(String upper, String lower) {
         mUpper = upper;
         mLower = lower;
