@@ -164,6 +164,10 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         return (String) mRightButton.getText();
     }
 
+    public boolean isShowing() {
+        return getDialog() != null && getDialog().isShowing();
+    }
+
     protected void onLeftButtonClick() {
         sendResult(mLeftButtonResult);
     }
