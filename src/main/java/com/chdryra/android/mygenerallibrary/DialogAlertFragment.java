@@ -28,7 +28,7 @@ public abstract class DialogAlertFragment extends DialogTwoButtonFragment {
      * @return null
      */
     @Override
-    protected final View createDialogUI() {
+    protected final View createDialogUi() {
         return null;
     }
 

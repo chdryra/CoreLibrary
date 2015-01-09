@@ -19,7 +19,7 @@ import android.view.View;
 public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDoneFragment {
     public static final ActionType ADD_ACTION = ActionType.ADD;
 
-    protected abstract View createDialogUI();
+    protected abstract View createDialogUi();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

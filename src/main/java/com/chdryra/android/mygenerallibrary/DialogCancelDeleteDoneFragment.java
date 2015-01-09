@@ -25,7 +25,7 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
     private String mDeleteWhat;
 
     @Override
-    protected abstract View createDialogUI();
+    protected abstract View createDialogUi();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -25,7 +25,7 @@ import android.widget.LinearLayout.LayoutParams;
  * A standard unified look and action for 2 button dialogs. Dialogs often have to do quite similar
  * things that rarely require more than 2 or 3 buttons.
  * <p>
- * Subclasses need to override {@link #createDialogUI()} to return a View
+ * Subclasses need to override {@link #createDialogUi()} to return a View
  * (similar to
  * <code>onCreateView(.)</code> in fragments) that defines the look of the Dialog. This method
  * is called by {@link #onCreateDialog(android.os.Bundle)} which combines it with the buttons
@@ -103,7 +103,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
      * @see #onCreateDialog(android.os.Bundle)
      * @see #getButtons(android.view.ViewGroup)
      */
-    protected abstract View createDialogUI();
+    protected abstract View createDialogUi();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -227,7 +227,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
      *                "parent" should be passed as the parent ViewGroup parameter to the inflater.
      * @return View: the button UI for the Dialog.
      * @see #onCreateDialog(android.os.Bundle)
-     * @see #createDialogUI()
+     * @see #createDialogUi()
      */
     protected View getButtons(ViewGroup parent) {
         View buttons = getActivity().getLayoutInflater().inflate(
@@ -268,7 +268,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 
         //Hacky layout params to get listview dialogUIs to render properly.
         //Need to set layout weight of 1 on it...
-        View dialogUi = createDialogUI();
+        View dialogUi = createDialogUi();
         if (dialogUi != null) {
             layout.addView(dialogUi, lp1);
         }

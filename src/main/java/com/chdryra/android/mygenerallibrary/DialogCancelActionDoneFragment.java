@@ -31,7 +31,7 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
     private boolean mActionOnDone = false;
 
     @Override
-    protected abstract View createDialogUI();
+    protected abstract View createDialogUi();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

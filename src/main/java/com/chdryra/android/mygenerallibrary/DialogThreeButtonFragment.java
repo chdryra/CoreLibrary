@@ -25,7 +25,7 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
     private boolean mDismissOnMiddleClick = false;
 
     @Override
-    protected abstract View createDialogUI();
+    protected abstract View createDialogUi();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
