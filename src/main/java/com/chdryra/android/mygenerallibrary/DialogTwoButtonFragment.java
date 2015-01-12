@@ -170,10 +170,12 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 
     protected void onLeftButtonClick() {
         sendResult(mLeftButtonResult);
+        if (mDismissOnLeftClick) dismiss();
     }
 
     protected void onRightButtonClick() {
         sendResult(mRightButtonResult);
+        if (mDismissOnRightClick) dismiss();
     }
 
     protected String getTitleForAction(ActionType type) {
@@ -202,21 +204,10 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
     }
 
     protected void sendResult(ActivityResultCode resultCode) {
-        if (getTargetFragment() == null) {
-            return;
-        }
-
+        if (getTargetFragment() == null) return;
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode.get(),
                 getReturnData());
         mReturnData = null;
-
-        if (resultCode.equals(mLeftButtonResult) && mDismissOnLeftClick) {
-            dismiss();
-        }
-
-        if (resultCode.equals(mRightButtonResult) && mDismissOnRightClick) {
-            dismiss();
-        }
     }
 
     /**
@@ -253,6 +244,15 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         });
 
         return buttons;
+    }
+
+    protected <T> T getTargetListener(Class<T> listenerClass) {
+        try {
+            return listenerClass.cast(getTargetFragment());
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getTargetFragment().toString() + " must implement " +
+                    listenerClass.getName());
+        }
     }
 
     private Dialog buildDialog() {

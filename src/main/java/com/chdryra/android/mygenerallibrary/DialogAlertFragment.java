@@ -13,14 +13,41 @@ import android.view.View;
 
 /**
  * Simple abstract class for building alert dialogs, for example user confirmation requests etc.
- * Need to override {@link #getAlertString()} to specify the question to the user. Default
- * button actions are "Yes" and "No".
+ * Default button actions are "Yes" and "No".
  */
-public abstract class DialogAlertFragment extends DialogTwoButtonFragment {
-    public static final ActionType NEGATIVE_ACTION = ActionType.NO;
-    public static final ActionType POSITVE_ACTION  = ActionType.YES;
+public class DialogAlertFragment extends DialogTwoButtonFragment {
+    public static final  ActionType NEGATIVE_ACTION = ActionType.CANCEL;
+    public static final  ActionType POSITVE_ACTION  = ActionType.YES;
+    private static final String     ALERT_TAG       = "com.chdryra.android.reviewer.alert_tag";
 
-    protected abstract String getAlertString();
+    private DialogAlertListener mListener;
+    private Bundle              mArgs;
+
+    public interface DialogAlertListener {
+        public void onAlertNegative(int requestCode, Bundle args);
+
+        public void onAlertPositive(int requestCode, Bundle args);
+    }
+
+    public static DialogAlertFragment newDialog(String alert) {
+        return newDialog(alert, new Bundle());
+    }
+
+    public static DialogAlertFragment newDialog(String alert, Bundle args) {
+        args.putString(ALERT_TAG, alert);
+        DialogAlertFragment dialog = new DialogAlertFragment();
+        dialog.setArguments(args);
+
+        return dialog;
+    }
+
+    public void clickNegativeButton() {
+        clickLeftButton();
+    }
+
+    public void clickPositiveButton() {
+        clickRightButton();
+    }
 
     /**
      * Returns null view to keep alert simply a question and 2 buttons.
@@ -39,7 +66,21 @@ public abstract class DialogAlertFragment extends DialogTwoButtonFragment {
         setRightButtonAction(POSITVE_ACTION);
         dismissDialogOnLeftClick();
         dismissDialogOnRightClick();
-        setDialogTitle(getAlertString());
+        setDialogTitle(getArguments().getString(ALERT_TAG));
         hideKeyboardOnLaunch();
+        mListener = getTargetListener(DialogAlertListener.class);
+        mArgs = getArguments() == null ? new Bundle() : getArguments();
+    }
+
+    @Override
+    protected void onLeftButtonClick() {
+        mListener.onAlertNegative(getTargetRequestCode(), mArgs);
+        super.onLeftButtonClick();
+    }
+
+    @Override
+    protected void onRightButtonClick() {
+        mListener.onAlertPositive(getTargetRequestCode(), mArgs);
+        super.onRightButtonClick();
     }
 }

@@ -24,7 +24,8 @@ import android.view.ViewGroup;
  * pressed and there is data to delete. Also manages actions to perform on up/delete/done.
  * </p>
  */
-public class FragmentDeleteDone extends Fragment {
+public class FragmentDeleteDone extends Fragment implements DialogAlertFragment
+        .DialogAlertListener {
     public static final int                MENU_ID        = R.menu.menu_delete_done;
     public static final int                MENU_UP_ID     = android.R.id.home;
     public static final int                MENU_DELETE_ID = R.id.menu_item_delete;
@@ -42,16 +43,13 @@ public class FragmentDeleteDone extends Fragment {
     private boolean mDisplayHomeAsUp = true;
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case DELETE_CONFIRM:
-                if (DialogDeleteConfirmFragment.DELETE_CONFIRM.getResultCode().equals(resultCode)) {
-                    doDeleteSelected();
-                }
-                break;
-            default:
-                break;
-        }
+    public void onAlertNegative(int requestCode, Bundle args) {
+
+    }
+
+    @Override
+    public void onAlertPositive(int requestCode, Bundle args) {
+        if (requestCode == DELETE_CONFIRM) doDeleteSelected();
     }
 
     @Override
@@ -169,8 +167,7 @@ public class FragmentDeleteDone extends Fragment {
     }
 
     private void showDeleteConfirmDialog() {
-        DialogDeleteConfirmFragment.showDeleteConfirmDialog(mDeleteWhat,
-                FragmentDeleteDone.this,
-                DELETE_CONFIRM, getFragmentManager());
+        DialogDeleteConfirm.showDialog(mDeleteWhat, FragmentDeleteDone.this, DELETE_CONFIRM,
+                getFragmentManager());
     }
 }

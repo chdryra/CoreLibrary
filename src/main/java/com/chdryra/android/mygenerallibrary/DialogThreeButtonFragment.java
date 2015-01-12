@@ -36,9 +36,7 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
     @Override
     protected void sendResult(ActivityResultCode resultCode) {
         super.sendResult(resultCode);
-        if (resultCode.equals(mMiddleButtonResult) && mDismissOnMiddleClick) {
-            dismiss();
-        }
+
     }
 
     @Override
@@ -91,6 +89,7 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
 
     protected void onMiddleButtonClick() {
         sendResult(mMiddleButtonResult);
+        if (mDismissOnMiddleClick) dismiss();
     }
 
     protected void setMiddleButtonAction(ActionType action) {
