@@ -24,7 +24,7 @@ public class SortableList<T> implements Iterable<T> {
     public static final String        ILLEGAL_STATE = "Have to do at least one next() before you " +
             "can " +
             "delete";
-    protected final     LinkedList<T> mData         = new LinkedList<T>();
+    protected final     LinkedList<T> mData         = new LinkedList<>();
 
     public void add(T item) {
         mData.add(item);
@@ -102,7 +102,7 @@ public class SortableList<T> implements Iterable<T> {
         @Override
         public void remove() {
             if (mPosition > 0) {
-                mData.remove((getItem(mPosition - 1)));
+                mData.remove((getItem(--mPosition)));
             } else {
                 throw new IllegalStateException(ILLEGAL_STATE);
             }
