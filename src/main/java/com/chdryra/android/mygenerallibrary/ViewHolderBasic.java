@@ -33,7 +33,7 @@ public abstract class ViewHolderBasic implements ViewHolder {
     protected ViewHolderBasic(int layoutId, int[] viewIds) {
         mLayout = layoutId;
         mUpdateableViewIds = viewIds;
-        mUpdateableViews = new SparseArray<View>(mUpdateableViewIds.length);
+        mUpdateableViews = new SparseArray<>(mUpdateableViewIds.length);
     }
 
     @Override
