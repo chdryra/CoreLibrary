@@ -63,7 +63,7 @@ public class SortableList<T> implements Iterable<T> {
         return new SortableListIterator();
     }
 
-    protected void add(SortableList<T> list) {
+    public void add(SortableList<T> list) {
         for (T item : list) {
             add(item);
         }
