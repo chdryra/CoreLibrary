@@ -8,7 +8,7 @@
 
 package com.chdryra.android.mygenerallibrary;
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,7 +21,7 @@ import android.view.ViewGroup;
  * @see ViewHolderAdapter
  */
 public interface ViewHolder {
-    public void inflate(Activity activity, ViewGroup parent);
+    public void inflate(Context context, ViewGroup parent);
 
     public void updateView(ViewHolderData data);
 

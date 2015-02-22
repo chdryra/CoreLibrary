@@ -8,8 +8,9 @@
 
 package com.chdryra.android.mygenerallibrary;
 
-import android.app.Activity;
+import android.content.Context;
 import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -37,8 +38,8 @@ public abstract class ViewHolderBasic implements ViewHolder {
     }
 
     @Override
-    public void inflate(Activity activity, ViewGroup parent) {
-        mInflated = activity.getLayoutInflater().inflate(mLayout, parent, false);
+    public void inflate(Context context, ViewGroup parent) {
+        mInflated = LayoutInflater.from(context).inflate(mLayout, parent, false);
         if (mInflated != null) {
             for (int viewId : mUpdateableViewIds) {
                 mUpdateableViews.put(viewId, mInflated.findViewById(viewId));
