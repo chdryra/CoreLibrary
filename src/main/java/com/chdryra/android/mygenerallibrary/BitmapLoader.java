@@ -36,7 +36,7 @@ public class BitmapLoader {
             Bitmap bitmap = ImageHelper.getBitmap(mFile, maxWidth, maxHeight);
             Bitmap rescaled = ImageHelper.rescalePreservingAspectRatio(bitmap, maxWidth, maxHeight);
 
-            return ImageHelper.rotateBitmapUsingExif(ImageHelper.getEXIF(mFile), rescaled);
+            return ImageHelper.rotateBitmapUsingExif(ImageHelper.getExif(mFile), rescaled);
         }
 
         @Override

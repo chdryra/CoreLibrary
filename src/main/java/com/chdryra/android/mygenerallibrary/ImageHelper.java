@@ -26,14 +26,25 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * A hotchpotch of image related tasks that can be performed on an image file.
  */
 public class ImageHelper {
     private static final String TAG = "ImageHelper";
+    private static DateFormat sFormatter;
+
+    static {
+        sFormatter = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+        sFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
 
     public static boolean bitmapExists(String filePath) {
         BitmapFactory.Options options = getBitmapInfo(filePath);
@@ -105,7 +116,7 @@ public class ImageHelper {
         }
     }
 
-    public static LatLng getLatLngFromEXIF(ExifInterface exif) {
+    public static LatLng getLatLngFromExif(ExifInterface exif) {
         LatLng latLng = null;
         float[] ll = new float[2];
         if (exif.getLatLong(ll)) {
@@ -115,7 +126,21 @@ public class ImageHelper {
         return latLng;
     }
 
-    public static ExifInterface getEXIF(String filePath) {
+    public static Date getDateTimeFromEXIF(ExifInterface exif) {
+        //From ExifInterface source code
+        String dateTimeString = exif.getAttribute(ExifInterface.TAG_DATETIME);
+        ParsePosition pos = new ParsePosition(0);
+
+        try {
+            Date dateTime = sFormatter.parse(dateTimeString, pos);
+            if (dateTime == null) return null;
+            return dateTime;
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
+    }
+
+    public static ExifInterface getExif(String filePath) {
         ExifInterface exif = null;
         if (filePath != null && filePath.length() > 0) {
             try {
