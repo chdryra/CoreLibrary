@@ -16,9 +16,9 @@ import android.view.View;
  * Default button actions are "Yes" and "No".
  */
 public class DialogAlertFragment extends DialogTwoButtonFragment {
-    public static final  ActionType NEGATIVE_ACTION = ActionType.CANCEL;
-    public static final  ActionType POSITVE_ACTION  = ActionType.YES;
-    private static final String     ALERT_TAG       = "com.chdryra.android.reviewer.alert_tag";
+    public static final ActionType NEGATIVE_ACTION = ActionType.CANCEL;
+    public static final ActionType POSITVE_ACTION  = ActionType.YES;
+    public static final String     ALERT_TAG       = "com.chdryra.android.reviewer.alert_tag";
 
     private DialogAlertListener mListener;
     private Bundle              mArgs;
