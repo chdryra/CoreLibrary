@@ -14,7 +14,6 @@ import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.chdryra.android.remoteapifetchers.FetcherPlacesAPI;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
@@ -70,7 +69,7 @@ public class PlaceSuggester {
             ArrayList<String> namesFromGoogle = new ArrayList<String>();
             if (mLatLng == null || numberToGet == 0) return namesFromGoogle;
 
-            namesFromGoogle = FetcherPlacesAPI.fetchNearestNames(mLatLng, numberToGet);
+            namesFromGoogle = GooglePlacesApi.fetchNearestNames(mLatLng, numberToGet);
 
             if (namesFromGoogle.size() > 0) {
                 return namesFromGoogle;

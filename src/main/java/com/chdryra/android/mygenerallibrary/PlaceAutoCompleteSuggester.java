@@ -8,7 +8,6 @@
 
 package com.chdryra.android.mygenerallibrary;
 
-import com.chdryra.android.remoteapifetchers.FetcherPlacesAPI;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class PlaceAutoCompleteSuggester implements StringFilterAdapter.StringFil
 
     @Override
     public ArrayList<String> filter(String query) {
-        ArrayList<String> suggestions = FetcherPlacesAPI.fetchAutoCompleteSuggestions(query,
+        ArrayList<String> suggestions = GooglePlacesApi.fetchAutoCompleteSuggestions(query,
                 mLatLng);
 
         ArrayList<String> shortened = new ArrayList<String>();
