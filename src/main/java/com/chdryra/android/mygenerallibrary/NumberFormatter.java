@@ -9,6 +9,7 @@
 package com.chdryra.android.mygenerallibrary;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,26 +18,33 @@ import java.text.DecimalFormat;
  */
 public class NumberFormatter {
     public static String roundToSignificant(double num, int toDigits) {
-        int digits = Math.min(toDigits, numDigits(num));
-        String pattern = digits > 1 ? "0." : "0";
-        while (digits-- > 1) pattern += "0";
+        double rounded = MathRounder.roundToSignificant(num, toDigits);
+        int digits = Math.min(toDigits, numDigits(rounded));
+        int sigDigits = numSignificantDigits(rounded);
+        String pattern = digits > sigDigits ? "0." : "0";
+        while (digits-- > sigDigits) pattern += "0";
         DecimalFormat formatter = new DecimalFormat("0");
         DecimalFormat decimalFormatter = new DecimalFormat(pattern);
-        return num % 1L > 0L ? decimalFormatter.format(num) : formatter.format(num);
+        return rounded % 1L > 0L ? decimalFormatter.format(rounded) : formatter.format(rounded);
     }
 
-    protected static int numDigits(double num) {
+    public static int numDigits(double num) {
         String[] strings = split(num);
         return strings.length > 1 ? strings[0].length() + strings[1].length() : strings[0].length();
     }
 
-    protected static int numSignificantDigits(double num) {
+    public static int numSignificantDigits(double num) {
         String[] strings = split(num);
         return strings[0].length();
     }
 
-    protected static int numDecimalDigits(double num) {
+    public static int numDecimalDigits(double num) {
         String[] strings = split(num);
+        if (strings.length == 2) {
+            String digit = strings[1];
+            if (digit.equals("0")) strings = Arrays.copyOfRange(strings, 0, 0);
+        }
+
         return strings.length > 1 ? strings[1].length() : 0;
     }
 
