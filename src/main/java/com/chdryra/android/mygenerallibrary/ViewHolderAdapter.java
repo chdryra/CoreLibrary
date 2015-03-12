@@ -9,7 +9,7 @@
 package com.chdryra.android.mygenerallibrary;
 
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -30,17 +30,26 @@ import android.widget.BaseAdapter;
  * @see com.chdryra.android.mygenerallibrary.ViewHolder
  */
 public class ViewHolderAdapter extends BaseAdapter {
-    private final Activity           mActivity;
+    private final Context mContext;
     private final int                mViewWidth;
     private final int                mViewHeight;
     private       ViewHolderDataList mData;
+    private boolean mSetDimensions = false;
 
-    public ViewHolderAdapter(Activity activity, ViewHolderDataList data, int viewWidth,
+    public ViewHolderAdapter(Context context, ViewHolderDataList data) {
+        mContext = context;
+        mData = data;
+        mViewWidth = -1;
+        mViewHeight = -1;
+    }
+
+    public ViewHolderAdapter(Context context, ViewHolderDataList data, int viewWidth,
             int viewHeight) {
-        mActivity = activity;
+        mContext = context;
         mData = data;
         mViewWidth = viewWidth;
         mViewHeight = viewHeight;
+        mSetDimensions = true;
     }
 
     public void setData(ViewHolderDataList data) {
@@ -72,7 +81,7 @@ public class ViewHolderAdapter extends BaseAdapter {
         ViewHolder vh;
         if (convertView == null) {
             vh = data.newViewHolder();
-            vh.inflate(mActivity, parent);
+            vh.inflate(mContext, parent);
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
@@ -80,8 +89,11 @@ public class ViewHolderAdapter extends BaseAdapter {
         vh.updateView(data);
         convertView = vh.getView();
         convertView.setTag(vh);
-        convertView.getLayoutParams().height = mViewHeight;
-        convertView.getLayoutParams().width = mViewWidth;
+
+        if (mSetDimensions) {
+            convertView.getLayoutParams().height = mViewHeight;
+            convertView.getLayoutParams().width = mViewWidth;
+        }
 
         return convertView;
     }

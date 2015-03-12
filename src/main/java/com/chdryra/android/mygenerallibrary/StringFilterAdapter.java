@@ -24,12 +24,8 @@ import java.util.ArrayList;
 public class StringFilterAdapter extends ArrayAdapter<String> implements Filterable {
     private static final int TEXT_VIEW_RESOURCE = android.R.layout.simple_list_item_1;
     private final StringFilter mStringFilter;
-    private ArrayList<String> mFiltered = new ArrayList<>();
+    private ArrayList<String> mFiltered           = new ArrayList<>();
     private ArrayList<String> mDefaultSuggestions = new ArrayList<String>();
-
-    public interface Stringable {
-        public String getString();
-    }
 
     public interface StringFilter {
         public ArrayList<String> filter(String query);
