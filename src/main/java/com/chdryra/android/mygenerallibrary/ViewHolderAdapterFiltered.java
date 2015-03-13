@@ -65,13 +65,13 @@ public class ViewHolderAdapterFiltered extends ViewHolderAdapter
                 filterResults.values = mFiltered;
                 filterResults.count = getCount();
 
-                mInitialList = mFiltered;
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 if (results != null && results.count > 0) {
+                    mInitialList = mFiltered;
                     notifyDataSetChanged();
                 } else {
                     notifyDataSetInvalidated();
