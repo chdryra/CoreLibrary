@@ -36,6 +36,7 @@ public class ViewHolderAdapterFiltered extends ViewHolderAdapter
             mFiltered = initialList;
         }
         mFilter = filter;
+        setData(mFiltered);
     }
 
     @Override

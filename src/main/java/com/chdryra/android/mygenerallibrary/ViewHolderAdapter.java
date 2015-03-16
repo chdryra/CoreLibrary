@@ -76,7 +76,7 @@ public class ViewHolderAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolderData data = getItem(position);
-        if (!data.isValidForDisplay()) return null;
+        if (data == null || !data.isValidForDisplay()) return null;
 
         ViewHolder vh;
         if (convertView == null) {
