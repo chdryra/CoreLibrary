@@ -58,25 +58,21 @@ public class ViewHolderAdapterFiltered extends ViewHolderAdapter
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
 
-                mFiltered = mInitialList;
+                ViewHolderDataList filtered = mInitialList;
                 if (constraint != null && constraint.length() > 0) {
-                    mFiltered = mFilter.filter(constraint.toString());
+                    filtered = mFilter.filter(constraint.toString());
                 }
 
-                filterResults.values = mFiltered;
-                filterResults.count = getCount();
+                filterResults.values = filtered;
+                filterResults.count = filtered.size();
 
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                if (results != null && results.count > 0) {
-                    mInitialList = mFiltered;
-                    notifyDataSetChanged();
-                } else {
-                    notifyDataSetInvalidated();
-                }
+                mFiltered = (ViewHolderDataList) results.values;
+                notifyDataSetChanged();
             }
         };
     }
