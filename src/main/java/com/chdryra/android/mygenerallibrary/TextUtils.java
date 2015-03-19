@@ -10,6 +10,7 @@ package com.chdryra.android.mygenerallibrary;
 
 import android.util.Patterns;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
@@ -25,5 +26,20 @@ public class TextUtils {
         Matcher matcher = Patterns.WEB_URL.matcher(text);
         while (matcher.find()) links.add(matcher.group());
         return links;
+    }
+
+    public static String toShortenedString(URL url) {
+        String protocol = url.getProtocol();
+        String result = url.toExternalForm().replaceFirst(protocol + ":", "");
+        if (result.startsWith("//")) {
+            result = result.substring(2);
+        }
+
+        result = result.trim();
+        if (result.endsWith("/")) {
+            result = (String) result.subSequence(0, result.length() - 1);
+        }
+
+        return result.toLowerCase();
     }
 }
