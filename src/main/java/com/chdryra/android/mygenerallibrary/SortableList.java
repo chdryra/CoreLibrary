@@ -8,10 +8,10 @@
 
 package com.chdryra.android.mygenerallibrary;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 /**
@@ -23,7 +23,7 @@ public class SortableList<T> implements Iterable<T> {
     public static final String        NO_ELEMENT    = "No more elements left";
     public static final String        ILLEGAL_STATE = "Have to do at least one next() before you " +
             "can delete";
-    protected final     LinkedList<T> mData         = new LinkedList<>();
+    protected ArrayList<T> mData = new ArrayList<>();
 
     public void add(T item) {
         mData.add(item);
@@ -66,6 +66,12 @@ public class SortableList<T> implements Iterable<T> {
         for (T item : list) {
             add(item);
         }
+    }
+
+    public ArrayList<T> toArrayList() {
+        ArrayList<T> arrayList = new ArrayList<>();
+        arrayList.addAll(mData);
+        return arrayList;
     }
 
     protected Comparator<T> getDefaultComparator() {
