@@ -17,7 +17,6 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Handles connection to Google Play services for Places API lookup tasks.
@@ -38,9 +37,9 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
      * location.
      */
     public interface Locatable {
-        public void onLocated(LatLng latLng);
+        public void onLocated(Location location);
 
-        public void onLocationClientConnected(LatLng latLng);
+        public void onLocationClientConnected(Location location);
     }
 
     public LocationClientConnector(Activity activity, Locatable locatable) {
@@ -63,7 +62,7 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
         if (mLocationClient.isConnected()) {
             Location location = mLocationClient.getLastLocation();
             if (location != null) {
-                mLocatable.onLocated(new LatLng(location.getLatitude(), location.getLongitude()));
+                mLocatable.onLocated(location);
                 return true;
             }
         }
@@ -95,11 +94,7 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
     @Override
     public void onConnected(Bundle arg0) {
         Location location = mLocationClient.getLastLocation();
-        if (location != null) {
-            mLocatable.onLocationClientConnected(new LatLng(location.getLatitude(),
-                    location.getLongitude()));
-        }
-
+        if (location != null) mLocatable.onLocationClientConnected(location);
         Log.i(TAG, "LocationClient connected");
     }
 
