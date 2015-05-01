@@ -42,7 +42,7 @@ public class VHDDualString implements ViewHolderData {
 
     @Override
     public boolean isValidForDisplay() {
-        return (mUpper != null && mUpper.length() > 0) || (mLower != null && mLower.length() > 0);
+        return (mUpper.length() > 0 && mLower.length() > 0);
     }
 
     @Override
@@ -52,15 +52,15 @@ public class VHDDualString implements ViewHolderData {
 
         VHDDualString that = (VHDDualString) o;
 
-        return !(mLower != null ? !mLower.equals(that.mLower) : that.mLower != null) && !(mUpper
-                != null ? !mUpper.equals(that.mUpper) : that.mUpper != null);
+        if (!mUpper.equals(that.mUpper)) return false;
+        return mLower.equals(that.mLower);
 
     }
 
     @Override
     public int hashCode() {
-        int result = mUpper != null ? mUpper.hashCode() : 0;
-        result = 31 * result + (mLower != null ? mLower.hashCode() : 0);
+        int result = mUpper.hashCode();
+        result = 31 * result + mLower.hashCode();
         return result;
     }
 }
