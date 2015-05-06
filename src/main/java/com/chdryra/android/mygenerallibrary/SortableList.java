@@ -90,6 +90,10 @@ public class SortableList<T> implements Iterable<T> {
     public class SortableListIterator implements Iterator<T> {
         int mPosition = 0;
 
+        private SortableListIterator() {
+
+        }
+
         @Override
         public boolean hasNext() {
             return mPosition < size() && getItem(mPosition) != null;
