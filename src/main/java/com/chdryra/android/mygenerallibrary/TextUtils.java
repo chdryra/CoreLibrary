@@ -9,9 +9,11 @@
 package com.chdryra.android.mygenerallibrary;
 
 import android.util.Patterns;
+import android.widget.TextView;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 
 /**
@@ -41,5 +43,22 @@ public class TextUtils {
         }
 
         return result.toLowerCase();
+    }
+
+    public static boolean isTooLargeForTextView(TextView text, String newText) {
+        float textWidth = text.getPaint().measureText(newText);
+        return (textWidth >= text.getMeasuredWidth());
+    }
+
+    public static String commaDelimited(ArrayList<String> strings) {
+        String ret = "";
+        for (String string : strings) {
+            ret += string + ",";
+        }
+        return ret.substring(0, ret.length() - 1);
+    }
+
+    public static ArrayList<String> splitString(String string, String delimiter) {
+        return (ArrayList<String>) Arrays.asList(string.split(delimiter));
     }
 }
