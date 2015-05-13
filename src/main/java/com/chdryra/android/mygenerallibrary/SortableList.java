@@ -57,7 +57,7 @@ public class SortableList<T> implements Iterable<T> {
         Collections.sort(mData, comparator);
     }
 
-    public void add(Iterable<T> list) {
+    public void addList(Iterable<T> list) {
         for (T item : list) {
             add(item);
         }
