@@ -80,7 +80,7 @@ public class ViewHolderAdapter extends BaseAdapter {
 
         ViewHolder vh;
         if (convertView == null) {
-            vh = data.newViewHolder();
+            vh = data.getViewHolder();
             vh.inflate(mContext, parent);
         } else {
             vh = (ViewHolder) convertView.getTag();

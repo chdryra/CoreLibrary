@@ -27,7 +27,7 @@ package com.chdryra.android.mygenerallibrary;
  */
 public interface ViewHolderData {
 
-    public ViewHolder newViewHolder();
+    public ViewHolder getViewHolder();
 
     public boolean isValidForDisplay();
 

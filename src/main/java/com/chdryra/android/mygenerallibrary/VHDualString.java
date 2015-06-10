@@ -17,8 +17,8 @@ import android.widget.TextView;
 public class VHDualString extends ViewHolderBasic {
     private static final int LAYOUT   = R.layout.grid_cell_dual_string;
     private static final int UPPER    = R.id.upper_text_view;
+    private static final int LOWER = R.id.lower_text_view;
     private              int mUpperID = UPPER;
-    private static final int LOWER    = R.id.lower_text_view;
     private              int mLowerID = LOWER;
     private TextView mUpper;
     private TextView mLower;

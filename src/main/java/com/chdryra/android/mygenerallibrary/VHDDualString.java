@@ -36,7 +36,7 @@ public class VHDDualString implements ViewHolderData {
     }
 
     @Override
-    public ViewHolder newViewHolder() {
+    public ViewHolder getViewHolder() {
         return new VHDualString();
     }
 

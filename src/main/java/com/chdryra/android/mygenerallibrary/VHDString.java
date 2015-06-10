@@ -23,7 +23,7 @@ public class VHDString implements ViewHolderData {
     }
 
     @Override
-    public ViewHolder newViewHolder() {
+    public ViewHolder getViewHolder() {
         return new VHString();
     }
 
