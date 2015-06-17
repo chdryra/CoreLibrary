@@ -67,7 +67,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
      *
      * @see ActivityResultCode
      */
-    public static enum ActionType {
+    public enum ActionType {
         CANCEL(ActivityResultCode.CANCEL, R.string.gl_action_cancel_text),
         DONE(ActivityResultCode.DONE, R.string.gl_action_done_text),
         OTHER(ActivityResultCode.OTHER, R.string.gl_action_other_text),
@@ -82,7 +82,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         private final ActivityResultCode mResultCode;
         private final int                mLabelId;
 
-        private ActionType(ActivityResultCode resultCode, int labelId) {
+        ActionType(ActivityResultCode resultCode, int labelId) {
             mResultCode = resultCode;
             mLabelId = labelId;
         }
@@ -160,8 +160,16 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         return (String) mLeftButton.getText();
     }
 
+    public void setLeftButtonText(String leftButtonText) {
+        mLeftButtonText = leftButtonText;
+    }
+
     public String getRightButtonText() {
         return (String) mRightButton.getText();
+    }
+
+    public void setRightButtonText(String rightButtonText) {
+        mRightButtonText = rightButtonText;
     }
 
     public boolean isShowing() {
