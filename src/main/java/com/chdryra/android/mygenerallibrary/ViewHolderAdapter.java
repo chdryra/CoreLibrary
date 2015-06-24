@@ -35,21 +35,25 @@ public class ViewHolderAdapter extends BaseAdapter {
     private final int                mViewHeight;
     private       ViewHolderDataList mData;
     private boolean mSetDimensions = false;
+    private boolean mUniqueViews = false;
 
     public ViewHolderAdapter(Context context, ViewHolderDataList data) {
-        mContext = context;
-        mData = data;
-        mViewWidth = -1;
-        mViewHeight = -1;
+        this(context, data, -1, -1, false);
     }
 
     public ViewHolderAdapter(Context context, ViewHolderDataList data, int viewWidth,
             int viewHeight) {
+        this(context, data, viewWidth, viewHeight, false);
+    }
+
+    public ViewHolderAdapter(Context context, ViewHolderDataList data, int viewWidth,
+            int viewHeight, boolean uniqueViews) {
         mContext = context;
         mData = data;
         mViewWidth = viewWidth;
         mViewHeight = viewHeight;
         mSetDimensions = true;
+        mUniqueViews = uniqueViews;
     }
 
     public void setData(ViewHolderDataList data) {
@@ -79,7 +83,7 @@ public class ViewHolderAdapter extends BaseAdapter {
         if (data == null || !data.isValidForDisplay()) return null;
 
         ViewHolder vh;
-        if (convertView == null) {
+        if (convertView == null || mUniqueViews) {
             vh = data.getViewHolder();
             vh.inflate(mContext, parent);
         } else {
