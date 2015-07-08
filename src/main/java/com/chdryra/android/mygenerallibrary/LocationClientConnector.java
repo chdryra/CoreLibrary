@@ -15,21 +15,21 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 /**
  * Handles connection to Google Play services for Places API lookup tasks.
  */
-public class LocationClientConnector implements GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener {
+public class LocationClientConnector implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG                                   = "LocationClientConnector";
     private static final int    MAX_CONNECTION_TRIES                  = 3;
     private final static int    CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private final LocationClient mLocationClient;
-    private final Activity       mActivity;
-    private final Locatable      mLocatable;
+    private final GoogleApiClient mApiClient;
+    private final Activity        mActivity;
+    private final Locatable       mLocatable;
     private int mNumberConnectionTries = 0;
 
     /**
@@ -37,30 +37,34 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
      * location.
      */
     public interface Locatable {
-        public void onLocated(Location location);
+        void onLocated(Location location);
 
-        public void onLocationClientConnected(Location location);
+        void onLocationClientConnected(Location location);
     }
 
     public LocationClientConnector(Activity activity, Locatable locatable) {
         mActivity = activity;
         mLocatable = locatable;
-        mLocationClient = new LocationClient(mActivity, this, this);
+        mApiClient = new GoogleApiClient.Builder(mActivity)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     public void connect() {
-        if (!mLocationClient.isConnected()) {
-            mLocationClient.connect();
+        if (!mApiClient.isConnected()) {
+            mApiClient.connect();
         }
     }
 
     public void disconnect() {
-        mLocationClient.disconnect();
+        mApiClient.disconnect();
     }
 
     public boolean locate() {
-        if (mLocationClient.isConnected()) {
-            Location location = mLocationClient.getLastLocation();
+        if (mApiClient.isConnected()) {
+            Location location = getLastLocation();
             if (location != null) {
                 mLocatable.onLocated(location);
                 return true;
@@ -79,7 +83,7 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
             } catch (IntentSender.SendIntentException e) {
                 if (++mNumberConnectionTries < MAX_CONNECTION_TRIES) {
                     Log.i(TAG, "Problems contacting location services. Trying again...");
-                    mLocationClient.connect();
+                    mApiClient.connect();
                 } else {
                     Log.e(TAG, "Tried contacting location services " + MAX_CONNECTION_TRIES + "" +
                             " times. Problems persist.", e);
@@ -93,13 +97,17 @@ public class LocationClientConnector implements GooglePlayServicesClient.Connect
 
     @Override
     public void onConnected(Bundle arg0) {
-        Location location = mLocationClient.getLastLocation();
+        Location location = getLastLocation();
         if (location != null) mLocatable.onLocationClientConnected(location);
         Log.i(TAG, "LocationClient connected");
     }
 
     @Override
-    public void onDisconnected() {
-        Log.i(TAG, "LocationClient disconnected");
+    public void onConnectionSuspended(int index) {
+
+    }
+
+    private Location getLastLocation() {
+        return LocationServices.FusedLocationApi.getLastLocation(mApiClient);
     }
 }
