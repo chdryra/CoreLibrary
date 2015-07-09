@@ -15,10 +15,10 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AverageLatLng {
+public class LatLngMidpoint {
     private LatLng mGeoMidpoint;
 
-    public AverageLatLng(LatLng[] latLngs) {
+    public LatLngMidpoint(LatLng[] latLngs) {
         Coords[] coords = new Coords[latLngs.length];
         for (int i = 0; i < latLngs.length; ++i) {
             LatLng latLng = latLngs[i];
