@@ -80,7 +80,7 @@ public class ViewHolderAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolderData data = getItem(position);
-        if (data == null || !data.isValidForDisplay()) return null;
+        if (data == null || !data.isValidForDisplay()) return new View(mContext);
 
         ViewHolder vh;
         if (convertView == null || mUniqueViews) {
