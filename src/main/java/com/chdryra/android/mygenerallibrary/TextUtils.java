@@ -11,6 +11,8 @@ package com.chdryra.android.mygenerallibrary;
 import android.util.Patterns;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,5 +62,9 @@ public class TextUtils {
 
     public static ArrayList<String> splitString(String string, String delimiter) {
         return (ArrayList<String>) Arrays.asList(string.split(delimiter));
+    }
+
+    public static String toCamelCase(String string) {
+        return WordUtils.capitalizeFully(string).replaceAll(" ", "");
     }
 }

@@ -8,8 +8,13 @@
 
 apply plugin: 'com.android.library'
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile project(':RemoteAPIFetchers')
+    compile 'org.apache.commons:commons-lang3:3.4'
 }
 
 android {
