@@ -17,6 +17,7 @@ import java.util.Arrays;
  * Email: rizwan.choudrey@gmail.com
  */
 public class NumberFormatter {
+    //Static methods
     public static String roundToSignificant(double num, int toDigits) {
         double rounded = MathRounder.roundToSignificant(num, toDigits);
         int digits = Math.min(toDigits, numDigits(rounded));

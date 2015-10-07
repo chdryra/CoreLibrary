@@ -19,6 +19,19 @@ import android.view.View;
 public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDoneFragment {
     public static final ActionType ADD_ACTION = ActionType.ADD;
 
+    public void clickAddButton() {
+        clickActionButton();
+    }
+
+    protected void onAddButtonClick() {
+    }
+
+//Overridden
+    @Override
+    protected final void onActionButtonClick() {
+        onAddButtonClick();
+    }
+
     protected abstract View createDialogUi();
 
     @Override
@@ -26,17 +39,5 @@ public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDone
         super.onCreate(savedInstanceState);
         setActionButtonAction(ADD_ACTION);
         performActionOnDone();
-    }
-
-    @Override
-    protected final void onActionButtonClick() {
-        onAddButtonClick();
-    }
-
-    public void clickAddButton() {
-        clickActionButton();
-    }
-
-    protected void onAddButtonClick() {
     }
 }

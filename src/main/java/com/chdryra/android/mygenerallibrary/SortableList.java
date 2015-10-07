@@ -20,10 +20,10 @@ import java.util.NoSuchElementException;
  * @param <T>: type of the items.
  */
 public class SortableList<T> implements Iterable<T> {
-    public static final String       NO_ELEMENT    = "No more elements left";
-    public static final String       ILLEGAL_STATE = "Have to do at least one next() before you " +
+    public static final String NO_ELEMENT = "No more elements left";
+    public static final String ILLEGAL_STATE = "Have to do at least one next() before you " +
             "can delete";
-    protected           ArrayList<T> mData         = new ArrayList<>();
+    protected ArrayList<T> mData = new ArrayList<>();
 
     public void add(T item) {
         mData.add(item);
@@ -69,13 +69,10 @@ public class SortableList<T> implements Iterable<T> {
         return arrayList;
     }
 
-    @Override
-    public Iterator<T> iterator() {
-        return new SortableListIterator();
-    }
-
+    //protected methods
     protected Comparator<T> getDefaultComparator() {
         return new Comparator<T>() {
+            //Overridden
             @Override
             public int compare(T lhs, T rhs) {
                 if (contains(lhs) && contains(rhs)) {
@@ -87,6 +84,12 @@ public class SortableList<T> implements Iterable<T> {
         };
     }
 
+    //Overridden
+    @Override
+    public Iterator<T> iterator() {
+        return new SortableListIterator();
+    }
+
     public class SortableListIterator implements Iterator<T> {
         int mPosition = 0;
 
@@ -94,6 +97,7 @@ public class SortableList<T> implements Iterable<T> {
 
         }
 
+        //Overridden
         @Override
         public boolean hasNext() {
             return mPosition < size() && getItem(mPosition) != null;

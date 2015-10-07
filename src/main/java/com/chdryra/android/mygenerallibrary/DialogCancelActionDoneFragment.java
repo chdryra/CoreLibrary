@@ -22,38 +22,27 @@ import android.widget.TextView;
  */
 @SuppressWarnings("EmptyMethod")
 public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFragment {
-    public static final ActionType CANCEL_ACTION      = ActionType.CANCEL;
-    public static final ActionType ACTION_ACTION      = ActionType.OTHER;
-    public static final ActionType DONE_ACTION        = ActionType.DONE;
-    public static final int        KEYBOARD_DO_ACTION = EditorInfo.IME_ACTION_GO;
-    public static final int        KEYBOARD_DO_DONE   = EditorInfo.IME_ACTION_DONE;
+    public static final ActionType CANCEL_ACTION = ActionType.CANCEL;
+    public static final ActionType ACTION_ACTION = ActionType.OTHER;
+    public static final ActionType DONE_ACTION = ActionType.DONE;
+    public static final int KEYBOARD_DO_ACTION = EditorInfo.IME_ACTION_GO;
+    public static final int KEYBOARD_DO_DONE = EditorInfo.IME_ACTION_DONE;
 
     private boolean mActionOnDone = false;
 
-    @Override
-    protected abstract View createDialogUi();
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setLeftButtonAction(CANCEL_ACTION);
-        setMiddleButtonAction(ACTION_ACTION);
-        setRightButtonAction(DONE_ACTION);
-
-        dismissDialogOnLeftClick();
-        dismissDialogOnRightClick();
+//public methods
+    public String getActionButtonText() {
+        return getMiddleButtonText();
     }
 
-    @Override
-    protected void onMiddleButtonClick() {
-        onActionButtonClick();
-        super.onMiddleButtonClick();
+    protected void setActionButtonText(String actionButtonText) {
+        setMiddleButtonText(actionButtonText);
     }
 
     public void setKeyboardDoActionOnEditText(EditText editText) {
         editText.setImeOptions(KEYBOARD_DO_ACTION);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            //Overridden
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == KEYBOARD_DO_ACTION) {
@@ -89,29 +78,6 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         clickRightButton();
     }
 
-    public String getActionButtonText() {
-        return getMiddleButtonText();
-    }
-
-    protected void setActionButtonText(String actionButtonText) {
-        setMiddleButtonText(actionButtonText);
-    }
-
-    @Override
-    protected final void onLeftButtonClick() {
-        onCancelButtonClick();
-        super.onLeftButtonClick();
-    }
-
-    @Override
-    protected final void onRightButtonClick() {
-        if (mActionOnDone) {
-            clickActionButton();
-        }
-        onDoneButtonClick();
-        super.onRightButtonClick();
-    }
-
     protected void onCancelButtonClick() {
     }
 
@@ -131,5 +97,42 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
 
     protected void dismissDialogOnActionClick() {
         dismissDialogOnMiddleClick();
+    }
+
+//Overridden
+    @Override
+    protected void onMiddleButtonClick() {
+        onActionButtonClick();
+        super.onMiddleButtonClick();
+    }
+
+    @Override
+    protected abstract View createDialogUi();
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setLeftButtonAction(CANCEL_ACTION);
+        setMiddleButtonAction(ACTION_ACTION);
+        setRightButtonAction(DONE_ACTION);
+
+        dismissDialogOnLeftClick();
+        dismissDialogOnRightClick();
+    }
+
+    @Override
+    protected final void onLeftButtonClick() {
+        onCancelButtonClick();
+        super.onLeftButtonClick();
+    }
+
+    @Override
+    protected final void onRightButtonClick() {
+        if (mActionOnDone) {
+            clickActionButton();
+        }
+        onDoneButtonClick();
+        super.onRightButtonClick();
     }
 }

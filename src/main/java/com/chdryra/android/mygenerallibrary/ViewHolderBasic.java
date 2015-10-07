@@ -26,10 +26,10 @@ import android.view.ViewGroup;
  * </p>
  */
 public abstract class ViewHolderBasic implements ViewHolder {
-    private final int               mLayout;
-    private final int[]             mUpdateableViewIds;
+    private final int mLayout;
+    private final int[] mUpdateableViewIds;
     private final SparseArray<View> mUpdateableViews;
-    private       View              mInflated;
+    private View mInflated;
 
     protected ViewHolderBasic(int layoutId, int[] viewIds) {
         mLayout = layoutId;
@@ -37,6 +37,11 @@ public abstract class ViewHolderBasic implements ViewHolder {
         mUpdateableViews = new SparseArray<>(mUpdateableViewIds.length);
     }
 
+    protected final View getView(int viewId) {
+        return mUpdateableViews.get(viewId);
+    }
+
+    //Overridden
     @Override
     public void inflate(Context context, ViewGroup parent) {
         mInflated = LayoutInflater.from(context).inflate(mLayout, parent, false);
@@ -53,9 +58,5 @@ public abstract class ViewHolderBasic implements ViewHolder {
     @Override
     public View getView() {
         return mInflated;
-    }
-
-    protected final View getView(int viewId) {
-        return mUpdateableViews.get(viewId);
     }
 }

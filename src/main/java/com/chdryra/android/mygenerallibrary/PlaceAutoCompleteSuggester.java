@@ -20,21 +20,9 @@ import java.util.ArrayList;
 public class PlaceAutoCompleteSuggester implements StringFilterAdapter.StringFilter {
     private final LatLng mLatLng;
 
+//Constructors
     public PlaceAutoCompleteSuggester(LatLng latLng) {
         mLatLng = latLng;
-    }
-
-    @Override
-    public ArrayList<String> filter(String query) {
-        ArrayList<String> suggestions = GooglePlacesApi.fetchAutoCompleteSuggestions(query,
-                mLatLng);
-
-        ArrayList<String> shortened = new ArrayList<String>();
-        for (String suggestion : suggestions) {
-            shortened.add(formatAddress(suggestion));
-        }
-
-        return shortened;
     }
 
     private String formatAddress(String address) {
@@ -47,5 +35,19 @@ public class PlaceAutoCompleteSuggester implements StringFilterAdapter.StringFil
         }
 
         return sb.toString();
+    }
+
+//Overridden
+    @Override
+    public ArrayList<String> filter(String query) {
+        ArrayList<String> suggestions = GooglePlacesApi.fetchAutoCompleteSuggestions(query,
+                mLatLng);
+
+        ArrayList<String> shortened = new ArrayList<String>();
+        for (String suggestion : suggestions) {
+            shortened.add(formatAddress(suggestion));
+        }
+
+        return shortened;
     }
 }

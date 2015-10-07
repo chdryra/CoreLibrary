@@ -19,49 +19,13 @@ import android.view.View;
  */
 public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionDoneFragment
         implements DialogAlertFragment.DialogAlertListener {
-    public static final ActionType DELETE_ACTION  = ActionType.DELETE;
-    public static final int        DELETE_CONFIRM = 0;
+    public static final ActionType DELETE_ACTION = ActionType.DELETE;
+    public static final int DELETE_CONFIRM = 0;
 
     private String mDeleteWhat;
 
-    @Override
-    protected abstract View createDialogUi();
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setActionButtonAction(DELETE_ACTION);
-        dismissDialogOnActionClick();
-    }
-
-    @Override
-    protected final void onMiddleButtonClick() {
-        if (hasDataToDelete()) {
-            showDeleteConfirmDialog();
-        } else {
-            super.onMiddleButtonClick();
-        }
-    }
-
-    @Override
-    protected final void onActionButtonClick() {
-        if (hasDataToDelete()) {
-            onConfirmedDeleteButtonClick();
-        }
-    }
-
     public void setDeleteWhatTitle(String deleteWhat) {
         mDeleteWhat = deleteWhat;
-    }
-
-    @Override
-    public void onAlertNegative(int requestCode, Bundle args) {
-
-    }
-
-    @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        if (requestCode == DELETE_CONFIRM) super.onMiddleButtonClick();
     }
 
     public void clickDeleteButton() {
@@ -78,5 +42,42 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
     private void showDeleteConfirmDialog() {
         DialogDeleteConfirm.showDialog(mDeleteWhat, DialogCancelDeleteDoneFragment.this,
                 DELETE_CONFIRM, getFragmentManager());
+    }
+
+//Overridden
+    @Override
+    protected final void onActionButtonClick() {
+        if (hasDataToDelete()) {
+            onConfirmedDeleteButtonClick();
+        }
+    }
+
+    @Override
+    protected final void onMiddleButtonClick() {
+        if (hasDataToDelete()) {
+            showDeleteConfirmDialog();
+        } else {
+            super.onMiddleButtonClick();
+        }
+    }
+
+    @Override
+    protected abstract View createDialogUi();
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setActionButtonAction(DELETE_ACTION);
+        dismissDialogOnActionClick();
+    }
+
+    @Override
+    public void onAlertNegative(int requestCode, Bundle args) {
+
+    }
+
+    @Override
+    public void onAlertPositive(int requestCode, Bundle args) {
+        if (requestCode == DELETE_CONFIRM) super.onMiddleButtonClick();
     }
 }

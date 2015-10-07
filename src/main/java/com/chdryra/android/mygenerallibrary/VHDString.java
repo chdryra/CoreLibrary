@@ -14,14 +14,20 @@ package com.chdryra.android.mygenerallibrary;
 public class VHDString implements ViewHolderData {
     private final String mString;
 
-    protected VHDString() {
-        mString = null;
-    }
-
+    //Constructors
     public VHDString(String string) {
         mString = string;
     }
 
+    protected VHDString() {
+        mString = null;
+    }
+
+    public String get() {
+        return mString;
+    }
+
+    //Overridden
     @Override
     public ViewHolder getViewHolder() {
         return new VHString();
@@ -30,10 +36,6 @@ public class VHDString implements ViewHolderData {
     @Override
     public boolean isValidForDisplay() {
         return mString != null && mString.length() > 0;
-    }
-
-    public String get() {
-        return mString;
     }
 
     @Override

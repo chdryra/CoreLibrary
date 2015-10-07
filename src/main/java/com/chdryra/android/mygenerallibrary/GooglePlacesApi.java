@@ -30,6 +30,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GooglePlacesApi {
+//Static methods
     /**
      * Find autocomplete suggestions given a query and LatLng.
      *

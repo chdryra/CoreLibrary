@@ -24,12 +24,12 @@ import com.google.android.gms.location.LocationServices;
 public class LocationClientConnector implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private static final String TAG                                   = "LocationClientConnector";
-    private static final int    MAX_CONNECTION_TRIES                  = 3;
-    private final static int    CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    private static final String TAG = "LocationClientConnector";
+    private static final int MAX_CONNECTION_TRIES = 3;
+    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private final GoogleApiClient mApiClient;
-    private final Activity        mActivity;
-    private final Locatable       mLocatable;
+    private final Activity mActivity;
+    private final Locatable mLocatable;
     private int mNumberConnectionTries = 0;
 
     /**
@@ -37,11 +37,13 @@ public class LocationClientConnector implements GoogleApiClient.ConnectionCallba
      * location.
      */
     public interface Locatable {
+        //abstract
         void onLocated(Location location);
 
         void onLocationClientConnected(Location location);
     }
 
+    //Constructors
     public LocationClientConnector(Activity activity, Locatable locatable) {
         mActivity = activity;
         mLocatable = locatable;
@@ -74,6 +76,12 @@ public class LocationClientConnector implements GoogleApiClient.ConnectionCallba
         return false;
     }
 
+    //private methods
+    private Location getLastLocation() {
+        return LocationServices.FusedLocationApi.getLastLocation(mApiClient);
+    }
+
+    //Overridden
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         if (connectionResult.hasResolution()) {
@@ -105,9 +113,5 @@ public class LocationClientConnector implements GoogleApiClient.ConnectionCallba
     @Override
     public void onConnectionSuspended(int index) {
 
-    }
-
-    private Location getLastLocation() {
-        return LocationServices.FusedLocationApi.getLastLocation(mApiClient);
     }
 }

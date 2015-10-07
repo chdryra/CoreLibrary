@@ -19,19 +19,41 @@ import android.widget.Button;
 public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment {
     public static final ActionType MIDDLE_BUTTON_DEFAULT_ACTION = ActionType.OTHER;
 
-    private Button             mMiddleButton;
-    private String             mMiddleButtonText;
+    private Button mMiddleButton;
+    private String mMiddleButtonText;
     private ActivityResultCode mMiddleButtonResult;
     private boolean mDismissOnMiddleClick = false;
 
+//public methods
+    public String getMiddleButtonText() {
+        return (String) mMiddleButton.getText();
+    }
+
+    protected void setMiddleButtonText(String middleButtonText) {
+        mMiddleButtonText = middleButtonText;
+    }
+
+    public void clickMiddleButton() {
+        mMiddleButton.performClick();
+    }
+
+    protected void onMiddleButtonClick() {
+        sendResult(mMiddleButtonResult);
+        if (mDismissOnMiddleClick) dismiss();
+    }
+
+    protected void setMiddleButtonAction(ActionType action) {
+        mMiddleButtonText = getTitleForAction(action);
+        mMiddleButtonResult = action.getResultCode();
+    }
+
+    protected void dismissDialogOnMiddleClick() {
+        mDismissOnMiddleClick = true;
+    }
+
+//Overridden
     @Override
     protected abstract View createDialogUi();
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setMiddleButtonAction(MIDDLE_BUTTON_DEFAULT_ACTION);
-    }
 
     @Override
     protected void sendResult(ActivityResultCode resultCode) {
@@ -50,6 +72,7 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
 
         mLeftButton.setText(mLeftButtonText);
         mLeftButton.setOnClickListener(new View.OnClickListener() {
+//Overridden
             @Override
             public void onClick(View v) {
                 onLeftButtonClick();
@@ -75,29 +98,9 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
         return buttons;
     }
 
-    public void clickMiddleButton() {
-        mMiddleButton.performClick();
-    }
-
-    public String getMiddleButtonText() {
-        return (String) mMiddleButton.getText();
-    }
-
-    protected void setMiddleButtonText(String middleButtonText) {
-        mMiddleButtonText = middleButtonText;
-    }
-
-    protected void onMiddleButtonClick() {
-        sendResult(mMiddleButtonResult);
-        if (mDismissOnMiddleClick) dismiss();
-    }
-
-    protected void setMiddleButtonAction(ActionType action) {
-        mMiddleButtonText = getTitleForAction(action);
-        mMiddleButtonResult = action.getResultCode();
-    }
-
-    protected void dismissDialogOnMiddleClick() {
-        mDismissOnMiddleClick = true;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setMiddleButtonAction(MIDDLE_BUTTON_DEFAULT_ACTION);
     }
 }

@@ -14,6 +14,7 @@ package com.chdryra.android.mygenerallibrary;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MathRounder {
+    //Static methods
     public static double roundToSignificant(double num, int n) {
         if (num == 0) {
             return 0;

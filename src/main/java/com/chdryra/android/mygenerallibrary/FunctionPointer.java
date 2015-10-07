@@ -15,5 +15,6 @@ package com.chdryra.android.mygenerallibrary;
  * @param <T2>: type returned by execution of function.
  */
 public interface FunctionPointer<T1, T2> {
+    //abstract
     public T2 execute(T1 data);
 }

@@ -24,6 +24,7 @@ import java.util.regex.Matcher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TextUtils {
+    //Static methods
     public static ArrayList<String> getLinks(String text) {
         ArrayList<String> links = new ArrayList<>();
 

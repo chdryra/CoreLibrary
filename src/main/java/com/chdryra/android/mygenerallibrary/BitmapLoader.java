@@ -9,13 +9,15 @@ import android.os.AsyncTask;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BitmapLoader {
-    private final String       mFile;
+    private final String mFile;
     private final LoadListener mListener;
 
     public interface LoadListener {
+        //abstract
         public void onBitmapLoaded(Bitmap bitmap);
     }
 
+    //Constructors
     public BitmapLoader(String file, LoadListener listener) {
         mFile = file;
         mListener = listener;
@@ -27,6 +29,7 @@ public class BitmapLoader {
 
     private class BitmapLoaderTask extends AsyncTask<Integer, Void, Bitmap> {
 
+        //Overridden
         @Override
         protected Bitmap doInBackground(Integer... params) {
             int maxWidth = params[0];

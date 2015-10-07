@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
  */
 public class ViewHolderLayout extends FrameLayout {
 
+    //Constructors
     public ViewHolderLayout(Context context) {
         super(context);
     }

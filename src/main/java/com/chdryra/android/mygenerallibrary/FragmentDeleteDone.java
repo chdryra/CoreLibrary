@@ -26,67 +26,34 @@ import android.view.ViewGroup;
  */
 public class FragmentDeleteDone extends Fragment implements DialogAlertFragment
         .DialogAlertListener {
-    public static final int                MENU_ID        = R.menu.menu_delete_done;
-    public static final int                MENU_UP_ID     = android.R.id.home;
-    public static final int                MENU_DELETE_ID = R.id.menu_item_delete;
-    public static final int                MENU_DONE_ID   = R.id.menu_item_done;
-    public static final ActivityResultCode RESULT_UP      = ActivityResultCode.UP;
-    public static final ActivityResultCode RESULT_DELETE  = ActivityResultCode.DELETE;
-    public static final ActivityResultCode RESULT_DONE    = ActivityResultCode.DONE;
+    public static final int MENU_ID = R.menu.menu_delete_done;
+    public static final int MENU_UP_ID = android.R.id.home;
+    public static final int MENU_DELETE_ID = R.id.menu_item_delete;
+    public static final int MENU_DONE_ID = R.id.menu_item_done;
+    public static final ActivityResultCode RESULT_UP = ActivityResultCode.UP;
+    public static final ActivityResultCode RESULT_DELETE = ActivityResultCode.DELETE;
+    public static final ActivityResultCode RESULT_DONE = ActivityResultCode.DONE;
 
     private static final int DELETE_CONFIRM = 314;
 
-    private boolean mDismissOnDone   = true;
+    private boolean mDismissOnDone = true;
     private boolean mDismissOnDelete = false;
     private String mDeleteWhat;
     private Intent mReturnData;
     private boolean mDisplayHomeAsUp = true;
 
-    @Override
-    public void onAlertNegative(int requestCode, Bundle args) {
-
-    }
-
-    @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        if (requestCode == DELETE_CONFIRM) doDeleteSelected();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        setDisplayHomeAsUp();
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(MENU_ID, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == MENU_UP_ID) {
-            doUpSelected();
-            return true;
-        } else if (itemId == MENU_DELETE_ID && hasDataToDelete()) {
-            showDeleteConfirmDialog();
-            return true;
-        } else if (itemId == MENU_DONE_ID) {
-            doDoneSelected();
-            return true;
+//protected methods
+    protected Intent getCurrentReturnData() {
+        if (mReturnData == null) {
+            return getNewReturnData();
         } else {
-            return super.onOptionsItemSelected(item);
+            return mReturnData;
         }
+    }
+
+    protected Intent getNewReturnData() {
+        mReturnData = new Intent();
+        return mReturnData;
     }
 
     protected void setDisplayHomeAsUp(boolean displayHomeAsUp) {
@@ -100,19 +67,6 @@ public class FragmentDeleteDone extends Fragment implements DialogAlertFragment
 
     protected void sendResult(ActivityResultCode resultCode) {
         getActivity().setResult(resultCode.get(), getCurrentReturnData());
-    }
-
-    protected Intent getCurrentReturnData() {
-        if (mReturnData == null) {
-            return getNewReturnData();
-        } else {
-            return mReturnData;
-        }
-    }
-
-    protected Intent getNewReturnData() {
-        mReturnData = new Intent();
-        return mReturnData;
     }
 
     protected void setDeleteWhatTitle(String deleteWhat) {
@@ -169,5 +123,53 @@ public class FragmentDeleteDone extends Fragment implements DialogAlertFragment
     private void showDeleteConfirmDialog() {
         DialogDeleteConfirm.showDialog(mDeleteWhat, FragmentDeleteDone.this, DELETE_CONFIRM,
                 getFragmentManager());
+    }
+
+//Overridden
+    @Override
+    public void onAlertNegative(int requestCode, Bundle args) {
+
+    }
+
+    @Override
+    public void onAlertPositive(int requestCode, Bundle args) {
+        if (requestCode == DELETE_CONFIRM) doDeleteSelected();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        setDisplayHomeAsUp();
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(MENU_ID, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == MENU_UP_ID) {
+            doUpSelected();
+            return true;
+        } else if (itemId == MENU_DELETE_ID && hasDataToDelete()) {
+            showDeleteConfirmDialog();
+            return true;
+        } else if (itemId == MENU_DONE_ID) {
+            doDoneSelected();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 }

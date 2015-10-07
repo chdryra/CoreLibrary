@@ -46,6 +46,7 @@ public class ImageHelper {
         sFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
+    //Static methods
     public static boolean bitmapExists(String filePath) {
         BitmapFactory.Options options = getBitmapInfo(filePath);
         return options.outHeight > 0;

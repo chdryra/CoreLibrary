@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class LatLngMidpoint {
     private LatLng mGeoMidpoint;
 
+    //Constructors
     public LatLngMidpoint(LatLng[] latLngs) {
         Coords[] coords = new Coords[latLngs.length];
         for (int i = 0; i < latLngs.length; ++i) {
@@ -34,6 +35,7 @@ public class LatLngMidpoint {
         mGeoMidpoint = new LatLng(Math.toDegrees(lat), Math.toDegrees(lng));
     }
 
+    //public methods
     public LatLng getGeoMidpoint() {
         return mGeoMidpoint;
     }

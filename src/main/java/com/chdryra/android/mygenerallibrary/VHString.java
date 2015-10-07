@@ -18,11 +18,11 @@ import android.widget.TextView;
  * extract a string from the data.
  */
 public class VHString extends ViewHolderBasic {
-    private static final int LAYOUT   = R.layout.grid_cell_string_view;
+    private static final int LAYOUT = R.layout.grid_cell_string_view;
     private static final int TEXTVIEW = R.id.text_view;
 
     private int mTextViewId = TEXTVIEW;
-    private TextView           mTextView;
+    private TextView mTextView;
     private VHDataStringGetter mGetter;
 
     /**
@@ -34,9 +34,11 @@ public class VHString extends ViewHolderBasic {
      * framework.
      */
     public interface VHDataStringGetter {
+        //abstract
         public String getString(ViewHolderData data);
     }
 
+    //Constructors
     public VHString() {
         this(LAYOUT, TEXTVIEW);
         initDefaultGetter();
@@ -54,19 +56,21 @@ public class VHString extends ViewHolderBasic {
         mGetter = getter;
     }
 
-    @Override
-    public void updateView(ViewHolderData data) {
-        if (mTextView == null) mTextView = (TextView) getView(mTextViewId);
-        if (data != null) mTextView.setText(mGetter.getString(data));
-    }
-
     private void initDefaultGetter() {
         mGetter = new VHDataStringGetter() {
+            //Overridden
             @Override
             public String getString(ViewHolderData data) {
                 VHDString string = (VHDString) data;
                 return string != null && string.isValidForDisplay() ? string.get() : null;
             }
         };
+    }
+
+    //Overridden
+    @Override
+    public void updateView(ViewHolderData data) {
+        if (mTextView == null) mTextView = (TextView) getView(mTextViewId);
+        if (data != null) mTextView.setText(mGetter.getString(data));
     }
 }

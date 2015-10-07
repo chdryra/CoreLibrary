@@ -42,7 +42,7 @@ import android.widget.LinearLayout.LayoutParams;
  * </p>
  */
 public abstract class DialogTwoButtonFragment extends DialogFragment {
-    public static final ActionType LEFT_BUTTON_DEFAULT_ACTION  = ActionType.CANCEL;
+    public static final ActionType LEFT_BUTTON_DEFAULT_ACTION = ActionType.CANCEL;
     public static final ActionType RIGHT_BUTTON_DEFAULT_ACTION = ActionType.DONE;
 
     protected Button mLeftButton;
@@ -54,7 +54,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
     private ActivityResultCode mLeftButtonResult;
     private ActivityResultCode mRightButtonResult;
 
-    private boolean mDismissOnLeftClick  = false;
+    private boolean mDismissOnLeftClick = false;
     private boolean mDismissOnRightClick = false;
 
     private String mDialogTitle;
@@ -80,13 +80,14 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         NO(ActivityResultCode.NO, R.string.gl_action_no_text);
 
         private final ActivityResultCode mResultCode;
-        private final int                mLabelId;
+        private final int mLabelId;
 
         ActionType(ActivityResultCode resultCode, int labelId) {
             mResultCode = resultCode;
             mLabelId = labelId;
         }
 
+//public methods
         public ActivityResultCode getResultCode() {
             return mResultCode;
         }
@@ -105,29 +106,25 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
      */
     protected abstract View createDialogUi();
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setLeftButtonAction(LEFT_BUTTON_DEFAULT_ACTION);
-        setRightButtonAction(RIGHT_BUTTON_DEFAULT_ACTION);
+//public methods
+    public String getLeftButtonText() {
+        return (String) mLeftButton.getText();
     }
 
-    /**
-     * Calls {@link #buildDialog()}
-     *
-     * @param savedInstanceState: instance state from rotations etc.
-     * @return Dialog: built dialog object
-     */
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return buildDialog();
+    public void setLeftButtonText(String leftButtonText) {
+        mLeftButtonText = leftButtonText;
     }
 
-    @Override
-    public void onStop() {
-        getActivity().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        super.onStop();
+    public String getRightButtonText() {
+        return (String) mRightButton.getText();
+    }
+
+    public void setRightButtonText(String rightButtonText) {
+        mRightButtonText = rightButtonText;
+    }
+
+    public boolean isShowing() {
+        return getDialog() != null && getDialog().isShowing();
     }
 
     public void setLeftButtonAction(ActionType action) {
@@ -156,24 +153,13 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         mRightButton.performClick();
     }
 
-    public String getLeftButtonText() {
-        return (String) mLeftButton.getText();
-    }
-
-    public void setLeftButtonText(String leftButtonText) {
-        mLeftButtonText = leftButtonText;
-    }
-
-    public String getRightButtonText() {
-        return (String) mRightButton.getText();
-    }
-
-    public void setRightButtonText(String rightButtonText) {
-        mRightButtonText = rightButtonText;
-    }
-
-    public boolean isShowing() {
-        return getDialog() != null && getDialog().isShowing();
+//protected methods
+    protected Intent getReturnData() {
+        if (mReturnData == null) {
+            return createNewReturnData();
+        } else {
+            return mReturnData;
+        }
     }
 
     protected void onLeftButtonClick() {
@@ -203,14 +189,6 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         return mReturnData;
     }
 
-    protected Intent getReturnData() {
-        if (mReturnData == null) {
-            return createNewReturnData();
-        } else {
-            return mReturnData;
-        }
-    }
-
     protected void sendResult(ActivityResultCode resultCode) {
         if (getTargetFragment() == null) return;
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode.get(),
@@ -237,6 +215,7 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
 
         mLeftButton.setText(mLeftButtonText);
         mLeftButton.setOnClickListener(new View.OnClickListener() {
+//Overridden
             @Override
             public void onClick(View v) {
                 onLeftButtonClick();
@@ -295,5 +274,31 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         }
 
         return dialog;
+    }
+
+//Overridden
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setLeftButtonAction(LEFT_BUTTON_DEFAULT_ACTION);
+        setRightButtonAction(RIGHT_BUTTON_DEFAULT_ACTION);
+    }
+
+    /**
+     * Calls {@link #buildDialog()}
+     *
+     * @param savedInstanceState: instance state from rotations etc.
+     * @return Dialog: built dialog object
+     */
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return buildDialog();
+    }
+
+    @Override
+    public void onStop() {
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        super.onStop();
     }
 }

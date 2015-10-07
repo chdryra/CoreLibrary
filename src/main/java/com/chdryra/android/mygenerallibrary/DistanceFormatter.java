@@ -27,7 +27,7 @@ public class DistanceFormatter extends NumberFormatter {
         private String mLongUnit;
 
         private MetricImperial(double shortDistanceInMetres, double longDistanceInMetres,
-                String shortUnit, String longUnit) {
+                               String shortUnit, String longUnit) {
             mShort = shortDistanceInMetres;
             mLong = longDistanceInMetres;
             mShortUnit = shortUnit;
@@ -43,6 +43,7 @@ public class DistanceFormatter extends NumberFormatter {
         }
     }
 
+    //Static methods
     public static String formatMetreDistance(double metres, MetricImperial metricImperial) {
         boolean longMeasure = metricImperial.isLong(metres);
         double num = metres / (longMeasure ? metricImperial.mLong : metricImperial.mShort);

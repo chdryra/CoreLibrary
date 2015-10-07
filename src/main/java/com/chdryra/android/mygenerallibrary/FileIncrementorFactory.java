@@ -17,14 +17,17 @@ import java.io.File;
  */
 public class FileIncrementorFactory {
 
+    //Static methods
     public static FileIncrementor newImageFileIncrementor(File systemDir, String newDir,
-            String fileName) {
+                                                          String fileName) {
         return new ImageFileIncrementor(systemDir, newDir, fileName);
     }
 
+    //Classes
     public static class ImageFileIncrementor extends FileIncrementor {
         private static final String EXT_IMAGE = "jpg";
 
+        //Constructors
         public ImageFileIncrementor(File systemDir, String newDir, String fileName) {
             super(systemDir, newDir, fileName, EXT_IMAGE);
         }

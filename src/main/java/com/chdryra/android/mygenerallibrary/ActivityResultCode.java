@@ -47,6 +47,7 @@ public enum ActivityResultCode {
         this.mValue = value;
     }
 
+    //Static methods
     public static ActivityResultCode get(int resultCode) {
         ActivityResultCode returnCode = null;
         for (ActivityResultCode code : ActivityResultCode.values()) {

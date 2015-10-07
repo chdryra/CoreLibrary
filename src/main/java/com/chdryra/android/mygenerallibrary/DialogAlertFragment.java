@@ -17,18 +17,20 @@ import android.view.View;
  */
 public class DialogAlertFragment extends DialogTwoButtonFragment {
     public static final ActionType NEGATIVE_ACTION = ActionType.CANCEL;
-    public static final ActionType POSITVE_ACTION  = ActionType.YES;
-    public static final String     ALERT_TAG       = "com.chdryra.android.reviewer.alert_tag";
+    public static final ActionType POSITVE_ACTION = ActionType.YES;
+    public static final String ALERT_TAG = "com.chdryra.android.reviewer.alert_tag";
 
     private DialogAlertListener mListener;
-    private Bundle              mArgs;
+    private Bundle mArgs;
 
     public interface DialogAlertListener {
+        //abstract
         public void onAlertNegative(int requestCode, Bundle args);
 
         public void onAlertPositive(int requestCode, Bundle args);
     }
 
+    //Static methods
     public static DialogAlertFragment newDialog(String alert) {
         return newDialog(alert, new Bundle());
     }
@@ -49,6 +51,7 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
         clickRightButton();
     }
 
+//Overridden
     /**
      * Returns null view to keep alert simply a question and 2 buttons.
      *
@@ -57,6 +60,18 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
     @Override
     protected final View createDialogUi() {
         return null;
+    }
+
+    @Override
+    protected void onLeftButtonClick() {
+        mListener.onAlertNegative(getTargetRequestCode(), mArgs);
+        super.onLeftButtonClick();
+    }
+
+    @Override
+    protected void onRightButtonClick() {
+        mListener.onAlertPositive(getTargetRequestCode(), mArgs);
+        super.onRightButtonClick();
     }
 
     @Override
@@ -70,17 +85,5 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
         hideKeyboardOnLaunch();
         mListener = getTargetListener(DialogAlertListener.class);
         mArgs = getArguments() == null ? new Bundle() : getArguments();
-    }
-
-    @Override
-    protected void onLeftButtonClick() {
-        mListener.onAlertNegative(getTargetRequestCode(), mArgs);
-        super.onLeftButtonClick();
-    }
-
-    @Override
-    protected void onRightButtonClick() {
-        mListener.onAlertPositive(getTargetRequestCode(), mArgs);
-        super.onRightButtonClick();
     }
 }

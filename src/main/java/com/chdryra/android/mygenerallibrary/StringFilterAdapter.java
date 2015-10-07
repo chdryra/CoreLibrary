@@ -24,15 +24,17 @@ import java.util.ArrayList;
 public class StringFilterAdapter extends ArrayAdapter<String> implements Filterable {
     private static final int TEXT_VIEW_RESOURCE = android.R.layout.simple_list_item_1;
     private final StringFilter mStringFilter;
-    private ArrayList<String> mFiltered           = new ArrayList<>();
+    private ArrayList<String> mFiltered = new ArrayList<>();
     private ArrayList<String> mDefaultSuggestions = new ArrayList<String>();
 
     public interface StringFilter {
+//abstract
         public ArrayList<String> filter(String query);
     }
 
+//Constructors
     public StringFilterAdapter(Context context, ArrayList<String> defaultSuggestions,
-            StringFilter stringFilter) {
+                               StringFilter stringFilter) {
         super(context, TEXT_VIEW_RESOURCE);
         if (defaultSuggestions != null) {
             mDefaultSuggestions = defaultSuggestions;
@@ -41,6 +43,11 @@ public class StringFilterAdapter extends ArrayAdapter<String> implements Filtera
         mStringFilter = stringFilter;
     }
 
+    public void filter(CharSequence query) {
+        getFilter().filter(query);
+    }
+
+//Overridden
     @Override
     public int getCount() {
         return mFiltered != null ? mFiltered.size() : 0;
@@ -55,6 +62,7 @@ public class StringFilterAdapter extends ArrayAdapter<String> implements Filtera
     public Filter getFilter() {
         return new Filter() {
 
+//Overridden
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
@@ -79,9 +87,5 @@ public class StringFilterAdapter extends ArrayAdapter<String> implements Filtera
                 }
             }
         };
-    }
-
-    public void filter(CharSequence query) {
-        getFilter().filter(query);
     }
 }

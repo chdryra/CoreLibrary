@@ -21,15 +21,17 @@ public class ViewHolderAdapterFiltered extends ViewHolderAdapter
         implements Filterable {
 
     private final QueryFilter mFilter;
-    private ViewHolderDataList mFiltered    = new ViewHolderDataList<>();
+    private ViewHolderDataList mFiltered = new ViewHolderDataList<>();
     private ViewHolderDataList mInitialList = new ViewHolderDataList<>();
 
     public interface QueryFilter {
+        //abstract
         public ViewHolderDataList filter(String query);
     }
 
+    //Constructors
     public ViewHolderAdapterFiltered(Context context, ViewHolderDataList initialList,
-            QueryFilter filter) {
+                                     QueryFilter filter) {
         super(context, initialList);
         if (initialList != null) {
             mInitialList = initialList;
@@ -39,6 +41,11 @@ public class ViewHolderAdapterFiltered extends ViewHolderAdapter
         setData(mFiltered);
     }
 
+    public void filter(CharSequence query) {
+        getFilter().filter(query);
+    }
+
+    //Overridden
     @Override
     public int getCount() {
         return mFiltered != null ? mFiltered.size() : 0;
@@ -54,6 +61,7 @@ public class ViewHolderAdapterFiltered extends ViewHolderAdapter
     public Filter getFilter() {
         return new Filter() {
 
+            //Overridden
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
@@ -75,9 +83,5 @@ public class ViewHolderAdapterFiltered extends ViewHolderAdapter
                 notifyDataSetChanged();
             }
         };
-    }
-
-    public void filter(CharSequence query) {
-        getFilter().filter(query);
     }
 }

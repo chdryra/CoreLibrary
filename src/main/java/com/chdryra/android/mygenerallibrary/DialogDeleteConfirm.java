@@ -23,16 +23,17 @@ import android.app.FragmentManager;
 public class DialogDeleteConfirm {
     public static final DialogTwoButtonFragment.ActionType DELETE_CONFIRM = DialogAlertFragment
             .POSITVE_ACTION;
-    public static final DialogTwoButtonFragment.ActionType DELETE_CANCEL  = DialogAlertFragment
+    public static final DialogTwoButtonFragment.ActionType DELETE_CANCEL = DialogAlertFragment
             .NEGATIVE_ACTION;
 
-    public static final  String DELETE_CONFIRM_TAG = "DeleteConfirm";
-    private static final String DELETE             = "Delete";
+    public static final String DELETE_CONFIRM_TAG = "DeleteConfirm";
+    private static final String DELETE = "Delete";
 
     private DialogDeleteConfirm() {
 
     }
 
+//Static methods
     /**
      * Shows a standard delete confirm dialog.
      *
@@ -45,7 +46,7 @@ public class DialogDeleteConfirm {
      * @param fragmentManager: The fragment manager that handles the showing of the dialog.
      */
     public static void showDialog(String deleteWhat, Fragment targetFragment, int requestCode,
-            FragmentManager fragmentManager) {
+                                  FragmentManager fragmentManager) {
         String alert = deleteWhat != null ? DELETE + " " + deleteWhat + "?" : DELETE + "?";
         DialogFragment dialog = DialogAlertFragment.newDialog(alert);
         dialog.setTargetFragment(targetFragment, requestCode);

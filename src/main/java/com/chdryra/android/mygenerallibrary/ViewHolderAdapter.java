@@ -31,23 +31,24 @@ import android.widget.BaseAdapter;
  */
 public class ViewHolderAdapter extends BaseAdapter {
     private final Context mContext;
-    private final int                mViewWidth;
-    private final int                mViewHeight;
-    private       ViewHolderDataList mData;
+    private final int mViewWidth;
+    private final int mViewHeight;
+    private ViewHolderDataList mData;
     private boolean mSetDimensions = false;
     private boolean mUniqueViews = false;
 
+    //Constructors
     public ViewHolderAdapter(Context context, ViewHolderDataList data) {
         this(context, data, -1, -1, false);
     }
 
     public ViewHolderAdapter(Context context, ViewHolderDataList data, int viewWidth,
-            int viewHeight) {
+                             int viewHeight) {
         this(context, data, viewWidth, viewHeight, false);
     }
 
     public ViewHolderAdapter(Context context, ViewHolderDataList data, int viewWidth,
-            int viewHeight, boolean uniqueViews) {
+                             int viewHeight, boolean uniqueViews) {
         mContext = context;
         mData = data;
         mViewWidth = viewWidth;
@@ -61,6 +62,7 @@ public class ViewHolderAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    //Overridden
     @Override
     public int getCount() {
         return mData.size();

@@ -27,14 +27,16 @@ import java.util.Locale;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PlaceSuggester {
-    private final Context             mContext;
-    private final LatLng              mLatLng;
+    private final Context mContext;
+    private final LatLng mLatLng;
     private final SuggestionsListener mListener;
 
     public interface SuggestionsListener {
+        //abstract
         public void onSuggestionsFound(ArrayList<String> addresses);
     }
 
+    //Constructors
     public PlaceSuggester(Context context, LatLng latlng, SuggestionsListener listener) {
         mContext = context;
         mLatLng = latlng;
@@ -63,6 +65,7 @@ public class PlaceSuggester {
     private class AddressFinderTask extends AsyncTask<Integer, Void, ArrayList<String>> {
         private final static String TAG = "AddressFinderTask";
 
+        //Overridden
         @Override
         protected ArrayList<String> doInBackground(Integer... params) {
             Integer numberToGet = params[0];
