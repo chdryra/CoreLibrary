@@ -8,8 +8,8 @@
 
 package com.chdryra.android.mygenerallibrary;
 
-import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -155,13 +155,13 @@ public class ImageHelper {
         return exif;
     }
 
-    public static Intent getImageChooserIntents(Activity activity, String imageFileForCapture) {
+    public static Intent getImageChooserIntents(Context context, String imageFileForCapture) {
         Uri imageUri = Uri.fromFile(new File(imageFileForCapture));
 
         //Create intents
         final List<Intent> cameraIntents = new ArrayList<Intent>();
         final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        final PackageManager packageManager = activity.getPackageManager();
+        final PackageManager packageManager = context.getPackageManager();
         final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
         for (ResolveInfo res : listCam) {
             final String packageName = res.activityInfo.packageName;
