@@ -25,9 +25,9 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
 
     public interface DialogAlertListener {
         //abstract
-        public void onAlertNegative(int requestCode, Bundle args);
+        void onAlertNegative(int requestCode, Bundle args);
 
-        public void onAlertPositive(int requestCode, Bundle args);
+        void onAlertPositive(int requestCode, Bundle args);
     }
 
     //Static methods
