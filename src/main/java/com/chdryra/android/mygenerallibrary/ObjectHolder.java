@@ -19,7 +19,7 @@ public class ObjectHolder {
 
     //Constructors
     public ObjectHolder() {
-        mData = new Hashtable<String, Object>();
+        mData = new Hashtable<>();
     }
 
     public boolean addObject(String key, Object object) {
