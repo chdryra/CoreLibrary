@@ -10,7 +10,6 @@ package com.chdryra.android.mygenerallibrary;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -235,19 +234,13 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
     }
 
     protected <T> T getTargetListener(Class<T> listenerClass) {
-        Fragment target = getTargetFragment();
-        if(target != null) {
-            try {
-                return listenerClass.cast(getTargetFragment());
-            } catch (ClassCastException e) {
-                throw new ClassCastException(getTargetFragment().toString() + " must implement " +
-                        listenerClass.getName());
-            }
-        } else {
+        try {
+            return listenerClass.cast(getTargetFragment());
+        } catch (ClassCastException e1) {
             try {
                 return listenerClass.cast(getActivity());
-            } catch (ClassCastException e) {
-                throw new ClassCastException("Activity must implement " +
+            } catch (ClassCastException e2) {
+                throw new ClassCastException("Target fragment or activity must implement " +
                         listenerClass.getName());
             }
         }

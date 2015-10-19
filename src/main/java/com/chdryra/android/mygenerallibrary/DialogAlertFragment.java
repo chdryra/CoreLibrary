@@ -19,9 +19,11 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
     public static final ActionType NEGATIVE_ACTION = ActionType.CANCEL;
     public static final ActionType POSITVE_ACTION = ActionType.YES;
     public static final String ALERT_TAG = "com.chdryra.android.reviewer.alert_tag";
+    public static final String REQUEST_CODE = "com.chdryra.android.reviewer.request_code";
 
     private DialogAlertListener mListener;
     private Bundle mArgs;
+    private int mRequestCode;
 
     public interface DialogAlertListener {
         //abstract
@@ -31,11 +33,12 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
     }
 
     //Static methods
-    public static DialogAlertFragment newDialog(String alert) {
-        return newDialog(alert, new Bundle());
+    public static DialogAlertFragment newDialog(String alert, int requestCode) {
+        return newDialog(alert, requestCode, new Bundle());
     }
 
-    public static DialogAlertFragment newDialog(String alert, Bundle args) {
+    public static DialogAlertFragment newDialog(String alert, int requestCode, Bundle args) {
+        args.putInt(REQUEST_CODE, requestCode);
         args.putString(ALERT_TAG, alert);
         DialogAlertFragment dialog = new DialogAlertFragment();
         dialog.setArguments(args);
@@ -64,13 +67,13 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
 
     @Override
     protected void onLeftButtonClick() {
-        mListener.onAlertNegative(getTargetRequestCode(), mArgs);
+        mListener.onAlertNegative(mRequestCode, mArgs);
         super.onLeftButtonClick();
     }
 
     @Override
     protected void onRightButtonClick() {
-        mListener.onAlertPositive(getTargetRequestCode(), mArgs);
+        mListener.onAlertPositive(mRequestCode, mArgs);
         super.onRightButtonClick();
     }
 
@@ -84,6 +87,7 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
         setDialogTitle(getArguments().getString(ALERT_TAG));
         hideKeyboardOnLaunch();
         mListener = getTargetListener(DialogAlertListener.class);
-        mArgs = getArguments() == null ? new Bundle() : getArguments();
+        mArgs = getArguments();
+        mRequestCode = mArgs.getInt(REQUEST_CODE);
     }
 }
