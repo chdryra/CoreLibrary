@@ -8,6 +8,7 @@
 
 package com.chdryra.android.mygenerallibrary;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
 
@@ -33,16 +34,20 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
     }
 
     //Static methods
-    public static DialogAlertFragment newDialog(String alert, int requestCode) {
-        return newDialog(alert, requestCode, new Bundle());
+    public static DialogAlertFragment newDialog(String alert, Fragment targetFragment, int requestCode) {
+        return newDialog(alert, targetFragment, requestCode, new Bundle());
     }
 
     public static DialogAlertFragment newDialog(String alert, int requestCode, Bundle args) {
-        args.putInt(REQUEST_CODE, requestCode);
+        return newDialog(alert, null, requestCode, args);
+    }
+
+    public static DialogAlertFragment newDialog(String alert, Fragment targetFragment,
+                                                int requestCode, Bundle args) {
         args.putString(ALERT_TAG, alert);
         DialogAlertFragment dialog = new DialogAlertFragment();
         dialog.setArguments(args);
-
+        dialog.setTargetFragment(targetFragment, requestCode);
         return dialog;
     }
 
@@ -86,8 +91,8 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
         dismissDialogOnRightClick();
         setDialogTitle(getArguments().getString(ALERT_TAG));
         hideKeyboardOnLaunch();
-        mListener = getTargetListener(DialogAlertListener.class);
         mArgs = getArguments();
-        mRequestCode = mArgs.getInt(REQUEST_CODE);
+        mRequestCode = getTargetRequestCode();
+        mListener = getTargetListener(DialogAlertListener.class);
     }
 }

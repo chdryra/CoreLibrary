@@ -48,8 +48,11 @@ public class DialogDeleteConfirm {
     public static void showDialog(String deleteWhat, Fragment targetFragment, int requestCode,
                                   FragmentManager fragmentManager) {
         String alert = deleteWhat != null ? DELETE + " " + deleteWhat + "?" : DELETE + "?";
-        DialogFragment dialog = DialogAlertFragment.newDialog(alert, requestCode);
-        dialog.setTargetFragment(targetFragment, requestCode);
+        DialogFragment dialog = DialogAlertFragment.newDialog(alert, targetFragment, requestCode);
         dialog.show(fragmentManager, DELETE_CONFIRM_TAG);
+    }
+
+    public static void showDialog(String deleteWhat, int requestCode, FragmentManager fragmentManager) {
+        showDialog(deleteWhat, null, requestCode, fragmentManager);
     }
 }
