@@ -62,7 +62,7 @@ public class VHString extends ViewHolderBasic {
             @Override
             public String getString(ViewHolderData data) {
                 VHDString string = (VHDString) data;
-                return string != null && string.isValidForDisplay() ? string.get() : null;
+                return string != null && string.isValidForDisplay() ? string.getString() : null;
             }
         };
     }

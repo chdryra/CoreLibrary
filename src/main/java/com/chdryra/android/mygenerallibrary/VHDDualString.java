@@ -45,7 +45,7 @@ public class VHDDualString implements ViewHolderData {
 
     @Override
     public boolean isValidForDisplay() {
-        return (mUpper.length() > 0 && mLower.length() > 0);
+        return (mUpper != null && mUpper.length() > 0 && mLower != null && mLower.length() > 0);
     }
 
     @Override

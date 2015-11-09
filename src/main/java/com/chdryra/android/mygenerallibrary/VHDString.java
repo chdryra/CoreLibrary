@@ -23,7 +23,7 @@ public class VHDString implements ViewHolderData {
         mString = null;
     }
 
-    public String get() {
+    public String getString() {
         return mString;
     }
 
