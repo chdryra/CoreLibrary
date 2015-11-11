@@ -16,20 +16,16 @@ import java.io.File;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FileIncrementorFactory {
+    private File mSystemDir;
+    private String mDefaultStem;
 
-    //Static methods
-    public static FileIncrementor newImageFileIncrementor(File systemDir, String newDir,
-                                                          String fileName) {
-        return new ImageFileIncrementor(systemDir, newDir, fileName);
+    public FileIncrementorFactory(File systemDir) {
+        mSystemDir = systemDir;
     }
 
-    //Classes
-    public static class ImageFileIncrementor extends FileIncrementor {
-        private static final String EXT_IMAGE = "jpg";
-
-        //Constructors
-        public ImageFileIncrementor(File systemDir, String newDir, String fileName) {
-            super(systemDir, newDir, fileName, EXT_IMAGE);
-        }
+    public FileIncrementor newJpgFileIncrementor(String newDir,
+                                                 String fileName) {
+        return new FileIncrementor(mSystemDir, newDir, fileName, "jpg");
     }
+
 }
