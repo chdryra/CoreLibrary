@@ -21,8 +21,8 @@ public class ViewHolderAdapterFiltered extends ViewHolderAdapter
         implements Filterable {
 
     private final QueryFilter mFilter;
-    private ViewHolderDataList mFiltered = new ViewHolderDataList<>();
-    private ViewHolderDataList mInitialList = new ViewHolderDataList<>();
+    private ViewHolderDataList mFiltered = new VhDataList();
+    private ViewHolderDataList mInitialList = new VhDataList();
 
     public interface QueryFilter {
         //abstract

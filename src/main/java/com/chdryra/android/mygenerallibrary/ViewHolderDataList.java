@@ -9,6 +9,10 @@
 package com.chdryra.android.mygenerallibrary;
 
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+
 /**
  * An iterable, sortable collection of {@link ViewHolderData} objects that facilitate the
  * {@link ViewHolder}
@@ -16,5 +20,37 @@ package com.chdryra.android.mygenerallibrary;
  *
  * @param <T>: a type that implements {@link ViewHolderData}.
  */
-public class ViewHolderDataList<T extends ViewHolderData> extends SortableList<T> {
+public interface ViewHolderDataList<T extends ViewHolderData> extends SortableList<T> {
+    @Override
+    Iterator<T> iterator();
+
+    @Override
+    void add(T item);
+
+    @Override
+    boolean contains(T item);
+
+    @Override
+    void remove(T item);
+
+    @Override
+    void removeAll();
+
+    @Override
+    int size();
+
+    @Override
+    T getItem(int position);
+
+    @Override
+    void sort();
+
+    @Override
+    void sort(Comparator<T> comparator);
+
+    @Override
+    void addList(Iterable<T> list);
+
+    @Override
+    ArrayList<T> toArrayList();
 }
