@@ -58,7 +58,7 @@ public class SortableListImpl<T> implements SortableList<T> {
     }
 
     @Override
-    public void sort(Comparator<T> comparator) {
+    public void sort(Comparator<? super T> comparator) {
         Collections.sort(mData, comparator);
     }
 
@@ -77,7 +77,7 @@ public class SortableListImpl<T> implements SortableList<T> {
     }
 
     //protected methods
-    protected Comparator<T> getDefaultComparator() {
+    protected Comparator<? super T> getDefaultComparator() {
         return new Comparator<T>() {
             //Overridden
             @Override

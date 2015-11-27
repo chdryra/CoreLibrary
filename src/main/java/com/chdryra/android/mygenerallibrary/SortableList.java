@@ -32,7 +32,7 @@ public interface SortableList<T> extends Iterable<T> {
 
     void sort();
 
-    void sort(Comparator<T> comparator);
+    void sort(Comparator<? super T> comparator);
 
     void addList(Iterable<T> list);
 

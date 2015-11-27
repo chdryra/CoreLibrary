@@ -46,7 +46,7 @@ public interface ViewHolderDataList<T extends ViewHolderData> extends SortableLi
     void sort();
 
     @Override
-    void sort(Comparator<T> comparator);
+    void sort(Comparator<? super T> comparator);
 
     @Override
     void addList(Iterable<T> list);
