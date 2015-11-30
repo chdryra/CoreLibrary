@@ -63,7 +63,7 @@ public class SortableListImpl<T> implements SortableList<T> {
     }
 
     @Override
-    public void addList(Iterable<T> list) {
+    public void addList(Iterable<? extends T> list) {
         for (T item : list) {
             add(item);
         }

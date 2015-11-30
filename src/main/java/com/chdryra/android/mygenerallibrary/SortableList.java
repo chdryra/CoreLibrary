@@ -34,7 +34,7 @@ public interface SortableList<T> extends Iterable<T> {
 
     void sort(Comparator<? super T> comparator);
 
-    void addList(Iterable<T> list);
+    void addList(Iterable<? extends T> list);
 
     ArrayList<T> toArrayList();
 }
