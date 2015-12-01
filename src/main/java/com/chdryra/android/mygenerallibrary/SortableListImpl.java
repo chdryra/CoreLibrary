@@ -8,6 +8,7 @@
 
 package com.chdryra.android.mygenerallibrary;
 
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,27 +20,17 @@ import java.util.NoSuchElementException;
  *
  * @param <T>: type of the items.
  */
-public class SortableListImpl<T> implements SortableList<T> {
+public class SortableListImpl<T> extends AbstractCollection<T> implements SortableList<T>{
     protected ArrayList<T> mData = new ArrayList<>();
 
     @Override
-    public void add(T item) {
-        mData.add(item);
+    public boolean add(T item) {
+        return mData.add(item);
     }
 
     @Override
-    public boolean contains(T item) {
-        return mData.contains(item);
-    }
-
-    @Override
-    public void remove(T item) {
-        mData.remove(item);
-    }
-
-    @Override
-    public void removeAll() {
-        mData.clear();
+    public boolean remove(Object item) {
+        return mData.remove(item);
     }
 
     @Override
@@ -60,13 +51,6 @@ public class SortableListImpl<T> implements SortableList<T> {
     @Override
     public void sort(Comparator<? super T> comparator) {
         Collections.sort(mData, comparator);
-    }
-
-    @Override
-    public void addList(Iterable<? extends T> list) {
-        for (T item : list) {
-            add(item);
-        }
     }
 
     @Override
@@ -92,6 +76,8 @@ public class SortableListImpl<T> implements SortableList<T> {
     }
 
     //Overridden
+
+
     @Override
     public Iterator<T> iterator() {
         return new SortableListIterator();
