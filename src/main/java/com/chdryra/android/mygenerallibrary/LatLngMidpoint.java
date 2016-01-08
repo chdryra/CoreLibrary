@@ -10,19 +10,19 @@ package com.chdryra.android.mygenerallibrary;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
 public class LatLngMidpoint {
-    private LatLng mGeoMidpoint;
 
-    public LatLngMidpoint(LatLng[] latLngs) {
-        Coords[] coords = new Coords[latLngs.length];
-        for (int i = 0; i < latLngs.length; ++i) {
-            LatLng latLng = latLngs[i];
-            coords[i] = new Coords(latLng);
+    public LatLng getGeoMidpoint(Iterable<LatLng> latLngs) {
+        ArrayList<Coords> coords = new ArrayList<>();
+        for (LatLng latLng : latLngs) {
+            coords.add(new Coords(latLng));
         }
 
         Coords average = getAverageCoords(coords);
@@ -31,19 +31,15 @@ public class LatLngMidpoint {
         double hyp = Math.sqrt(average.x * average.x + average.y * average.y);
         double lat = Math.atan2(average.z, hyp);
 
-        mGeoMidpoint = new LatLng(Math.toDegrees(lat), Math.toDegrees(lng));
+        return new LatLng(Math.toDegrees(lat), Math.toDegrees(lng));
     }
 
-    public LatLng getGeoMidpoint() {
-        return mGeoMidpoint;
-    }
-
-    private Coords getAverageCoords(Coords[] coords) {
+    private Coords getAverageCoords(ArrayList<Coords> coords) {
         double x = 0;
         double y = 0;
         double z = 0;
 
-        int num = coords.length;
+        double num = (double)coords.size();
         for (Coords c : coords) {
             x += c.x / num;
             y += c.y / num;
