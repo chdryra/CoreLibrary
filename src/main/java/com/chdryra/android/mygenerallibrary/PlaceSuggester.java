@@ -12,6 +12,7 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -27,90 +28,4 @@ import java.util.Locale;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PlaceSuggester {
-    private final Context mContext;
-    private final LatLng mLatLng;
-    private final SuggestionsListener mListener;
-
-    public interface SuggestionsListener {
-        //abstract
-        public void onSuggestionsFound(ArrayList<String> addresses);
     }
-
-    //Constructors
-    public PlaceSuggester(Context context, LatLng latlng, SuggestionsListener listener) {
-        mContext = context;
-        mLatLng = latlng;
-        mListener = listener;
-    }
-
-    public void getSuggestions(int number) {
-        new AddressFinderTask().execute(number);
-    }
-
-    private String formatAddress(Address address) {
-        return String.format(
-                "%s%s",
-                // If there's a street address, add it
-                address.getMaxAddressLineIndex() > 0 ?
-                        address.getAddressLine(0) : "",
-                // Locality is usually a city
-                address.getLocality() != null ?
-                        ", " + address.getLocality() : "");
-    }
-
-    /**
-     * Finds nearest addresses given a LatLng on a separate thread using FetcherPlacesAPI. If this
-     * returns nothing, tries to use Android's built in Geocoder class.
-     */
-    private class AddressFinderTask extends AsyncTask<Integer, Void, ArrayList<String>> {
-        private final static String TAG = "AddressFinderTask";
-
-        //Overridden
-        @Override
-        protected ArrayList<String> doInBackground(Integer... params) {
-            Integer numberToGet = params[0];
-            ArrayList<String> namesFromGoogle = new ArrayList<String>();
-            if (mLatLng == null || numberToGet == 0) return namesFromGoogle;
-
-            namesFromGoogle = GooglePlacesApi.fetchNearestNames(mLatLng, numberToGet);
-
-            if (namesFromGoogle.size() > 0) {
-                return namesFromGoogle;
-            } else {
-                //Try using Geocoder
-                Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
-
-                List<Address> addresses = null;
-                try {
-                    addresses = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude,
-                            numberToGet);
-                } catch (IOException e1) {
-                    Log.e(TAG, "IOException: trying to get address using latitude " + mLatLng
-                            .latitude + ", longitude " + mLatLng.longitude, e1);
-                    Log.i(TAG, "Address is null");
-                } catch (IllegalArgumentException e2) {
-                    Log.e(TAG, "IllegalArgumentException: trying to get address using latitude " +
-                            mLatLng.latitude + ", longitude " + mLatLng.longitude, e2);
-                    Log.i(TAG, "Address is null");
-                }
-
-                if (addresses != null && addresses.size() > 0) {
-                    ArrayList<String> addressesList = new ArrayList<String>();
-                    for (int i = 0; i < addressesList.size(); ++i) {
-                        addressesList.add(formatAddress(addresses.get(i)));
-                    }
-
-                    return addressesList;
-                } else {
-                    return null;
-                }
-            }
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<String> addresses) {
-            super.onPostExecute(addresses);
-            mListener.onSuggestionsFound(addresses);
-        }
-    }
-}

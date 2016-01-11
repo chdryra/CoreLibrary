@@ -25,8 +25,7 @@ public class ViewHolderAdapterFiltered extends ViewHolderAdapter
     private ViewHolderDataList mInitialList = new VhDataList();
 
     public interface QueryFilter {
-        //abstract
-        public ViewHolderDataList filter(String query);
+        ViewHolderDataList filter(String query);
     }
 
     //Constructors
@@ -61,7 +60,6 @@ public class ViewHolderAdapterFiltered extends ViewHolderAdapter
     public Filter getFilter() {
         return new Filter() {
 
-            //Overridden
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
