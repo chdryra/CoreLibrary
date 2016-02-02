@@ -20,7 +20,6 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
     public static final ActionType NEGATIVE_ACTION = ActionType.CANCEL;
     public static final ActionType POSITVE_ACTION = ActionType.YES;
     public static final String ALERT_TAG = "com.chdryra.android.reviewer.alert_tag";
-    public static final String REQUEST_CODE = "com.chdryra.android.reviewer.request_code";
 
     private DialogAlertListener mListener;
     private Bundle mArgs;
@@ -59,7 +58,6 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
         clickRightButton();
     }
 
-//Overridden
     /**
      * Returns null view to keep alert simply a question and 2 buttons.
      *
