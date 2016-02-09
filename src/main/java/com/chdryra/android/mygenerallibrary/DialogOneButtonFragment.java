@@ -14,6 +14,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -100,6 +101,7 @@ public abstract class DialogOneButtonFragment extends DialogFragment {
      * @see #onCreateDialog(Bundle)
      * @see #getButtons(ViewGroup)
      */
+    @Nullable
     protected abstract View createDialogUi();
 
     public boolean isShowing() {
@@ -248,6 +250,7 @@ public abstract class DialogOneButtonFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLeftButtonAction(LEFT_BUTTON_DEFAULT_ACTION);
+        dismissDialogOnLeftClick();
     }
 
     @Override
