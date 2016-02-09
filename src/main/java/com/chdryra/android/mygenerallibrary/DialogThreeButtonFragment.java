@@ -19,12 +19,16 @@ import android.widget.Button;
 public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment {
     public static final ActionType MIDDLE_BUTTON_DEFAULT_ACTION = ActionType.OTHER;
 
+    public static final int THREE_BUTTON_LAYOUT = R.layout.dialog_three_button_layout;
+    public static final int LEFT_BUTTON = R.id.button_left;
+    public static final int MIDDLE_BUTTON = R.id.button_middle;
+    public static final int RIGHT_BUTTON = R.id.button_right;
+
     private Button mMiddleButton;
     private String mMiddleButtonText;
     private ActivityResultCode mMiddleButtonResult;
     private boolean mDismissOnMiddleClick = false;
 
-//public methods
     public String getMiddleButtonText() {
         return (String) mMiddleButton.getText();
     }
@@ -51,34 +55,22 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
         mDismissOnMiddleClick = true;
     }
 
-//Overridden
     @Override
     protected abstract View createDialogUi();
 
     @Override
-    protected void sendResult(ActivityResultCode resultCode) {
-        super.sendResult(resultCode);
+    protected View getButtons(ViewGroup parent) {
+        View buttons = getActivity().getLayoutInflater().inflate(THREE_BUTTON_LAYOUT, parent, false);
 
+        setLeftButton((Button) buttons.findViewById(LEFT_BUTTON));
+        setMiddleButton((Button) buttons.findViewById(MIDDLE_BUTTON));
+        setRightButton((Button) buttons.findViewById(RIGHT_BUTTON));
+
+        return buttons;
     }
 
-    @Override
-    protected View getButtons(ViewGroup parent) {
-        View buttons = getActivity().getLayoutInflater().inflate(
-                R.layout.dialog_three_button_layout, parent, false);
-
-        mLeftButton = (Button) buttons.findViewById(R.id.button_left);
-        mMiddleButton = (Button) buttons.findViewById(R.id.button_middle);
-        mRightButton = (Button) buttons.findViewById(R.id.button_right);
-
-        mLeftButton.setText(mLeftButtonText);
-        mLeftButton.setOnClickListener(new View.OnClickListener() {
-//Overridden
-            @Override
-            public void onClick(View v) {
-                onLeftButtonClick();
-            }
-        });
-
+    private void setMiddleButton(Button button) {
+        mMiddleButton = button;
         mMiddleButton.setText(mMiddleButtonText);
         mMiddleButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,16 +78,6 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
                 onMiddleButtonClick();
             }
         });
-
-        mRightButton.setText(mRightButtonText);
-        mRightButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onRightButtonClick();
-            }
-        });
-
-        return buttons;
     }
 
     @Override

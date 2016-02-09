@@ -8,19 +8,10 @@
 
 package com.chdryra.android.mygenerallibrary;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 
 /**
  * A standard unified look and action for 2 button dialogs. Dialogs often have to do quite similar
@@ -42,130 +33,27 @@ import android.widget.LinearLayout.LayoutParams;
  * dismiss dialog on button press etc.
  * </p>
  */
-public abstract class DialogTwoButtonFragment extends DialogFragment {
+public abstract class DialogTwoButtonFragment extends DialogOneButtonFragment {
     public static final ActionType LEFT_BUTTON_DEFAULT_ACTION = ActionType.CANCEL;
     public static final ActionType RIGHT_BUTTON_DEFAULT_ACTION = ActionType.DONE;
 
-    protected Button mLeftButton;
-    protected Button mRightButton;
+    public static final int TWO_BUTTON_LAYOUT = R.layout.dialog_two_button_layout;
+    public static final int LEFT_BUTTON = R.id.button_left;
+    public static final int RIGHT_BUTTON = R.id.button_right;
 
-    protected String mLeftButtonText;
-    protected String mRightButtonText;
-
-    private ActivityResultCode mLeftButtonResult;
+    private Button mRightButton;
+    private String mRightButtonText;
     private ActivityResultCode mRightButtonResult;
 
-    private boolean mDismissOnLeftClick = false;
     private boolean mDismissOnRightClick = false;
-
-    private String mDialogTitle;
-    private Intent mReturnData;
-
-    private boolean mShowKeyboardOnLaunch = true;
-
-    /**
-     * Enum that provides ActionResultCodes and associated text labels for some common actions.
-     *
-     * @see ActivityResultCode
-     */
-    public enum ActionType {
-        CANCEL(ActivityResultCode.CANCEL, R.string.gl_action_cancel_text),
-        DONE(ActivityResultCode.DONE, R.string.gl_action_done_text),
-        OTHER(ActivityResultCode.OTHER, R.string.gl_action_other_text),
-        EDIT(ActivityResultCode.EDIT, R.string.gl_action_edit_text),
-        ADD(ActivityResultCode.ADD, R.string.gl_action_add_text),
-        DELETE(ActivityResultCode.DELETE, R.string.gl_action_delete_text),
-        CLEAR(ActivityResultCode.CLEAR, R.string.gl_action_clear_text),
-        OK(ActivityResultCode.OK, R.string.gl_action_ok_text),
-        YES(ActivityResultCode.YES, R.string.gl_action_yes_text),
-        NO(ActivityResultCode.NO, R.string.gl_action_no_text);
-
-        private final ActivityResultCode mResultCode;
-        private final int mLabelId;
-
-        ActionType(ActivityResultCode resultCode, int labelId) {
-            mResultCode = resultCode;
-            mLabelId = labelId;
-        }
-
-//public methods
-        public ActivityResultCode getResultCode() {
-            return mResultCode;
-        }
-
-        public String getLabel(Context context) {
-            return context.getResources().getString(mLabelId);
-        }
-    }
-
-    /**
-     * Subclasses need to override this to return the dialog UI to show above the Dialog buttons.
-     *
-     * @return View: the main UI to show above the buttons in the dialog.
-     * @see #onCreateDialog(android.os.Bundle)
-     * @see #getButtons(android.view.ViewGroup)
-     */
-    protected abstract View createDialogUi();
-
-//public methods
-    public String getLeftButtonText() {
-        return (String) mLeftButton.getText();
-    }
-
-    public void setLeftButtonText(String leftButtonText) {
-        mLeftButtonText = leftButtonText;
-    }
-
-    public String getRightButtonText() {
-        return (String) mRightButton.getText();
-    }
-
-    public void setRightButtonText(String rightButtonText) {
-        mRightButtonText = rightButtonText;
-    }
-
-    public boolean isShowing() {
-        return getDialog() != null && getDialog().isShowing();
-    }
-
-    public void setLeftButtonAction(ActionType action) {
-        mLeftButtonText = getTitleForAction(action);
-        mLeftButtonResult = action.getResultCode();
-    }
 
     public void setRightButtonAction(ActionType action) {
         mRightButtonText = getTitleForAction(action);
         mRightButtonResult = action.getResultCode();
     }
 
-    public void setDialogTitle(String dialogTitle) {
-        mDialogTitle = dialogTitle;
-    }
-
-    public void hideKeyboardOnLaunch() {
-        mShowKeyboardOnLaunch = false;
-    }
-
-    public void clickLeftButton() {
-        mLeftButton.performClick();
-    }
-
     public void clickRightButton() {
         mRightButton.performClick();
-    }
-
-//protected methods
-    protected Intent getReturnData() {
-        if (mReturnData == null) {
-            return createNewReturnData();
-        } else {
-            return mReturnData;
-        }
-    }
-
-    protected void onLeftButtonClick() {
-        sendResult(mLeftButtonResult);
-        if (mDismissOnLeftClick) dismiss();
     }
 
     protected void onRightButtonClick() {
@@ -173,56 +61,12 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
         if (mDismissOnRightClick) dismiss();
     }
 
-    protected String getTitleForAction(ActionType type) {
-        return type.getLabel(getActivity());
-    }
-
-    protected void dismissDialogOnLeftClick() {
-        mDismissOnLeftClick = true;
-    }
-
     protected void dismissDialogOnRightClick() {
         mDismissOnRightClick = true;
     }
 
-    protected Intent createNewReturnData() {
-        mReturnData = new Intent();
-        return mReturnData;
-    }
-
-    protected void sendResult(ActivityResultCode resultCode) {
-        if (getTargetFragment() == null) return;
-        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode.get(),
-                getReturnData());
-        mReturnData = null;
-    }
-
-    /**
-     * Returns a button layout with appropriate actions and labels.
-     *
-     * @param parent: by default a LinearLayout that will hold the return View followed by the
-     *                buttons. If the View is inflated from an XML file using a layout inflater,
-     *                "parent" should be passed as the parent ViewGroup parameter to the inflater.
-     * @return View: the button UI for the Dialog.
-     * @see #onCreateDialog(android.os.Bundle)
-     * @see #createDialogUi()
-     */
-    protected View getButtons(ViewGroup parent) {
-        View buttons = getActivity().getLayoutInflater().inflate(
-                R.layout.dialog_two_button_layout, parent, false);
-
-        mLeftButton = (Button) buttons.findViewById(R.id.button_left);
-        mRightButton = (Button) buttons.findViewById(R.id.button_right);
-
-        mLeftButton.setText(mLeftButtonText);
-        mLeftButton.setOnClickListener(new View.OnClickListener() {
-//Overridden
-            @Override
-            public void onClick(View v) {
-                onLeftButtonClick();
-            }
-        });
-
+    protected void setRightButton(Button button) {
+        mRightButton = button;
         mRightButton.setText(mRightButtonText);
         mRightButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,89 +74,22 @@ public abstract class DialogTwoButtonFragment extends DialogFragment {
                 onRightButtonClick();
             }
         });
+    }
+
+    @Override
+    protected View getButtons(ViewGroup parent) {
+        View buttons = getActivity().getLayoutInflater().inflate(TWO_BUTTON_LAYOUT, parent, false);
+
+        setLeftButton((Button) buttons.findViewById(LEFT_BUTTON));
+        setRightButton((Button) buttons.findViewById(RIGHT_BUTTON));
 
         return buttons;
     }
 
-    protected <T> T getTargetListener(Class<T> listenerClass) {
-        Fragment target = getTargetFragment();
-        if(target != null) {
-            try {
-                return listenerClass.cast(getTargetFragment());
-            } catch (ClassCastException e1) {
-                throw new ClassCastException("Target fragment " + target.getTag() +
-                        " must implement " + listenerClass.getName());
-            }
-        } else {
-            return getActivityListener(listenerClass);
-        }
-    }
-
-    private <T> T getActivityListener(Class<T> listenerClass) {
-        try {
-            return listenerClass.cast(getActivity());
-        } catch (ClassCastException e2) {
-            throw new ClassCastException("Activity must implement " + listenerClass.getName());
-        }
-    }
-
-    private Dialog buildDialog() {
-        Dialog dialog = new Dialog(getActivity());
-
-        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        LayoutParams lp1 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT,
-                1.0f);
-
-        LinearLayout layout = new LinearLayout(getActivity());
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setLayoutParams(lp);
-
-        //Hacky layout params to get listview dialogUIs to render properly.
-        //Need to set layout weight of 1 on it...
-        View dialogUi = createDialogUi();
-        if (dialogUi != null) {
-            layout.addView(dialogUi, lp1);
-        }
-        layout.addView(getButtons(layout), lp);
-
-        if (mDialogTitle == null || mDialogTitle.length() == 0) {
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        }
-
-        dialog.setContentView(layout);
-        dialog.setTitle(mDialogTitle);
-
-        if (mShowKeyboardOnLaunch) {
-            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams
-                    .SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
-
-        return dialog;
-    }
-
-//Overridden
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLeftButtonAction(LEFT_BUTTON_DEFAULT_ACTION);
         setRightButtonAction(RIGHT_BUTTON_DEFAULT_ACTION);
-    }
-
-    /**
-     * Calls {@link #buildDialog()}
-     *
-     * @param savedInstanceState: instance state from rotations etc.
-     * @return Dialog: built dialog object
-     */
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return buildDialog();
-    }
-
-    @Override
-    public void onStop() {
-        getActivity().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        super.onStop();
     }
 }
