@@ -24,7 +24,6 @@ public abstract class ActivitySingleFragment extends Activity {
 
     protected abstract Fragment createFragment();
 
-    //Overridden
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
