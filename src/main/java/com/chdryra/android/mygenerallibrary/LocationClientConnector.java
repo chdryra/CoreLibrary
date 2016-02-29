@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.IntentSender;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -37,13 +38,11 @@ public class LocationClientConnector implements GoogleApiClient.ConnectionCallba
      * location.
      */
     public interface Locatable {
-        //abstract
         void onLocated(Location location);
 
         void onLocationClientConnected(Location location);
     }
 
-    //Constructors
     public LocationClientConnector(Activity activity, Locatable locatable) {
         mActivity = activity;
         mLocatable = locatable;
@@ -76,14 +75,12 @@ public class LocationClientConnector implements GoogleApiClient.ConnectionCallba
         return false;
     }
 
-    //private methods
     private Location getLastLocation() {
         return LocationServices.FusedLocationApi.getLastLocation(mApiClient);
     }
 
-    //Overridden
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         if (connectionResult.hasResolution()) {
             try {
                 connectionResult.startResolutionForResult(mActivity,
