@@ -21,6 +21,7 @@ import android.os.Bundle;
  */
 public abstract class ActivitySingleFragment extends Activity {
     public static final int FRAGMENT_ID = R.id.fragmentContainer;
+    private Fragment mFragment;
 
     protected abstract Fragment createFragment();
 
@@ -30,11 +31,15 @@ public abstract class ActivitySingleFragment extends Activity {
         setContentView(R.layout.activity_fragment);
 
         FragmentManager fm = getFragmentManager();
-        Fragment fragment = fm.findFragmentById(FRAGMENT_ID);
+        mFragment = fm.findFragmentById(FRAGMENT_ID);
 
-        if (fragment == null) {
-            fragment = createFragment();
-            fm.beginTransaction().add(FRAGMENT_ID, fragment).commit();
+        if (mFragment == null) {
+            mFragment = createFragment();
+            fm.beginTransaction().add(FRAGMENT_ID, mFragment).commit();
         }
+    }
+
+    protected Fragment getFragment() {
+        return mFragment;
     }
 }
