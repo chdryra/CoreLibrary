@@ -28,7 +28,6 @@ public class ViewHolderAdapterFiltered extends ViewHolderAdapter
         ViewHolderDataList filter(String query);
     }
 
-    //Constructors
     public ViewHolderAdapterFiltered(Context context, ViewHolderDataList initialList,
                                      QueryFilter filter) {
         super(context, initialList);
