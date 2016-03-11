@@ -13,8 +13,9 @@ repositories {
 }
 
 dependencies {
-    compile project(':RemoteAPIFetchers')
+//    compile project(':RemoteAPIFetchers')
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'com.google.android.gms:play-services-location:8.4.0'
 }
 
 android {
