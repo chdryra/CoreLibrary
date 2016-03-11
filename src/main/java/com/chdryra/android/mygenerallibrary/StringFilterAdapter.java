@@ -28,11 +28,9 @@ public class StringFilterAdapter extends ArrayAdapter<String> implements Filtera
     private ArrayList<String> mDefaultSuggestions = new ArrayList<String>();
 
     public interface StringFilter {
-//abstract
-        public ArrayList<String> filter(String query);
+        ArrayList<String> filter(String query);
     }
 
-//Constructors
     public StringFilterAdapter(Context context, ArrayList<String> defaultSuggestions,
                                StringFilter stringFilter) {
         super(context, TEXT_VIEW_RESOURCE);
@@ -62,7 +60,6 @@ public class StringFilterAdapter extends ArrayAdapter<String> implements Filtera
     public Filter getFilter() {
         return new Filter() {
 
-//Overridden
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
