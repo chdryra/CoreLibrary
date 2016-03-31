@@ -11,7 +11,6 @@ package com.chdryra.android.mygenerallibrary;
 import android.support.annotation.Nullable;
 
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
 
 /**
@@ -20,38 +19,67 @@ import java.util.Queue;
  * Email: rizwan.choudrey@gmail.com
  */
 public class QueueCache<T> {
-    private Map<String, T> mCache;
+    private Cache<T> mCache;
     private Queue<String> mIds;
     private int mCacheMax;
 
-    public QueueCache(int cacheMax) {
+    public interface Cache<T> {
+        void put(String id, T item);
+
+        T get(String id);
+
+        T remove(String id);
+    }
+
+    public QueueCache(Cache<T> cache, int cacheMax) {
         mCacheMax = cacheMax;
         mIds = new LinkedList<>();
+        mCache = cache;
     }
 
     @Nullable
     public T add(String id, T item) {
-        if(mIds.contains(id)) return swap(id, item);
+        if (containsId(id)) return swap(id, item);
 
-        mIds.add(id);
-        mCache.put(id, item);
+        addToCache(id, item);
 
-        return mIds.size() > mCacheMax ? mCache.remove(mIds.remove()) : null;
+        return maxSizeBreached() ? removeHeadOfQueue() : null;
     }
 
-    private T swap(String id, T item) {
-        T old = mCache.remove(id);
-        mCache.put(id, item);
-        return old;
+    public T get(String id) {
+        return mCache.get(id);
+    }
+
+    public T remove(String id) {
+        return removeFromCache(id);
+    }
+
+    public boolean containsId(String id) {
+        return mIds.contains(id);
+    }
+
+    private boolean maxSizeBreached() {
+        return mIds.size() > mCacheMax;
+    }
+
+    private T removeHeadOfQueue() {
+        return removeFromCache(mIds.remove());
     }
 
     @Nullable
-    public T remove(String id) {
-        if(mIds.contains(id)) {
-            mIds.remove(id);
-            return mCache.remove(id);
-        }
+    private T swap(String id, T item) {
+        T old = removeFromCache(id);
+        addToCache(id, item);
+        return old.equals(item) ? null : old;
+    }
 
-        return null;
+    private T removeFromCache(String id) {
+        mIds.remove(id);
+        return mCache.remove(id);
+    }
+
+    private void addToCache(String id, T item) {
+        mIds.add(id);
+        mCache.put(id, item);
     }
 }
