@@ -21,10 +21,9 @@ import android.view.ViewGroup;
  * @see ViewHolderAdapter
  */
 public interface ViewHolder {
-    //abstract
-    public void inflate(Context context, ViewGroup parent);
+    void inflate(Context context, ViewGroup parent);
 
-    public void updateView(ViewHolderData data);
+    void updateView(ViewHolderData data);
 
-    public View getView();
+    View getView();
 }

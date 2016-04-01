@@ -10,6 +10,7 @@ package com.chdryra.android.mygenerallibrary;
 
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -85,9 +86,8 @@ public class ViewHolderAdapter extends BaseAdapter {
         if (data == null || !data.isValidForDisplay()) return new View(mContext);
 
         ViewHolder vh;
-        if (convertView == null || mUniqueViews) {
-            vh = data.getViewHolder();
-            vh.inflate(mContext, parent);
+        if (convertView == null || convertView.getTag() == null || mUniqueViews) {
+            vh = inflateView(parent, data);
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
@@ -102,5 +102,12 @@ public class ViewHolderAdapter extends BaseAdapter {
         }
 
         return convertView;
+    }
+
+    @NonNull
+    private ViewHolder inflateView(ViewGroup parent, ViewHolderData data) {
+        ViewHolder vh = data.getViewHolder();
+        vh.inflate(mContext, parent);
+        return vh;
     }
 }
