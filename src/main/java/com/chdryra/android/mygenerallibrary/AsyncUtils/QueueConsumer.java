@@ -20,11 +20,10 @@ import java.util.Map;
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class QueueConsumer<T, Listener> implements AsyncWorkQueue.QueueObserver, WorkStoreCallback<T> {
+public abstract class QueueConsumer<T> implements AsyncWorkQueue.QueueObserver, WorkStoreCallback<T> {
     private AsyncWorkQueue<T> mQueue;
     private Map<String, ItemWorker<T>> mWorkers;
     private ArrayList<String> mWorking;
-    private ArrayList<Listener> mListeners;
     private Map<String, WorkerToken> mTokens;
 
     protected abstract void OnFailedToRetrieve(String requestId, CallbackMessage result);
@@ -38,7 +37,6 @@ public abstract class QueueConsumer<T, Listener> implements AsyncWorkQueue.Queue
     public QueueConsumer() {
         mWorkers = new HashMap<>();
         mWorking = new ArrayList<>();
-        mListeners = new ArrayList<>();
         mTokens = new HashMap<>();
     }
 
@@ -47,18 +45,6 @@ public abstract class QueueConsumer<T, Listener> implements AsyncWorkQueue.Queue
 
         mQueue = queue;
         mQueue.registerObserver(this);
-    }
-
-    protected ArrayList<Listener> getListeners() {
-        return mListeners;
-    }
-
-    public void registerListener(Listener listener) {
-        if (!mListeners.contains(listener)) mListeners.add(listener);
-    }
-
-    public void unregisterListener(Listener listener) {
-        if (mListeners.contains(listener)) mListeners.remove(listener);
     }
 
     protected void onWorkCompleted(String itemId) {
