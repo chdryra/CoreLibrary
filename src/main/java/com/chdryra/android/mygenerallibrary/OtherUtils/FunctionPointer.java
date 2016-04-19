@@ -8,6 +8,8 @@
 
 package com.chdryra.android.mygenerallibrary.OtherUtils;
 
+import android.support.annotation.Nullable;
+
 /**
  * Interface to allow a function pointer to be defined as an anonymous inner classes.
  *
@@ -15,6 +17,5 @@ package com.chdryra.android.mygenerallibrary.OtherUtils;
  * @param <T2>: type returned by execution of function.
  */
 public interface FunctionPointer<T1, T2> {
-    //abstract
-    public T2 execute(T1 data);
+    T2 execute(@Nullable T1 data);
 }
