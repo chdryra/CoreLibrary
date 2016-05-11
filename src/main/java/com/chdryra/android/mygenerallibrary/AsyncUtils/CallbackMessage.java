@@ -33,8 +33,11 @@ public class CallbackMessage implements Parcelable {
     private String mMessage;
     private boolean mIsError = false;
 
-    public static CallbackMessage ok(String message) {
+    public static CallbackMessage ok() {
+        return new CallbackMessage("Ok", false);
+    }
 
+    public static CallbackMessage ok(String message) {
         return new CallbackMessage(message, false);
     }
 
