@@ -21,16 +21,9 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
     public static final ActionType POSITVE_ACTION = ActionType.YES;
     public static final String ALERT_TAG = "com.chdryra.android.reviewer.alert_tag";
 
-    private DialogAlertListener mListener;
+    private AlertListener mListener;
     private Bundle mArgs;
     private int mRequestCode;
-
-    public interface DialogAlertListener {
-        //abstract
-        void onAlertNegative(int requestCode, Bundle args);
-
-        void onAlertPositive(int requestCode, Bundle args);
-    }
 
     //Static methods
     public static DialogAlertFragment newDialog(String alert, Fragment targetFragment, int requestCode) {
@@ -91,6 +84,6 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
         hideKeyboardOnLaunch();
         mArgs = getArguments();
         mRequestCode = getTargetRequestCode();
-        mListener = getTargetListener(DialogAlertListener.class);
+        mListener = getTargetListener(AlertListener.class);
     }
 }

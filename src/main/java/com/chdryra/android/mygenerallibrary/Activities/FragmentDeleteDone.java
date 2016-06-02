@@ -16,9 +16,9 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogDeleteConfirm;
+import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.R;
 
 /**
@@ -29,8 +29,7 @@ import com.chdryra.android.mygenerallibrary.R;
  * pressed and there is data to delete. Also manages actions to perform on up/delete/done.
  * </p>
  */
-public class FragmentDeleteDone extends Fragment implements DialogAlertFragment
-        .DialogAlertListener {
+public class FragmentDeleteDone extends Fragment implements AlertListener {
     public static final int MENU_ID = R.menu.menu_delete_done;
     public static final int MENU_UP_ID = android.R.id.home;
     public static final int MENU_DELETE_ID = R.id.menu_item_delete;

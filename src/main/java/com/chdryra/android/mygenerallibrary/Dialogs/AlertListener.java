@@ -15,10 +15,8 @@ import android.os.Bundle;
  * On: 03/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AlertListener extends DialogAlertFragment.DialogAlertListener{
-    @Override
+public interface AlertListener {
     void onAlertNegative(int requestCode, Bundle args);
 
-    @Override
     void onAlertPositive(int requestCode, Bundle args);
 }

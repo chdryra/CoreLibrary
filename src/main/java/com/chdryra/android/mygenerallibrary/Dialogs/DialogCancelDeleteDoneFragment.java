@@ -18,7 +18,7 @@ import android.view.View;
  * and {@link #hasDataToDelete()} returns true.
  */
 public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionDoneFragment
-        implements DialogAlertFragment.DialogAlertListener {
+        implements AlertListener {
     public static final ActionType DELETE_ACTION = ActionType.DELETE;
     public static final int DELETE_CONFIRM = 0;
 

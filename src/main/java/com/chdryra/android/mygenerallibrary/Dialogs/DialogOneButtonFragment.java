@@ -116,7 +116,7 @@ public abstract class DialogOneButtonFragment extends DialogFragment {
         mLeftButtonResult = action.getResultCode();
     }
 
-    public void setDialogTitle(String dialogTitle) {
+    public void setDialogTitle(@Nullable String dialogTitle) {
         mDialogTitle = dialogTitle;
     }
 
