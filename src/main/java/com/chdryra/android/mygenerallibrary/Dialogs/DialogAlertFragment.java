@@ -84,6 +84,6 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
         hideKeyboardOnLaunch();
         mArgs = getArguments();
         mRequestCode = getTargetRequestCode();
-        mListener = getTargetListener(AlertListener.class);
+        mListener = getTargetListenerOrThrow(AlertListener.class);
     }
 }

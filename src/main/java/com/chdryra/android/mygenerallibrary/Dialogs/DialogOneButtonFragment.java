@@ -193,24 +193,24 @@ public abstract class DialogOneButtonFragment extends DialogFragment {
         return button;
     }
 
-    protected <T> T getTargetListener(Class<T> listenerClass) {
+    protected <T> T getTargetListenerOrThrow(Class<T> listenerClass) {
         Fragment target = getTargetFragment();
         if(target != null) {
             try {
-                return listenerClass.cast(getTargetFragment());
-            } catch (ClassCastException e1) {
+                return listenerClass.cast(target);
+            } catch (ClassCastException e) {
                 throw new ClassCastException("Target fragment " + target.getTag() +
                         " must implement " + listenerClass.getName());
             }
         } else {
-            return getActivityListener(listenerClass);
+            return getActivityListenerOrThrow(listenerClass);
         }
     }
 
-    private <T> T getActivityListener(Class<T> listenerClass) {
+    private <T> T getActivityListenerOrThrow(Class<T> listenerClass) {
         try {
             return listenerClass.cast(getActivity());
-        } catch (ClassCastException e2) {
+        } catch (ClassCastException e) {
             throw new ClassCastException("Activity must implement " + listenerClass.getName());
         }
     }
