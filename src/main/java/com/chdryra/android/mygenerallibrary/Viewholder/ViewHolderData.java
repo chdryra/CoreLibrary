@@ -26,17 +26,14 @@ package com.chdryra.android.mygenerallibrary.Viewholder;
  * </p>
  */
 public interface ViewHolderData {
+    ViewHolder getViewHolder();
 
-    //abstract
-    public ViewHolder getViewHolder();
-
-    public boolean isValidForDisplay();
-
-    //Overridden
-    @Override
-    public boolean equals(Object o);
+    boolean isValidForDisplay();
 
     @Override
-    public int hashCode();
+    boolean equals(Object o);
+
+    @Override
+    int hashCode();
 }
 
