@@ -38,7 +38,6 @@ public class ViewHolderAdapter extends BaseAdapter {
     private boolean mSetDimensions = false;
     private boolean mUniqueViews = false;
 
-    //Constructors
     public ViewHolderAdapter(Context context, ViewHolderDataList data) {
         this(context, data, -1, -1, false);
     }
@@ -63,7 +62,6 @@ public class ViewHolderAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    //Overridden
     @Override
     public int getCount() {
         return mData.size();

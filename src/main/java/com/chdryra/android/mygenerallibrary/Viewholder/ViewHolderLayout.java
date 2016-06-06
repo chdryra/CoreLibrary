@@ -20,8 +20,6 @@ import com.chdryra.android.mygenerallibrary.R;
  * files when defining the look of a view holder.
  */
 public class ViewHolderLayout extends FrameLayout {
-
-    //Constructors
     public ViewHolderLayout(Context context) {
         super(context);
     }
