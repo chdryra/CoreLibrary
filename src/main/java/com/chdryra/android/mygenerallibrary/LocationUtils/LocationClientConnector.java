@@ -8,41 +8,37 @@
 
 package com.chdryra.android.mygenerallibrary.LocationUtils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.Places;
 
 /**
  * Handles connection to Google Play services for Places API lookup tasks.
  */
 public class LocationClientConnector implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener, LocationClient {
 
-    private static final String TAG = "LocationClientConnector";
+    private static final String TAG = TagKeyGenerator.getTag(LocationClientConnector.class);
+    private static final int LOCATION_PERMISSIONS = RequestCodeGenerator.getCode("RequestPermissions");
     private static final int MAX_CONNECTION_TRIES = 3;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private final GoogleApiClient mApiClient;
     private final Activity mActivity;
     private final Locatable mLocatable;
     private int mNumberConnectionTries = 0;
-
-    /**
-     * Callbacks for classes that want know when the Location Client has connected and found a
-     * location.
-     */
-    public interface Locatable {
-        void onLocated(Location location);
-
-        void onLocationClientConnected(Location location);
-    }
 
     public LocationClientConnector(Activity activity, Locatable locatable) {
         mActivity = activity;
@@ -54,16 +50,19 @@ public class LocationClientConnector implements GoogleApiClient.ConnectionCallba
                 .build();
     }
 
+    @Override
     public void connect() {
         if (!mApiClient.isConnected()) {
             mApiClient.connect();
         }
     }
 
+    @Override
     public void disconnect() {
         mApiClient.disconnect();
     }
 
+    @Override
     public boolean locate() {
         if (mApiClient.isConnected()) {
             Location location = getLastLocation();
@@ -77,6 +76,13 @@ public class LocationClientConnector implements GoogleApiClient.ConnectionCallba
     }
 
     private Location getLastLocation() {
+        if ( ContextCompat.checkSelfPermission( mActivity, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission( mActivity, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions( mActivity,
+                    new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION  },
+                    LOCATION_PERMISSIONS );
+        }
+
         return LocationServices.FusedLocationApi.getLastLocation(mApiClient);
     }
 
@@ -104,7 +110,7 @@ public class LocationClientConnector implements GoogleApiClient.ConnectionCallba
     @Override
     public void onConnected(Bundle arg0) {
         Location location = getLastLocation();
-        if (location != null) mLocatable.onLocationClientConnected(location);
+        if (location != null) mLocatable.onConnected(location);
         Log.i(TAG, "LocationClient connected");
     }
 
