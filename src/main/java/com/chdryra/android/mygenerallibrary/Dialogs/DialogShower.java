@@ -10,6 +10,7 @@ package com.chdryra.android.mygenerallibrary.Dialogs;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 
 /**
@@ -30,6 +31,9 @@ public class DialogShower {
     public static void show(DialogFragment dialog, Activity activity, int requestCode, String
             tag) {
         dialog.setTargetFragment(null, requestCode);
-        dialog.show(activity.getFragmentManager(), tag);
+        FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
+        ft.add(dialog, tag);
+        ft.commitAllowingStateLoss();
+        //dialog.show(activity.getFragmentManager(), tag);
     }
 }
