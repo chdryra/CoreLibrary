@@ -22,14 +22,17 @@ import java.util.NoSuchElementException;
  */
 public class SortableListImpl<T> extends AbstractCollection<T> implements SortableList<T>{
     protected ArrayList<T> mData = new ArrayList<>();
+    private boolean mIsSorted = false;
 
     @Override
     public boolean add(T item) {
+        mIsSorted = false;
         return mData.add(item);
     }
 
     @Override
     public boolean remove(Object item) {
+        mIsSorted = false;
         return mData.remove(item);
     }
 
@@ -45,12 +48,16 @@ public class SortableListImpl<T> extends AbstractCollection<T> implements Sortab
 
     @Override
     public void sort() {
-        sort(getDefaultComparator());
+        if(!mIsSorted) {
+            sort(getDefaultComparator());
+            mIsSorted = true;
+        }
     }
 
     @Override
     public void sort(Comparator<? super T> comparator) {
         Collections.sort(mData, comparator);
+        mIsSorted = false;
     }
 
     @Override
@@ -109,6 +116,7 @@ public class SortableListImpl<T> extends AbstractCollection<T> implements Sortab
         public void remove() {
             if (mPosition > 0) {
                 mData.remove((getItem(--mPosition)));
+                mIsSorted = false;
             } else {
                 throw new IllegalStateException(ILLEGAL_STATE);
             }
