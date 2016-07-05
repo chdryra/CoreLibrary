@@ -66,6 +66,6 @@ public class TextUtils {
     }
 
     public static String toCamelCase(String string) {
-        return WordUtils.capitalizeFully(string).replaceAll(" ", "");
+        return WordUtils.capitalize(string).replaceAll(" ", "");
     }
 }
