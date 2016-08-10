@@ -62,7 +62,11 @@ public class VHString extends ViewHolderBasic {
     //Overridden
     @Override
     public void updateView(ViewHolderData data) {
+        if (data != null) updateView(mGetter.getString(data));
+    }
+
+    public void updateView(String text) {
         if (mTextView == null) mTextView = (TextView) getView(mTextViewId);
-        if (data != null) mTextView.setText(mGetter.getString(data));
+        mTextView.setText(text);
     }
 }
