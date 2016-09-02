@@ -28,5 +28,9 @@ public interface SortableList<T> extends Collection<T> {
 
     void sort(Comparator<? super T> comparator);
 
+    void setUnsorted();
+
+    boolean isSorted();
+
     ArrayList<T> toArrayList();
 }

@@ -48,16 +48,24 @@ public class SortableListImpl<T> extends AbstractCollection<T> implements Sortab
 
     @Override
     public void sort() {
-        if(!mIsSorted) {
-            sort(getDefaultComparator());
-            mIsSorted = true;
-        }
+        sort(getDefaultComparator());
+        mIsSorted = true;
     }
 
     @Override
     public void sort(Comparator<? super T> comparator) {
         Collections.sort(mData, comparator);
         mIsSorted = false;
+    }
+
+    @Override
+    public void setUnsorted() {
+        mIsSorted = false;
+    }
+
+    @Override
+    public boolean isSorted() {
+        return mIsSorted;
     }
 
     @Override
