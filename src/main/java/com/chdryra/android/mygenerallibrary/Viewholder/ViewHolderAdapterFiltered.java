@@ -17,25 +17,23 @@ import android.widget.Filterable;
  * On: 12/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewHolderAdapterFiltered extends ViewHolderAdapter
+public class ViewHolderAdapterFiltered<T extends ViewHolderData> extends ViewHolderAdapter
         implements Filterable {
 
-    private final QueryFilter mFilter;
-    private ViewHolderDataList mFiltered = new VhDataList();
-    private ViewHolderDataList mInitialList = new VhDataList();
+    private final QueryFilter<T> mFilter;
+    private final T mNullItem;
+    private ViewHolderDataList<T> mFiltered = new VhDataList<>();
+    private ViewHolderDataList<T> mInitialList = new VhDataList<>();
 
-    public interface QueryFilter {
-        ViewHolderDataList filter(String query);
-    }
-
-    public ViewHolderAdapterFiltered(Context context, ViewHolderDataList initialList,
-                                     QueryFilter filter) {
+    public ViewHolderAdapterFiltered(Context context,
+                                     ViewHolderDataList<T> initialList,
+                                     T nullItem,
+                                     QueryFilter<T> filter) {
         super(context, initialList);
-        if (initialList != null) {
-            mInitialList = initialList;
-            mFiltered = initialList;
-        }
         mFilter = filter;
+        mNullItem = nullItem;
+        mInitialList = initialList;
+        mFiltered = initialList;
         setData(mFiltered);
     }
 
@@ -43,16 +41,14 @@ public class ViewHolderAdapterFiltered extends ViewHolderAdapter
         getFilter().filter(query);
     }
 
-    //Overridden
     @Override
     public int getCount() {
         return mFiltered != null ? mFiltered.size() : 0;
     }
 
     @Override
-    public ViewHolderData getItem(int index) {
-        return (ViewHolderData) (mFiltered != null && mFiltered.size() > 0 ?
-                mFiltered.getItem(index) : null);
+    public T getItem(int index) {
+        return (mFiltered != null && mFiltered.size() > 0 ? mFiltered.getItem(index) : mNullItem);
     }
 
     @Override
@@ -76,7 +72,7 @@ public class ViewHolderAdapterFiltered extends ViewHolderAdapter
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                mFiltered = (ViewHolderDataList) results.values;
+                mFiltered = (ViewHolderDataList<T>) results.values;
                 notifyDataSetChanged();
             }
         };
