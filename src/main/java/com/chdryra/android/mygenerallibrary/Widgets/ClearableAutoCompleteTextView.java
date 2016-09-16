@@ -34,7 +34,6 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
             .dialog_ic_close_normal_holo_light);
     private boolean mXTouched = false;
 
-//Constructors
     public ClearableAutoCompleteTextView(Context context) {
         super(context);
         init();
@@ -50,7 +49,7 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
         init();
     }
 
-//public methods
+    //public methods
     //For LibrariesTest
     public boolean isClearButtonVisible() {
         return getCompoundDrawables()[2] != null;
@@ -133,7 +132,6 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
         });
 
         addTextChangedListener(new TextWatcher() {
-//Overridden
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
