@@ -32,7 +32,7 @@ public class LocationClientConnector implements GoogleApiClient.ConnectionCallba
         GoogleApiClient.OnConnectionFailedListener, LocationClient {
 
     private static final String TAG = TagKeyGenerator.getTag(LocationClientConnector.class);
-    private static final int LOCATION_PERMISSIONS = RequestCodeGenerator.getCode("RequestPermissions");
+    private static final int LOCATION_PERMISSIONS = RequestCodeGenerator.getCode(LocationClientConnector.class);
     private static final int MAX_CONNECTION_TRIES = 3;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private final GoogleApiClient mApiClient;

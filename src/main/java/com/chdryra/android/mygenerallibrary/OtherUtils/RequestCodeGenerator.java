@@ -18,4 +18,12 @@ public class RequestCodeGenerator {
         int code = tag.hashCode();
         return code >= 0 ? code : -code;
     }
+
+    public static int getCode(Class<?> clazz) {
+        return getCode(clazz.getName());
+    }
+
+    public static int getCode(Class<?> clazz, String tag) {
+        return getCode(clazz.getName() + "." + tag);
+    }
 }
