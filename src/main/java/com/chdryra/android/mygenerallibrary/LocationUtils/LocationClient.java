@@ -9,6 +9,9 @@
 package com.chdryra.android.mygenerallibrary.LocationUtils;
 
 import android.location.Location;
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,12 +20,12 @@ import android.location.Location;
  */
 public interface LocationClient {
     interface Locatable {
-        void onLocated(Location location);
+        void onLocated(@Nullable Location location, CallbackMessage message);
 
-        void onConnected(Location location);
+        void onConnected(@Nullable Location location, CallbackMessage message);
     }
 
-    void connect();
+    void connect(Locatable callback);
 
     void disconnect();
 

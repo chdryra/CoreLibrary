@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.google.android.gms.common.ConnectionResult;
@@ -31,18 +32,26 @@ import com.google.android.gms.location.LocationServices;
 public class LocationClientConnector implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationClient {
 
-    private static final String TAG = TagKeyGenerator.getTag(LocationClientConnector.class);
-    private static final int LOCATION_PERMISSIONS = RequestCodeGenerator.getCode(LocationClientConnector.class);
-    private static final int MAX_CONNECTION_TRIES = 3;
+    private final static String TAG = TagKeyGenerator.getTag(LocationClientConnector.class);
+    private final static int LOCATION_PERMISSIONS = RequestCodeGenerator.getCode(LocationClientConnector.class);
+
+    private final static int MAX_CONNECTION_TRIES = 3;
+    private final static String PROBLEM_CONNECTING = "Tried contacting location services " +
+            MAX_CONNECTION_TRIES + " times. Problems persist.";
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+
+    private final static CallbackMessage NULL_LOCATION = CallbackMessage.error("Null location");
+    private final static CallbackMessage NOT_CONNECTED = CallbackMessage.error("Not connected");
+    private final static CallbackMessage OK = CallbackMessage.ok();
+
     private final GoogleApiClient mApiClient;
     private final Activity mActivity;
-    private final Locatable mLocatable;
+
+    private Locatable mLocatable;
     private int mNumberConnectionTries = 0;
 
-    public LocationClientConnector(Activity activity, Locatable locatable) {
+    public LocationClientConnector(Activity activity) {
         mActivity = activity;
-        mLocatable = locatable;
         mApiClient = new GoogleApiClient.Builder(mActivity)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -51,10 +60,9 @@ public class LocationClientConnector implements GoogleApiClient.ConnectionCallba
     }
 
     @Override
-    public void connect() {
-        if (!mApiClient.isConnected()) {
-            mApiClient.connect();
-        }
+    public void connect(Locatable locatable) {
+        mLocatable = locatable;
+        if (!mApiClient.isConnected()) mApiClient.connect();
     }
 
     @Override
@@ -64,11 +72,12 @@ public class LocationClientConnector implements GoogleApiClient.ConnectionCallba
 
     @Override
     public boolean locate() {
-        if (mApiClient.isConnected()) {
-            Location location = getLastLocation();
-            if (location != null) {
-                mLocatable.onLocated(location);
-                return true;
+        if(mLocatable != null) {
+            if (mApiClient.isConnected()) {
+                Location location = getLastLocation();
+                mLocatable.onLocated(location, location == null ? NULL_LOCATION : OK);
+            } else {
+                mLocatable.onLocated(null, NOT_CONNECTED);
             }
         }
 
@@ -97,21 +106,22 @@ public class LocationClientConnector implements GoogleApiClient.ConnectionCallba
                     Log.i(TAG, "Problems contacting location services. Trying again...");
                     mApiClient.connect();
                 } else {
-                    Log.e(TAG, "Tried contacting location services " + MAX_CONNECTION_TRIES + "" +
-                            " times. Problems persist.", e);
+                    Log.e(TAG, PROBLEM_CONNECTING, e);
+                    mLocatable.onConnected(null, CallbackMessage.error(PROBLEM_CONNECTING));
                 }
             }
         } else {
-            Log.i(TAG, "Error code connection to location services: " + connectionResult
-                    .getErrorCode());
+            String msg = "Error code connection to location services: " + connectionResult
+                    .getErrorCode();
+            Log.i(TAG, msg);
+            mLocatable.onConnected(null, CallbackMessage.error(msg));
         }
     }
 
     @Override
     public void onConnected(Bundle arg0) {
         Location location = getLastLocation();
-        if (location != null) mLocatable.onConnected(location);
-        Log.i(TAG, "LocationClient connected");
+        mLocatable.onConnected(location, location == null ? NULL_LOCATION : OK);
     }
 
     @Override
