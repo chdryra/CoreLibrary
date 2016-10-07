@@ -35,7 +35,7 @@ public class ObjectHolder {
         return mData.get(key);
     }
 
-    public void removeObject(String key) {
-        mData.remove(key);
+    public Object removeObject(String key) {
+        return mData.remove(key);
     }
 }
