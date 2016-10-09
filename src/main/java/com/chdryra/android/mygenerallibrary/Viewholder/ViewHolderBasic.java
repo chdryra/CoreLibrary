@@ -44,10 +44,12 @@ public abstract class ViewHolderBasic implements ViewHolder {
     //Overridden
     @Override
     public void inflate(Context context, ViewGroup parent) {
-        mInflated = LayoutInflater.from(context).inflate(mLayout, parent, false);
-        if (mInflated != null) {
-            for (int viewId : mUpdateableViewIds) {
-                mUpdateableViews.put(viewId, mInflated.findViewById(viewId));
+        if(mInflated == null) {
+            mInflated = LayoutInflater.from(context).inflate(mLayout, parent, false);
+            if (mInflated != null) {
+                for (int viewId : mUpdateableViewIds) {
+                    mUpdateableViews.put(viewId, mInflated.findViewById(viewId));
+                }
             }
         }
     }

@@ -32,8 +32,9 @@ import android.widget.BaseAdapter;
  */
 public class ViewHolderAdapter extends BaseAdapter {
     private final Context mContext;
-    private final int mViewWidth;
-    private final int mViewHeight;
+
+    private int mCellWidth;
+    private int mCellHeight;
     private ViewHolderDataList mData;
     private boolean mSetDimensions = false;
     private boolean mUniqueViews = false;
@@ -42,17 +43,12 @@ public class ViewHolderAdapter extends BaseAdapter {
         this(context, data, -1, -1, false);
     }
 
-    public ViewHolderAdapter(Context context, ViewHolderDataList data, int viewWidth,
-                             int viewHeight) {
-        this(context, data, viewWidth, viewHeight, false);
-    }
-
-    public ViewHolderAdapter(Context context, ViewHolderDataList data, int viewWidth,
-                             int viewHeight, boolean uniqueViews) {
+    public ViewHolderAdapter(Context context, ViewHolderDataList data, int cellWidth,
+                             int cellHeight, boolean uniqueViews) {
         mContext = context;
         mData = data;
-        mViewWidth = viewWidth;
-        mViewHeight = viewHeight;
+        mCellWidth = cellWidth;
+        mCellHeight = cellHeight;
         mSetDimensions = true;
         mUniqueViews = uniqueViews;
     }
@@ -95,11 +91,16 @@ public class ViewHolderAdapter extends BaseAdapter {
         convertView.setTag(vh);
 
         if (mSetDimensions) {
-            convertView.getLayoutParams().height = mViewHeight;
-            convertView.getLayoutParams().width = mViewWidth;
+            convertView.getLayoutParams().width = mCellWidth;
+            convertView.getLayoutParams().height = mCellHeight;
         }
 
         return convertView;
+    }
+
+    public void setCellDimensions(int cellWidth, int cellHeight) {
+        mCellWidth = cellWidth;
+        mCellHeight = cellHeight;
     }
 
     @NonNull
