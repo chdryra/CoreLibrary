@@ -29,11 +29,11 @@ import com.google.android.gms.location.LocationServices;
 /**
  * Handles connection to Google Play services for Places API lookup tasks.
  */
-public class LocationClientConnector implements GoogleApiClient.ConnectionCallbacks,
+public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationClient {
 
-    private final static String TAG = TagKeyGenerator.getTag(LocationClientConnector.class);
-    private final static int LOCATION_PERMISSIONS = RequestCodeGenerator.getCode(LocationClientConnector.class);
+    private final static String TAG = TagKeyGenerator.getTag(LocationClientGoogle.class);
+    private final static int LOCATION_PERMISSIONS = RequestCodeGenerator.getCode(LocationClientGoogle.class);
 
     private final static int MAX_CONNECTION_TRIES = 3;
     private final static String PROBLEM_CONNECTING = "Tried contacting location services " +
@@ -50,7 +50,7 @@ public class LocationClientConnector implements GoogleApiClient.ConnectionCallba
     private Locatable mLocatable;
     private int mNumberConnectionTries = 0;
 
-    public LocationClientConnector(Activity activity) {
+    public LocationClientGoogle(Activity activity) {
         mActivity = activity;
         mApiClient = new GoogleApiClient.Builder(mActivity)
                 .addConnectionCallbacks(this)
