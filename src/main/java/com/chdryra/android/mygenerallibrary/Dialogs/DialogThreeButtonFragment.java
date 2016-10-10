@@ -75,17 +75,15 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
 
     private void setMiddleButton(Button button) {
         mMiddleButton = button;
-        if(mHideMiddleButton) {
-            hideMiddleButton();
-        } else {
-            mMiddleButton.setText(mMiddleButtonText);
-            mMiddleButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onMiddleButtonClick();
-                }
-            });
-        }
+        mMiddleButton.setText(mMiddleButtonText);
+        mMiddleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onMiddleButtonClick();
+            }
+        });
+
+        if(mHideMiddleButton) hideMiddleButton();
     }
 
     private void hideMiddleButton() {
@@ -93,7 +91,7 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
     }
 
     protected void setHideMiddleButton() {
-        if(mMiddleButton != null ) {
+        if(mMiddleButton == null) {
             mHideMiddleButton = true;
         } else {
             hideMiddleButton();
