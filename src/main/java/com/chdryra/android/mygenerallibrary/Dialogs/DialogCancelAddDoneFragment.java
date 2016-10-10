@@ -26,12 +26,12 @@ public abstract class DialogCancelAddDoneFragment extends DialogCancelActionDone
     protected void onAddButtonClick() {
     }
 
-//Overridden
     @Override
     protected final void onActionButtonClick() {
         onAddButtonClick();
     }
 
+    @Override
     protected abstract View createDialogUi();
 
     @Override

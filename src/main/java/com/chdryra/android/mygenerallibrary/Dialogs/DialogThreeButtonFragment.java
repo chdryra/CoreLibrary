@@ -31,6 +31,7 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
     private String mMiddleButtonText;
     private ActivityResultCode mMiddleButtonResult;
     private boolean mDismissOnMiddleClick = false;
+    private boolean mHideMiddleButton = false;
 
     public String getMiddleButtonText() {
         return (String) mMiddleButton.getText();
@@ -74,13 +75,29 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
 
     private void setMiddleButton(Button button) {
         mMiddleButton = button;
-        mMiddleButton.setText(mMiddleButtonText);
-        mMiddleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onMiddleButtonClick();
-            }
-        });
+        if(mHideMiddleButton) {
+            hideMiddleButton();
+        } else {
+            mMiddleButton.setText(mMiddleButtonText);
+            mMiddleButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onMiddleButtonClick();
+                }
+            });
+        }
+    }
+
+    private void hideMiddleButton() {
+        mMiddleButton.setVisibility(View.GONE);
+    }
+
+    protected void setHideMiddleButton() {
+        if(mMiddleButton != null ) {
+            mHideMiddleButton = true;
+        } else {
+            hideMiddleButton();
+        }
     }
 
     @Override
