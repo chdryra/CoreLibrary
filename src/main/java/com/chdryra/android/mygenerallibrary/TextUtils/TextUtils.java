@@ -17,6 +17,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,7 +31,20 @@ public class TextUtils {
 
         Matcher matcher = Patterns.WEB_URL.matcher(text);
         while (matcher.find()) links.add(matcher.group());
+
         return links;
+    }
+
+    public static ArrayList<String> getHashTags(String text) {
+        ArrayList<String> hashTags = new ArrayList<>();
+
+        Pattern hashTagPattern = Pattern.compile("#(\\S+)");
+        Matcher matcher = hashTagPattern.matcher(text);
+        while (matcher.find()) {
+            hashTags.add(matcher.group(1));
+        }
+
+        return hashTags;
     }
 
     public static String toShortenedString(URL url) {
