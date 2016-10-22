@@ -18,7 +18,7 @@ import java.util.Arrays;
  */
 public class NumberFormatter {
     //Static methods
-    public static String roundToSignificant(double num, int toDigits) {
+    public static String roundToSignificant(double num, int toDigits, boolean trimZero) {
         double rounded = MathRounder.roundToSignificant(num, toDigits);
         int digits = Math.min(toDigits, numDigits(rounded));
         int sigDigits = numSignificantDigits(rounded);
@@ -26,7 +26,7 @@ public class NumberFormatter {
         while (digits-- > sigDigits) pattern += "0";
         DecimalFormat formatter = new DecimalFormat("0");
         DecimalFormat decimalFormatter = new DecimalFormat(pattern);
-        return rounded % 1L > 0L ? decimalFormatter.format(rounded) : formatter.format(rounded);
+        return (trimZero && !(rounded % 1L > 0L)) ? formatter.format(rounded) : decimalFormatter.format(rounded);
     }
 
     public static int numDigits(double num) {
