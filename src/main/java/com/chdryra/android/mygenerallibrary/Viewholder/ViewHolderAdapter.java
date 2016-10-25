@@ -79,12 +79,8 @@ public class ViewHolderAdapter extends BaseAdapter {
         ViewHolderData data = getItem(position);
         if (data == null || !data.isValidForDisplay()) return new View(mContext);
 
-        ViewHolder vh;
-        if (convertView == null || convertView.getTag() == null || mUniqueViews) {
-            vh = inflateView(parent, data);
-        } else {
-            vh = (ViewHolder) convertView.getTag();
-        }
+        boolean inflate = convertView == null || convertView.getTag() == null || mUniqueViews;
+        ViewHolder vh = inflate ? inflateView(parent, data) : (ViewHolder) convertView.getTag();
 
         vh.updateView(data);
         convertView = vh.getView();
