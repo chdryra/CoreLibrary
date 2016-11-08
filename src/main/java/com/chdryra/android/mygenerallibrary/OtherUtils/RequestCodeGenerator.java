@@ -8,18 +8,22 @@
 
 package com.chdryra.android.mygenerallibrary.OtherUtils;
 
+import java.util.Random;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 30/08/2015
  * Email: rizwan.choudrey@gmail.com
  */
 public class RequestCodeGenerator {
+    private static final Random RAND = new Random();
     private static final int MAX_16_BIT = 65535;
 
     public static int getCode(String tag) {
         int code = tag.hashCode();
         code = code >= 0 ? code : -code;
-        if(code > MAX_16_BIT) code = MAX_16_BIT;
+        //TODO something more sophisticated
+        if(code > MAX_16_BIT) code = RAND.nextInt(MAX_16_BIT);
         return code;
     }
 
