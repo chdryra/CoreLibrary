@@ -14,9 +14,13 @@ package com.chdryra.android.mygenerallibrary.OtherUtils;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RequestCodeGenerator {
+    private static final int MAX_16_BIT = 65535;
+
     public static int getCode(String tag) {
         int code = tag.hashCode();
-        return code >= 0 ? code : -code;
+        code = code >= 0 ? code : -code;
+        if(code > MAX_16_BIT) code = MAX_16_BIT;
+        return code;
     }
 
     public static int getCode(Class<?> clazz) {
