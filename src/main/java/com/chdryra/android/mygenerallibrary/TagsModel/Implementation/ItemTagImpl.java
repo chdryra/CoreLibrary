@@ -8,10 +8,11 @@
 
 package com.chdryra.android.mygenerallibrary.TagsModel.Implementation;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTag;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -65,7 +66,7 @@ public class ItemTagImpl implements ItemTag {
     }
 
     @Override
-    public int compareTo(@NotNull ItemTag another) {
+    public int compareTo(@NonNull ItemTag another) {
         return mTag.compareToIgnoreCase(another.getTag());
     }
 
