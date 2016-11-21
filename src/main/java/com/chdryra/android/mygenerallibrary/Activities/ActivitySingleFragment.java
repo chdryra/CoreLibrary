@@ -18,14 +18,14 @@ import com.chdryra.android.mygenerallibrary.R;
 /**
  * Activities often only have one fragment for the UI (on phones anyway) so this abstract
  * class takes care of the fragment transaction when Activities are created and populated with a
- * single fragment. Just need to inherit from it and override the {@link #createFragment()}
+ * single fragment. Just need to inherit from it and override the {@link #createFragment(Bundle)}
  * method. This is a common Android pattern.
  */
 public abstract class ActivitySingleFragment extends Activity {
     public static final int FRAGMENT_ID = R.id.fragmentContainer;
     private Fragment mFragment;
 
-    protected abstract Fragment createFragment();
+    protected abstract Fragment createFragment(Bundle savedInstanceState);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public abstract class ActivitySingleFragment extends Activity {
         mFragment = fm.findFragmentById(FRAGMENT_ID);
 
         if (mFragment == null) {
-            mFragment = createFragment();
+            mFragment = createFragment(savedInstanceState);
             fm.beginTransaction().add(FRAGMENT_ID, mFragment).commit();
         }
     }

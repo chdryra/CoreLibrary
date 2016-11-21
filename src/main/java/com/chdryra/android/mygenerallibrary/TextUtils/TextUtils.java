@@ -82,4 +82,8 @@ public class TextUtils {
     public static String toCamelCase(String string) {
         return WordUtils.capitalize(string).replaceAll(" ", "");
     }
+
+    public static String toTag(String string) {
+        return toCamelCase(string.replaceAll("[^A-Za-z0-9 ]", ""));
+    }
 }

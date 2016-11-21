@@ -38,16 +38,19 @@ public class ItemPacker<T> {
     }
 
     @Nullable
-    @SuppressWarnings("unchecked")
     public T unpack(Intent i) {
-        return (T) mObjects.removeObject(i.getStringExtra(ID));
+        return getObject(i.getStringExtra(ID));
+    }
+
+    @Nullable
+    public T unpack(Bundle args) {
+        return getObject(args.getString(ID));
     }
 
     @Nullable
     @SuppressWarnings("unchecked")
-    public T unpack(Bundle args) {
-        String string = args.getString(ID);
-        return string != null ? (T) mObjects.removeObject(string) : null;
+    private T getObject(@Nullable String objectId) {
+        return objectId != null ? (T) mObjects.removeObject(objectId) : null;
     }
 
     private String pack(T item) {
