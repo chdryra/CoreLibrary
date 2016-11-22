@@ -127,7 +127,7 @@ public class ClearableEditText extends EditText {
             public void onClick(View v) {
                 ClearableEditText et = (ClearableEditText) v;
                 String text = et.getText().toString();
-                if (text != null && text.length() > 0) {
+                if (text.length() > 0) {
                     et.setSelection(text.length());
                     clearOnClickListener();
                 }

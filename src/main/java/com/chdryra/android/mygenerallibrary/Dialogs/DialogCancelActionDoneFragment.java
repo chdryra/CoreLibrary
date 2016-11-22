@@ -39,18 +39,18 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         setMiddleButtonText(actionButtonText);
     }
 
-    public void setKeyboardDoActionOnEditText(EditText editText) {
+    public int setKeyboardDoActionOnEditText(EditText editText) {
         editText.setImeOptions(KEYBOARD_DO_ACTION);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             //Overridden
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == KEYBOARD_DO_ACTION) {
-                    clickActionButton();
-                }
+                if (actionId == KEYBOARD_DO_ACTION) clickActionButton();
                 return false;
             }
         });
+
+        return KEYBOARD_DO_ACTION;
     }
 
     public void setKeyboardDoDoneOnEditText(EditText editText) {
@@ -58,9 +58,7 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == KEYBOARD_DO_DONE) {
-                    clickDoneButton();
-                }
+                if (actionId == KEYBOARD_DO_DONE) clickDoneButton();
                 return false;
             }
         });
