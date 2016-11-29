@@ -11,6 +11,7 @@ package com.chdryra.android.mygenerallibrary.TextUtils;
 import android.util.Patterns;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.net.URL;
@@ -85,5 +86,9 @@ public class TextUtils {
 
     public static String toTag(String string) {
         return toCamelCase(string.replaceAll("[^A-Za-z0-9 ]", ""));
+    }
+
+    public static String capitalize(String string) {
+        return StringUtils.capitalize(string);
     }
 }
