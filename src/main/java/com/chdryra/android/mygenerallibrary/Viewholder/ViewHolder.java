@@ -9,6 +9,7 @@
 package com.chdryra.android.mygenerallibrary.Viewholder;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,7 +22,7 @@ import android.view.ViewGroup;
  * @see ViewHolderAdapter
  */
 public interface ViewHolder {
-    void inflate(Context context, ViewGroup parent);
+    void inflate(Context context, @Nullable ViewGroup parent);
 
     void updateView(ViewHolderData data);
 
