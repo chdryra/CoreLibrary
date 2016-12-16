@@ -55,6 +55,10 @@ public abstract class DialogTwoButtonFragment extends DialogOneButtonFragment {
         mRightButtonResult = action.getResultCode();
     }
 
+    public void setRightButtonText(String rightButtonText) {
+        mRightButtonText = rightButtonText;
+    }
+
     public void clickRightButton() {
         mRightButton.performClick();
     }
