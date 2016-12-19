@@ -63,6 +63,10 @@ public class CallbackMessage implements Parcelable {
         return mIsError;
     }
 
+    public boolean isOk() {
+        return !mIsError;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(mMessage);

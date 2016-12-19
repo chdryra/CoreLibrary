@@ -80,7 +80,7 @@ public class AsyncWorkQueueImpl<T> implements AsyncWorkQueue<T>, WorkStoreCallba
 
     @Override
     public void onRemovedFromStore(String itemId, CallbackMessage result) {
-        if (!result.isError()) mBacklogToDelete.remove(itemId);
+        if (result.isOk()) mBacklogToDelete.remove(itemId);
     }
 
     @Override
