@@ -36,7 +36,7 @@ public class FileIncrementor {
         }
 
         mDirectory = new File(systemDir, newDir);
-        mDirectory.mkdirs();
+        boolean mkdirs = mDirectory.mkdirs();
 
         mFileName = fileName;
         mExtension = extension;
