@@ -20,6 +20,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -127,9 +128,11 @@ public class ImageHelper {
         return latLng;
     }
 
+    @Nullable
     public static Date getDateTimeFromEXIF(ExifInterface exif) {
         //From ExifInterface source code
         String dateTimeString = exif.getAttribute(ExifInterface.TAG_DATETIME);
+        if(dateTimeString == null) return null;
         ParsePosition pos = new ParsePosition(0);
 
         try {
