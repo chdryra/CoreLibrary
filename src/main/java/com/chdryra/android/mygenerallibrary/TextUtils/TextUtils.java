@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TextUtils {
-    private static final String HASH_TAGS = "\\s+#(\\w+)";
+    private static final String HASH_TAGS = "(^|\\s+)#(\\w+)";
 
     //Static methods
     public static ArrayList<String> getLinks(String text) {
@@ -43,7 +43,7 @@ public class TextUtils {
 
         Pattern hashTagPattern = Pattern.compile(HASH_TAGS);
         Matcher matcher = hashTagPattern.matcher(text);
-        while (matcher.find()) hashTags.add(matcher.group(1));
+        while (matcher.find()) hashTags.add(matcher.group(2));
 
         return hashTags;
     }
