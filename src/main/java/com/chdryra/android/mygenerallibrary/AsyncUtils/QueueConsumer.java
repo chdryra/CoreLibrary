@@ -49,8 +49,12 @@ public abstract class QueueConsumer<T> implements AsyncWorkQueue.QueueObserver, 
 
     protected void onWorkCompleted(String itemId) {
         mWorking.remove(itemId);
-        mWorkers.remove(itemId);
+        onWorkerRemoved(mWorkers.remove(itemId));
         mQueue.workComplete(mTokens.get(itemId));
+    }
+
+    protected void onWorkerRemoved(ItemWorker<T> remove) {
+
     }
 
     @Override
