@@ -34,7 +34,7 @@ public abstract class RecyclerAdapterBasic<T> extends android.support.v7.widget.
 
     protected abstract View inflateView(ViewGroup parent, int viewType);
 
-    protected abstract ViewHolderAbstract<T> newViewHolder(View v, int viewType);
+    protected abstract ViewHolderAbstract<T> newRecyclerViewHolder(View v, int viewType);
 
     public RecyclerAdapterBasic(List<T> data,
                                 @Nullable OnItemClickListener<T> clickListener) {
@@ -52,13 +52,13 @@ public abstract class RecyclerAdapterBasic<T> extends android.support.v7.widget.
         notifyDataSetChanged();
     }
 
-    protected void onItemClick(View v) {
+    private void onItemClick(View v) {
         if (mClickListener == null) return;
         int itemPosition = mRecyclerView.getChildLayoutPosition(v);
         mClickListener.onItemClick(mData.get(itemPosition), itemPosition, v);
     }
 
-    protected void onItemLongClick(View v) {
+    private void onItemLongClick(View v) {
         if (mClickListener == null) return;
         int itemPosition = mRecyclerView.getChildLayoutPosition(v);
         mClickListener.onItemLongClick(mData.get(itemPosition), itemPosition, v);
@@ -89,7 +89,7 @@ public abstract class RecyclerAdapterBasic<T> extends android.support.v7.widget.
             }
         });
 
-        return newViewHolder(v, viewType);
+        return newRecyclerViewHolder(v, viewType);
     }
 
     @SuppressWarnings("unchecked")
