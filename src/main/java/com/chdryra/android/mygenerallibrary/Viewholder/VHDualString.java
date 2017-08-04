@@ -8,8 +8,6 @@
 
 package com.chdryra.android.mygenerallibrary.Viewholder;
 
-import android.widget.TextView;
-
 import com.chdryra.android.mygenerallibrary.R;
 
 /**
@@ -23,8 +21,6 @@ public class VHDualString extends ViewHolderBasic {
 
     private int mUpperID = UPPER;
     private int mLowerID = LOWER;
-    private TextView mUpper;
-    private TextView mLower;
 
     //Constructors
     public VHDualString() {
@@ -40,13 +36,10 @@ public class VHDualString extends ViewHolderBasic {
     //Overridden
     @Override
     public void updateView(ViewHolderData data) {
-        if (mUpper == null) mUpper = (TextView) getView(mUpperID);
-        if (mLower == null) mLower = (TextView) getView(mLowerID);
-
         VHDDualString dual = (VHDDualString) data;
         if (dual != null && dual.isValidForDisplay()) {
-            mUpper.setText(dual.getUpper());
-            mLower.setText(dual.getLower());
+            setText(mUpperID, dual.getUpper());
+            setText(mLowerID, dual.getLower());
         }
     }
 }

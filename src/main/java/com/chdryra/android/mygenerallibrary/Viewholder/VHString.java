@@ -8,8 +8,6 @@
 
 package com.chdryra.android.mygenerallibrary.Viewholder;
 
-import android.widget.TextView;
-
 import com.chdryra.android.mygenerallibrary.R;
 
 /**
@@ -24,7 +22,6 @@ public class VHString extends ViewHolderBasic {
     private static final int TEXTVIEW = R.id.text_view;
 
     private int mTextViewId = TEXTVIEW;
-    private TextView mTextView;
     private VHDataStringGetter mGetter;
 
     public VHString() {
@@ -65,7 +62,6 @@ public class VHString extends ViewHolderBasic {
     }
 
     public void updateView(String text) {
-        if (mTextView == null) mTextView = (TextView) getView(mTextViewId);
-        mTextView.setText(text);
+        setText(mTextViewId, text);
     }
 }

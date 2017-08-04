@@ -9,10 +9,14 @@
 package com.chdryra.android.mygenerallibrary.Viewholder;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * Primary implementation of the {@link ViewHolder}
@@ -22,7 +26,6 @@ import android.view.ViewGroup;
  * Need to implement {@link #updateView(ViewHolderData)} to update the list of updateable views
  * (referenced by viewIds passed to the constructor) when new
  * {@link ViewHolderData} is presented.
- * Use {@link  #getView(int)} to retrieve these views once the layout is inflated.
  * </p>
  */
 public abstract class ViewHolderBasic implements ViewHolder {
@@ -37,8 +40,19 @@ public abstract class ViewHolderBasic implements ViewHolder {
         mUpdateableViews = new SparseArray<>(mUpdateableViewIds.length);
     }
 
-    protected final View getView(int viewId) {
-        return mUpdateableViews.get(viewId);
+    protected final <T extends View> T getView(int viewId, Class<T> tClass) {
+        return (T)mUpdateableViews.get(viewId);
+    }
+
+    //Helper method as used most often...
+    protected final void setText(int viewId, @Nullable String text) {
+        TextView view = getView(viewId, TextView.class);
+        if(view != null) view.setText(text);
+    }
+
+    protected final void setImage(int viewId, @Nullable Bitmap image) {
+        ImageView view = getView(viewId, ImageView.class);
+        if(view != null) view.setImageBitmap(image);
     }
 
     //Overridden
