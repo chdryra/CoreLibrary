@@ -9,8 +9,8 @@
 package com.chdryra.android.mygenerallibrary.Viewholder;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
 
 import com.chdryra.android.mygenerallibrary.R;
 
@@ -19,7 +19,7 @@ import com.chdryra.android.mygenerallibrary.R;
  * {@link ViewHolderAdapter} framework. Declared so that it can be clearly used in XML layout
  * files when defining the look of a view holder.
  */
-public class ViewHolderLayout extends FrameLayout {
+public class ViewHolderLayout extends CardView {
     public ViewHolderLayout(Context context) {
         super(context);
     }
