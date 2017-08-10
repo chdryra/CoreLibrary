@@ -20,7 +20,7 @@ import android.widget.Filterable;
 public class ViewHolderAdapterFiltered<T extends ViewHolderData> extends ViewHolderAdapter
         implements Filterable {
 
-    private final QueryFilter<T> mFilter;
+    private final VhQueryFilter<T> mFilter;
     private final T mNullItem;
     private ViewHolderDataList<T> mFiltered = new VhDataList<>();
     private ViewHolderDataList<T> mInitialList = new VhDataList<>();
@@ -28,7 +28,7 @@ public class ViewHolderAdapterFiltered<T extends ViewHolderData> extends ViewHol
     public ViewHolderAdapterFiltered(Context context,
                                      ViewHolderDataList<T> initialList,
                                      T nullItem,
-                                     QueryFilter<T> filter) {
+                                     VhQueryFilter<T> filter) {
         super(context, initialList);
         mFilter = filter;
         mNullItem = nullItem;
@@ -48,7 +48,7 @@ public class ViewHolderAdapterFiltered<T extends ViewHolderData> extends ViewHol
 
     @Override
     public T getItem(int index) {
-        return (mFiltered != null && mFiltered.size() > 0 ? mFiltered.getItem(index) : mNullItem);
+        return (mFiltered != null && mFiltered.size() > 0 ? mFiltered.get(index) : mNullItem);
     }
 
     @Override

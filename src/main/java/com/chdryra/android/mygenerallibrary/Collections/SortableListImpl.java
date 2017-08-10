@@ -8,7 +8,6 @@
 
 package com.chdryra.android.mygenerallibrary.Collections;
 
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,30 +19,20 @@ import java.util.NoSuchElementException;
  *
  * @param <T>: type of the items.
  */
-public class SortableListImpl<T> extends AbstractCollection<T> implements SortableList<T>{
-    protected ArrayList<T> mData = new ArrayList<>();
+public class SortableListImpl<T> extends ArrayList<T> implements SortableList<T>{
     private boolean mIsSorted = false;
+
 
     @Override
     public boolean add(T item) {
         mIsSorted = false;
-        return mData.add(item);
+        return super.add(item);
     }
 
     @Override
     public boolean remove(Object item) {
         mIsSorted = false;
-        return mData.remove(item);
-    }
-
-    @Override
-    public int size() {
-        return mData.size();
-    }
-
-    @Override
-    public T getItem(int position) {
-        return mData.get(position);
+        return super.remove(item);
     }
 
     @Override
@@ -51,9 +40,8 @@ public class SortableListImpl<T> extends AbstractCollection<T> implements Sortab
         sort(getDefaultComparator());
     }
 
-    @Override
     public void sort(Comparator<? super T> comparator) {
-        Collections.sort(mData, comparator);
+        Collections.sort(this, comparator);
         mIsSorted = true;
     }
 
@@ -70,7 +58,7 @@ public class SortableListImpl<T> extends AbstractCollection<T> implements Sortab
     @Override
     public ArrayList<T> toArrayList() {
         ArrayList<T> arrayList = new ArrayList<>();
-        arrayList.addAll(mData);
+        arrayList.addAll(this);
         return arrayList;
     }
 
@@ -81,7 +69,7 @@ public class SortableListImpl<T> extends AbstractCollection<T> implements Sortab
             @Override
             public int compare(T lhs, T rhs) {
                 if (contains(lhs) && contains(rhs)) {
-                    return mData.indexOf(lhs) - mData.indexOf(rhs);
+                    return indexOf(lhs) - indexOf(rhs);
                 } else {
                     return 0;
                 }
@@ -107,13 +95,13 @@ public class SortableListImpl<T> extends AbstractCollection<T> implements Sortab
         //Overridden
         @Override
         public boolean hasNext() {
-            return mPosition < size() && getItem(mPosition) != null;
+            return mPosition < size() && get(mPosition) != null;
         }
 
         @Override
         public T next() {
             if (hasNext()) {
-                return getItem(mPosition++);
+                return get(mPosition++);
             } else {
                 throw new NoSuchElementException(NO_ELEMENT);
             }
@@ -122,7 +110,7 @@ public class SortableListImpl<T> extends AbstractCollection<T> implements Sortab
         @Override
         public void remove() {
             if (mPosition > 0) {
-                mData.remove((getItem(--mPosition)));
+                SortableListImpl.this.remove(get(--mPosition));
                 mIsSorted = false;
             } else {
                 throw new IllegalStateException(ILLEGAL_STATE);

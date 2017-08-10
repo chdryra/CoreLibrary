@@ -66,7 +66,7 @@ public class ViewHolderAdapter extends BaseAdapter {
     @Override
     public ViewHolderData getItem(int position) {
         if(!mData.isSorted()) mData.sort();
-        return (ViewHolderData) mData.getItem(position);
+        return (ViewHolderData) mData.get(position);
     }
 
     @Override
