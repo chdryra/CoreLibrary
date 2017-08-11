@@ -21,15 +21,19 @@ import java.util.LinkedHashSet;
  * On: 03/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class IdableCollectionImpl<Id, T extends IdableCollection.Idable<Id>> extends AbstractCollection<T> implements IdableCollection<Id, T> {
+public class CollectionIdableImpl<Id, T extends CollectionIdable.Idable<Id>> extends AbstractCollection<T> implements CollectionIdable<Id, T> {
     private final LinkedHashSet<T> mItems;
 
-    public IdableCollectionImpl(T defaultItem) {
+    public CollectionIdableImpl() {
+        mItems = new LinkedHashSet<>();
+    }
+
+    public CollectionIdableImpl(T defaultItem) {
         mItems = new LinkedHashSet<>();
         add(defaultItem);
     }
 
-    public IdableCollectionImpl(Collection<T> items) {
+    public CollectionIdableImpl(Collection<T> items) {
         mItems = new LinkedHashSet<>();
         addAll(items);
     }

@@ -18,7 +18,7 @@ import java.util.Collection;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface IdableCollection<Id, T extends IdableCollection.Idable<Id>> extends Collection<T>{
+public interface CollectionIdable<Id, T extends CollectionIdable.Idable<Id>> extends Collection<T>{
     interface Idable<T> {
         T getId();
     }

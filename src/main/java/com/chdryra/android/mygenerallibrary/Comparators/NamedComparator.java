@@ -10,7 +10,7 @@ package com.chdryra.android.mygenerallibrary.Comparators;
 
 
 
-import com.chdryra.android.mygenerallibrary.Collections.IdableCollection;
+import com.chdryra.android.mygenerallibrary.Collections.CollectionIdable;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -22,7 +22,7 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class NamedComparator<T> implements Comparator<T>, IdableCollection.Idable<String> {
+public class NamedComparator<T> implements Comparator<T>, CollectionIdable.Idable<String> {
     private final String mName;
     private final Comparator<T> mComparator;
     private final List<Comparator<T>> mTieBreakers;

@@ -8,13 +8,13 @@
 
 package com.chdryra.android.mygenerallibrary.Comparators;
 
-import com.chdryra.android.mygenerallibrary.Collections.IdableCollection;
+import com.chdryra.android.mygenerallibrary.Collections.CollectionIdable;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ComparatorCollection<T> extends IdableCollection<String, NamedComparator<T>> {
+public interface ComparatorCollection<T> extends CollectionIdable<String, NamedComparator<T>> {
     NamedComparator<T> getDefault();
 }

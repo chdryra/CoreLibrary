@@ -8,7 +8,7 @@
 
 package com.chdryra.android.mygenerallibrary.Comparators;
 
-import com.chdryra.android.mygenerallibrary.Collections.IdableCollectionImpl;
+import com.chdryra.android.mygenerallibrary.Collections.CollectionIdableImpl;
 
 import java.util.Collection;
 
@@ -18,7 +18,7 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ComparatorCollectionImpl<T> extends IdableCollectionImpl<String, NamedComparator<T>> implements ComparatorCollection<T>{
+public class ComparatorCollectionImpl<T> extends CollectionIdableImpl<String, NamedComparator<T>> implements ComparatorCollection<T>{
     public ComparatorCollectionImpl(NamedComparator<T> defaultItem) {
         super(defaultItem);
     }
