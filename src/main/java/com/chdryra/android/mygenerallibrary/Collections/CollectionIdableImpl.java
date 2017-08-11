@@ -10,10 +10,8 @@ package com.chdryra.android.mygenerallibrary.Collections;
 
 
 
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 /**
@@ -21,26 +19,19 @@ import java.util.LinkedHashSet;
  * On: 03/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CollectionIdableImpl<Id, T extends CollectionIdable.Idable<Id>> extends AbstractCollection<T> implements CollectionIdable<Id, T> {
-    private final LinkedHashSet<T> mItems;
+public class CollectionIdableImpl<Id, T extends CollectionIdable.Idable<Id>> extends LinkedHashSet<T> implements CollectionIdable<Id, T> {
 
     public CollectionIdableImpl() {
-        mItems = new LinkedHashSet<>();
+        super();
     }
 
     public CollectionIdableImpl(T defaultItem) {
-        mItems = new LinkedHashSet<>();
+        super();
         add(defaultItem);
     }
 
     public CollectionIdableImpl(Collection<T> items) {
-        mItems = new LinkedHashSet<>();
-        addAll(items);
-    }
-
-    @Override
-    public int size() {
-        return mItems.size();
+        super(items);
     }
 
     @Override
@@ -55,20 +46,10 @@ public class CollectionIdableImpl<Id, T extends CollectionIdable.Idable<Id>> ext
 
     @Override
     public T get(Id id) {
-        for(T item : mItems) {
+        for(T item : this) {
             if(item.getId().equals(id)) return item;
         }
 
         return null;
-    }
-
-    @Override
-    public boolean add(T comparator) {
-        return mItems.add(comparator);
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return mItems.iterator();
     }
 }
