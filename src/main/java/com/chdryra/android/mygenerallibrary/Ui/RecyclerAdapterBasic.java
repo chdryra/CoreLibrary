@@ -73,14 +73,13 @@ public abstract class RecyclerAdapterBasic<T> extends android.support.v7.widget.
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View v = inflateView(parent, viewType);
+        setOnClickListeners(v);
+        setOnLongClickListeners(v);
 
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onItemClick(view);
-            }
-        });
+        return newRecyclerViewHolder(v, viewType);
+    }
 
+    protected void setOnLongClickListeners(View v) {
         v.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -88,8 +87,15 @@ public abstract class RecyclerAdapterBasic<T> extends android.support.v7.widget.
                 return false;
             }
         });
+    }
 
-        return newRecyclerViewHolder(v, viewType);
+    protected void setOnClickListeners(View v) {
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClick(view);
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
