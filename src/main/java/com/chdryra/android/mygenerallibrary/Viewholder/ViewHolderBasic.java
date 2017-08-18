@@ -41,7 +41,11 @@ public abstract class ViewHolderBasic implements ViewHolder {
     }
 
     protected final <T extends View> T getView(int viewId, Class<T> tClass) {
-        return (T)mUpdateableViews.get(viewId);
+        return (T)getView(viewId);
+    }
+
+    protected final View getView(int viewId) {
+        return mUpdateableViews.get(viewId);
     }
 
     //Helper method as used most often...
