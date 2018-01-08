@@ -19,9 +19,9 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StringAutoCompleterLocation implements StringFilterAdapter.StringFilter {
-    private final AutoCompleterLocation mAutoCompleter;
+    private final LocationAutoCompleter mAutoCompleter;
 
-    public StringAutoCompleterLocation(AutoCompleterLocation autoCompleter) {
+    public StringAutoCompleterLocation(LocationAutoCompleter autoCompleter) {
         mAutoCompleter = autoCompleter;
     }
 

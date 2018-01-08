@@ -18,7 +18,7 @@ import java.util.List;
  * On: 12/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AutoCompleterLocation implements AutoCompleter<LocatedPlace> {
+public class LocationAutoCompleter implements AutoCompleter<LocatedPlace> {
     private final LatLng mLatLng;
     private final LocationPredicter mProvider;
 
@@ -28,7 +28,7 @@ public class AutoCompleterLocation implements AutoCompleter<LocatedPlace> {
         void disconnect();
     }
 
-    public AutoCompleterLocation(LocatedPlace place, LocationPredicter provider) {
+    public LocationAutoCompleter(LocatedPlace place, LocationPredicter provider) {
         mLatLng = place.getLatLng();
         mProvider = provider;
     }
