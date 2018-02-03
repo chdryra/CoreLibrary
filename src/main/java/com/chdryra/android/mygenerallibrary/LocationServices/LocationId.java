@@ -19,7 +19,6 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class LocationId {
     private static final String NULL_ID = "NULL_LOCATION_ID";
-    private static final String SEPARATOR = ":";
     private final LocationProvider mProvider;
     private final String mId;
 
