@@ -9,9 +9,10 @@
 package com.chdryra.android.mygenerallibrary.Collections;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 /**
@@ -40,8 +41,16 @@ public class SortableListImpl<T> extends ArrayList<T> implements SortableList<T>
         sort(getDefaultComparator());
     }
 
+    @Override
     public void sort(Comparator<? super T> comparator) {
-        Collections.sort(this, comparator);
+        Object[] a = toArray();
+        Arrays.sort(a, (Comparator) comparator);
+        ListIterator<T> i = listIterator();
+        //TODO make type safe
+        for (int j = 0; j < a.length; j++) {
+            i.next();
+            i.set((T) a[j]);
+        }
         mIsSorted = true;
     }
 
