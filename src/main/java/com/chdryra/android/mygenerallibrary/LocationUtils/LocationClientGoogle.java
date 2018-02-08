@@ -25,6 +25,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 /**
  * Handles connection to Google Play services for Places API lookup tasks.
@@ -33,7 +34,8 @@ public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks
         GoogleApiClient.OnConnectionFailedListener, LocationClient {
 
     private final static String TAG = TagKeyGenerator.getTag(LocationClientGoogle.class);
-    private final static int LOCATION_PERMISSIONS = RequestCodeGenerator.getCode(LocationClientGoogle.class);
+    private final static int LOCATION_PERMISSIONS = RequestCodeGenerator.getCode
+            (LocationClientGoogle.class);
 
     private final static int MAX_CONNECTION_TRIES = 3;
     private final static String PROBLEM_CONNECTING = "Tried contacting location services " +
@@ -72,27 +74,15 @@ public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks
 
     @Override
     public boolean locate() {
-        if(mLocatable != null) {
+        if (mLocatable != null) {
             if (mApiClient.isConnected()) {
-                Location location = getLastLocation();
-                mLocatable.onLocated(location, location == null ? NULL_LOCATION : OK);
+                getLastLocation();
             } else {
                 mLocatable.onLocated(null, NOT_CONNECTED);
             }
         }
 
         return false;
-    }
-
-    private Location getLastLocation() {
-        if ( ContextCompat.checkSelfPermission( mActivity, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission( mActivity, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions( mActivity,
-                    new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION  },
-                    LOCATION_PERMISSIONS );
-        }
-
-        return LocationServices.FusedLocationApi.getLastLocation(mApiClient);
     }
 
     @Override
@@ -120,12 +110,31 @@ public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks
 
     @Override
     public void onConnected(Bundle arg0) {
-        Location location = getLastLocation();
-        mLocatable.onConnected(location, location == null ? NULL_LOCATION : OK);
+        getLastLocation();
     }
 
     @Override
     public void onConnectionSuspended(int index) {
 
+    }
+
+    private void getLastLocation() {
+        if (ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission
+                .ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(mActivity, Manifest.permission
+                .ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(mActivity,
+                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest
+                            .permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSIONS);
+        }
+
+        LocationServices.getFusedLocationProviderClient(mActivity)
+                .getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                mLocatable.onLocated(location, location == null ? NULL_LOCATION : OK);
+            }
+        });
     }
 }
