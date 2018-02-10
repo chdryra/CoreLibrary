@@ -6,9 +6,9 @@
   ~
   -->
 
-<com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                       android:layout_width="match_parent"
-                                                       android:layout_height="match_parent">
+<com.chdryra.android.corelibrary.Viewholder.ViewHolderLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                             android:layout_width="match_parent"
+                                                             android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="match_parent"
@@ -36,4 +36,4 @@
             android:gravity="center"/>
     </LinearLayout>
 
-</com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout>
+</com.chdryra.android.corelibrary.Viewholder.ViewHolderLayout>

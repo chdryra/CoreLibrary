@@ -7,7 +7,7 @@
   -->
 
 
-<com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout
+<com.chdryra.android.corelibrary.Viewholder.ViewHolderLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -21,4 +21,4 @@
         android:gravity="center"/>
 
 
-</com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout>
+</com.chdryra.android.corelibrary.Viewholder.ViewHolderLayout>

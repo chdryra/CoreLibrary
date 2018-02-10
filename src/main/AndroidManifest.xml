@@ -7,7 +7,7 @@
   -->
 
 <manifest
-    package="com.chdryra.android.mygenerallibrary"
+    package="com.chdryra.android.corelibrary"
     xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:versionName="1.0">
