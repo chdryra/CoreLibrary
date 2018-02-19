@@ -19,8 +19,8 @@ import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DataValue<T> {
-    private T mData;
     private final CallbackMessage mMessage;
+    private T mData;
 
     public DataValue(@Nullable T data) {
         mData = data;
@@ -35,20 +35,20 @@ public class DataValue<T> {
         mMessage = getError();
     }
 
-    @NonNull
-    private CallbackMessage getError() {
-        return CallbackMessage.error("Invalid reference");
-    }
-
-    public boolean hasValue() {
-        return mData != null && !mMessage.isError();
-    }
-
     public T getData() {
         return mData;
     }
 
     public CallbackMessage getMessage() {
         return mMessage;
+    }
+
+    public boolean hasValue() {
+        return mData != null && !mMessage.isError();
+    }
+
+    @NonNull
+    private CallbackMessage getError() {
+        return CallbackMessage.error("Invalid reference");
     }
 }
