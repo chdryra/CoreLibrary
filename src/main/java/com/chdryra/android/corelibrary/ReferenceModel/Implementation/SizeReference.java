@@ -38,10 +38,8 @@ public class SizeReference<T, C extends Collection<T>> extends DereferencableBas
         mReference.dereference(new DereferenceCallback<C>() {
             @Override
             public void onDereferenced(DataValue<C> value) {
-                DataValue<Size> val = value.hasValue() ? new DataValue<Size>(getSize(value
-                        .getData().size())) :
-                        new DataValue<Size>(value.getMessage());
-                callback.onDereferenced(val);
+                int size = value.hasValue() ? value.getData().size() : 0;
+                callback.onDereferenced(new DataValue<Size>(getSize(size)));
             }
         });
     }
@@ -85,9 +83,9 @@ public class SizeReference<T, C extends Collection<T>> extends DereferencableBas
             return;
         }
 
-        if (mIsBound) {
-            binder.onReferenceValue(getSize(mSize));
-        } else {
+        binder.onReferenceValue(getSize(mSize));
+
+        if (!mIsBound) {
             mReference.subscribe(this);
             mIsBound = true;
         }
