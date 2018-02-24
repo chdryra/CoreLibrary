@@ -27,7 +27,9 @@ public abstract class CollectionReferenceBasic<T, C extends Collection<T>, S ext
     private final Collection<ValueSubscriber<C>> mValueBinders;
     private final SubscribersManager<T, S> mDelegate;
 
-    protected abstract void fireForBinder(ItemSubscriber<T> binder);
+    protected abstract void onBinding(ItemSubscriber<T> subscriber);
+
+    protected abstract void onUnbinding(ItemSubscriber<T> subscriber);
 
     protected CollectionReferenceBasic() {
         mValueBinders = new ArrayList<>();
@@ -97,21 +99,24 @@ public abstract class CollectionReferenceBasic<T, C extends Collection<T>, S ext
     }
 
     @Override
-    public void unbindSubscriber(ItemSubscriber<T> binder) {
-        mItemBinders.remove(binder);
-    }
-
-    @Override
-    public void bindSubscriber(final ItemSubscriber<T> binder) {
-        if(!containsSubscriber(binder)) {
-            mItemBinders.add(binder);
-            fireForBinder(binder);
+    public void unbindSubscriber(ItemSubscriber<T> subscriber) {
+        if(containsSubscriber(subscriber)) {
+            mItemBinders.remove(subscriber);
+            onUnbinding(subscriber);
         }
     }
 
     @Override
-    public boolean containsSubscriber(ItemSubscriber<T> binder) {
-        return mItemBinders.contains(binder);
+    public void bindSubscriber(final ItemSubscriber<T> subscriber) {
+        if(!containsSubscriber(subscriber)) {
+            mItemBinders.add(subscriber);
+            onBinding(subscriber);
+        }
+    }
+
+    @Override
+    public boolean containsSubscriber(ItemSubscriber<T> subscriber) {
+        return mItemBinders.contains(subscriber);
     }
 
     private void notifyOnCollectionChanged(C items) {

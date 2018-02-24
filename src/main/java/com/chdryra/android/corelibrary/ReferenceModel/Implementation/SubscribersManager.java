@@ -22,11 +22,11 @@ public class SubscribersManager<T, S extends Size> {
     private final SubscribableCollectionReference<T, ?, S> mReference;
 
     public interface SubscribableCollectionReference<Value, C extends Collection<Value>, S extends Size> extends CollectionReference<Value, C, S> {
-        boolean containsSubscriber(ItemSubscriber<Value> binder);
+        boolean containsSubscriber(ItemSubscriber<Value> subscriber);
 
-        void bindSubscriber(ItemSubscriber<Value> binder);
+        void bindSubscriber(ItemSubscriber<Value> subscriber);
 
-        void unbindSubscriber(ItemSubscriber<Value> binder);
+        void unbindSubscriber(ItemSubscriber<Value> subscriber);
 
         Collection<ItemSubscriber<Value>> getItemSubscribers();
     }
