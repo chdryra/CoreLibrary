@@ -23,8 +23,8 @@ import java.util.Collection;
 public abstract class CollectionReferenceBasic<T, C extends Collection<T>, S extends Size> extends
         SubscribableReferenceBasic<C>
         implements SubscribersManager.SubscribableCollectionReference<T, C, S> {
-    private final Collection<ItemSubscriber<T>> mItemBinders;
-    private final Collection<ValueSubscriber<C>> mValueBinders;
+    private final Collection<ItemSubscriber<T>> mItemSubscribers;
+    private final Collection<ValueSubscriber<C>> mValueSubscribers;
     private final SubscribersManager<T, S> mDelegate;
 
     protected abstract void onBinding(ItemSubscriber<T> subscriber);
@@ -32,8 +32,8 @@ public abstract class CollectionReferenceBasic<T, C extends Collection<T>, S ext
     protected abstract void onUnbinding(ItemSubscriber<T> subscriber);
 
     protected CollectionReferenceBasic() {
-        mValueBinders = new ArrayList<>();
-        mItemBinders = new ArrayList<>();
+        mValueSubscribers = new ArrayList<>();
+        mItemSubscribers = new ArrayList<>();
         mDelegate = new SubscribersManager<>(this);
     }
 
@@ -43,44 +43,89 @@ public abstract class CollectionReferenceBasic<T, C extends Collection<T>, S ext
 
     @Override
     protected Collection<ValueSubscriber<C>> getSubscribers() {
-        return mValueBinders;
+        return mValueSubscribers;
+    }
+
+    protected boolean hasItemBinders() {
+        return mItemSubscribers.size() > 0;
+    }
+
+    protected void notifyOnAdded(C data) {
+        for (ItemSubscriber<T> binder : mItemSubscribers) {
+            notifyOnAdded(binder, data);
+        }
+
+        notifyValueSubscribers();
+    }
+
+    protected void notifyOnAdded(T item) {
+        for (ItemSubscriber<T> binder : mItemSubscribers) {
+            binder.onItemAdded(item);
+        }
+
+        notifyValueSubscribers();
+    }
+
+    protected void notifyOnAdded(ItemSubscriber<T> binder, C data) {
+        for (T reference : data) {
+            binder.onItemAdded(reference);
+        }
+    }
+
+    protected void notifyOnRemoved(C data) {
+        for (ItemSubscriber<T> binder : mItemSubscribers) {
+            for (T reference : data) {
+                binder.onItemRemoved(reference);
+            }
+        }
+
+        notifyValueSubscribers();
+    }
+
+    protected void notifyOnRemoved(T item) {
+        for (ItemSubscriber<T> binder : mItemSubscribers) {
+            binder.onItemRemoved(item);
+        }
+
+        notifyValueSubscribers();
+    }
+
+    protected void notifyAllSubscribers() {
+        if (getSubscribers().size() > 0 || hasItemBinders()) {
+            dereference(new DereferenceCallback<C>() {
+                @Override
+                public void onDereferenced(DataValue<C> value) {
+                    if (value.hasValue()) {
+                        notifyValueSubscribers(value.getData());
+                        notifyOnCollectionChanged(value.getData());
+                    }
+                }
+            });
+        }
     }
 
     @Override
     protected void bind(final ValueSubscriber<C> subscriber) {
-        mValueBinders.add(subscriber);
-        dereference(new DereferenceCallback<C>() {
-            @Override
-            public void onDereferenced(DataValue<C> value) {
-                if (value.hasValue()) subscriber.onReferenceValue(value.getData());
-            }
-        });
+        mValueSubscribers.add(subscriber);
+        notifyValueSubscriber(subscriber);
     }
 
     @Override
     protected void onInvalidate() {
         super.onInvalidate();
         mDelegate.notifyOnInvalidated();
-        mItemBinders.clear();
-        mValueBinders.clear();
-    }
-
-    protected boolean hasItemBinders() {
-        return mItemBinders.size() > 0;
-    }
-
-    private boolean hasValueBinders() {
-        return mValueBinders.size() > 0;
+        mItemSubscribers.clear();
+        mValueSubscribers.clear();
     }
 
     @Override
     protected boolean contains(ValueSubscriber<C> subscriber) {
-        return mValueBinders.contains(subscriber);
+        return mValueSubscribers.contains(subscriber);
     }
 
     @Override
     protected void removeSubscriber(ValueSubscriber<C> subscriber) {
-        mValueBinders.remove(subscriber);
+        mValueSubscribers.remove(subscriber);
     }
 
     @Override
@@ -95,96 +140,41 @@ public abstract class CollectionReferenceBasic<T, C extends Collection<T>, S ext
 
     @Override
     public Collection<ItemSubscriber<T>> getItemSubscribers() {
-        return mItemBinders;
+        return mItemSubscribers;
     }
 
     @Override
     public void unbindSubscriber(ItemSubscriber<T> subscriber) {
-        if(containsSubscriber(subscriber)) {
-            mItemBinders.remove(subscriber);
+        if (containsSubscriber(subscriber)) {
+            mItemSubscribers.remove(subscriber);
             onUnbinding(subscriber);
         }
     }
 
     @Override
     public void bindSubscriber(final ItemSubscriber<T> subscriber) {
-        if(!containsSubscriber(subscriber)) {
-            mItemBinders.add(subscriber);
+        if (!containsSubscriber(subscriber)) {
+            mItemSubscribers.add(subscriber);
             onBinding(subscriber);
         }
     }
 
     @Override
     public boolean containsSubscriber(ItemSubscriber<T> subscriber) {
-        return mItemBinders.contains(subscriber);
+        return mItemSubscribers.contains(subscriber);
     }
 
     private void notifyOnCollectionChanged(C items) {
-        for (ItemSubscriber<T> binder : mItemBinders) {
-            binder.onCollectionChanged(items);
+        for (ItemSubscriber<T> subscriber : mItemSubscribers) {
+            subscriber.onCollectionChanged(items);
         }
+
+        notifyValueSubscribers(items);
     }
 
-    protected void notifyOnAdded(C data) {
-        for (ItemSubscriber<T> binder : mItemBinders) {
-            notifyOnAdded(binder, data);
-        }
-    }
-
-    protected void notifyOnAdded(T item) {
-        for (ItemSubscriber<T> binder : mItemBinders) {
-            binder.onItemAdded(item);
-        }
-    }
-
-    protected void notifyOnAdded(ItemSubscriber<T> binder, C data) {
-        for (T reference : data) {
-            binder.onItemAdded(reference);
-        }
-    }
-
-    protected void notifyOnRemoved(C data) {
-        for (ItemSubscriber<T> binder : mItemBinders) {
-            for (T reference : data) {
-                binder.onItemRemoved(reference);
-            }
-        }
-    }
-
-    protected void notifyOnRemoved(T item) {
-        for (ItemSubscriber<T> binder : mItemBinders) {
-            binder.onItemRemoved(item);
-        }
-    }
-
-    private void notifyValueBinders(C data) {
-        for (ValueSubscriber<C> binder : mValueBinders) {
-            binder.onReferenceValue(data);
-        }
-    }
-
-    protected void notifyValueBinders() {
-        if (hasValueBinders()) {
-            dereference(new DereferenceCallback<C>() {
-                @Override
-                public void onDereferenced(DataValue<C> value) {
-                    if (value.hasValue()) notifyValueBinders(value.getData());
-                }
-            });
-        }
-    }
-
-    protected void notifyAllBinders() {
-        if (hasValueBinders() || hasItemBinders()) {
-            dereference(new DereferenceCallback<C>() {
-                @Override
-                public void onDereferenced(DataValue<C> value) {
-                    if (value.hasValue()) {
-                        notifyValueBinders(value.getData());
-                        notifyOnCollectionChanged(value.getData());
-                    }
-                }
-            });
+    private void notifyValueSubscribers(C data) {
+        for (ValueSubscriber<C> subscriber : mValueSubscribers) {
+            subscriber.onReferenceValue(data);
         }
     }
 }

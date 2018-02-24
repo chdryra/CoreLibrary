@@ -19,8 +19,6 @@ import java.util.Collection;
  */
 public abstract class SubscribableReferenceBasic<T> extends InvalidatableReferenceBasic<T> {
 
-    protected abstract Collection<ValueSubscriber<T>> getSubscribers();
-
     protected abstract void removeSubscriber(ValueSubscriber<T> subscriber);
 
     protected abstract void doDereferencing(DereferenceCallback<T> callback);
@@ -28,6 +26,32 @@ public abstract class SubscribableReferenceBasic<T> extends InvalidatableReferen
     protected abstract boolean contains(ValueSubscriber<T> subscriber);
 
     protected abstract void bind(ValueSubscriber<T> subscriber);
+
+    protected abstract Collection<ValueSubscriber<T>> getSubscribers();
+
+    @Nullable
+    protected T getNullValue() {
+        return null;
+    }
+
+    protected void invalidReference(DereferenceCallback<T> callback) {
+        callback.onDereferenced(new DataValue<>(getNullValue()));
+    }
+
+    protected void notifyValueSubscribers() {
+        if (getSubscribers().size() > 0) {
+            dereference(new DereferenceCallback<T>() {
+                @Override
+                public void onDereferenced(DataValue<T> value) {
+                    if (value.hasValue()) {
+                        for (ValueSubscriber<T> sub : getSubscribers()) {
+                            sub.onReferenceValue(value.getData());
+                        }
+                    }
+                }
+            });
+        }
+    }
 
     @Override
     public void dereference(final DereferenceCallback<T> callback) {
@@ -46,6 +70,7 @@ public abstract class SubscribableReferenceBasic<T> extends InvalidatableReferen
         }
         //Have to do this to force it to refire.
         if (contains(subscriber)) unsubscribe(subscriber);
+
         bind(subscriber);
     }
 
@@ -62,12 +87,12 @@ public abstract class SubscribableReferenceBasic<T> extends InvalidatableReferen
         }
     }
 
-    protected void invalidReference(DereferenceCallback<T> callback) {
-        callback.onDereferenced(new DataValue<>(getNullValue()));
-    }
-
-    @Nullable
-    protected T getNullValue() {
-        return null;
+    void notifyValueSubscriber(final ValueSubscriber<T> subscriber) {
+        dereference(new DereferenceCallback<T>() {
+            @Override
+            public void onDereferenced(DataValue<T> value) {
+                if (value.hasValue()) subscriber.onReferenceValue(value.getData());
+            }
+        });
     }
 }

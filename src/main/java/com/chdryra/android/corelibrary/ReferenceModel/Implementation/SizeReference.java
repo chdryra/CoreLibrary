@@ -77,13 +77,13 @@ public class SizeReference<T, C extends Collection<T>> extends DereferencableBas
     }
 
     @Override
-    protected void fireForBinder(ValueSubscriber<Size> binder) {
+    protected void fireForSubscriber(ValueSubscriber<Size> subscriber) {
         if (!mIsValid) {
-            binder.onInvalidated(this);
+            subscriber.onInvalidated(this);
             return;
         }
 
-        binder.onReferenceValue(getSize(mSize));
+        subscriber.onReferenceValue(getSize(mSize));
 
         if (!mIsBound) {
             mReference.subscribe(this);
