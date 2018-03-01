@@ -17,46 +17,52 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class DereferencableBasic<T> extends SubscribableReferenceBasic<T> {
-    private final Collection<ValueSubscriber<T>> mValueBinders;
+    private final Collection<ValueSubscriber<T>> mSubscribers;
 
     public DereferencableBasic() {
         super();
-        mValueBinders = new ArrayList<>();
+        mSubscribers = new ArrayList<>();
     }
 
     @Override
     protected void removeSubscriber(ValueSubscriber<T> subscriber) {
-        mValueBinders.remove(subscriber);
+        mSubscribers.remove(subscriber);
     }
 
     @Override
     protected void bind(ValueSubscriber<T> subscriber) {
-        mValueBinders.add(subscriber);
-        fireForBinder(subscriber);
+        mSubscribers.add(subscriber);
+        fireForSubscriber(subscriber);
     }
 
     @Override
     protected Collection<ValueSubscriber<T>> getSubscribers() {
-        return mValueBinders;
+        return mSubscribers;
     }
 
     @Override
     protected void onInvalidate() {
         super.onInvalidate();
-        mValueBinders.clear();
+        mSubscribers.clear();
     }
 
     @Override
     protected boolean contains(ValueSubscriber<T> subscriber) {
-        return mValueBinders.contains(subscriber);
+        return mSubscribers.contains(subscriber);
     }
 
-    protected void fireForBinder(final ValueSubscriber<T> binder) {
+    protected void fireForSubscriber(final ValueSubscriber<T> subscriber) {
         dereference(new DereferenceCallback<T>() {
             @Override
             public void onDereferenced(DataValue<T> value) {
-                if (value.hasValue()) binder.onReferenceValue(value.getData());
+                if (value.hasValue()) subscriber.onReferenceValue(value.getData());
             }
         });
+    }
+
+    public void notifySubscribers() {
+        for(ValueSubscriber<T> subscriber : mSubscribers) {
+            fireForSubscriber(subscriber);
+        }
     }
 }
