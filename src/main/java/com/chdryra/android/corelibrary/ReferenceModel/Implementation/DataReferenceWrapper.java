@@ -21,6 +21,10 @@ public class DataReferenceWrapper<T> extends DereferencableBasic<T> {
         mData = data;
     }
 
+    public T getData() {
+        return mData;
+    }
+
     public void setData(T data) {
         mData = data;
         notifySubscribers();
