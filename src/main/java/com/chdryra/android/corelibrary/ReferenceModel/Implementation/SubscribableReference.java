@@ -16,10 +16,10 @@ import java.util.Collection;
  * On: 01/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DereferencableBasic<T> extends SubscribableReferenceBasic<T> {
+public abstract class SubscribableReference<T> extends SubscribableReferenceBasic<T> {
     private final Collection<ValueSubscriber<T>> mValueBinders;
 
-    public DereferencableBasic() {
+    public SubscribableReference() {
         super();
         mValueBinders = new ArrayList<>();
     }
@@ -32,7 +32,7 @@ public abstract class DereferencableBasic<T> extends SubscribableReferenceBasic<
     @Override
     protected void bind(ValueSubscriber<T> subscriber) {
         mValueBinders.add(subscriber);
-        notifyValueSubscriber(subscriber);
+        notifySubscriber(subscriber);
     }
 
     @Override
@@ -44,16 +44,5 @@ public abstract class DereferencableBasic<T> extends SubscribableReferenceBasic<
     protected void onInvalidate() {
         super.onInvalidate();
         mValueBinders.clear();
-    }
-
-    @Override
-    protected boolean contains(ValueSubscriber<T> subscriber) {
-        return mValueBinders.contains(subscriber);
-    }
-
-    public void notifySubscribers() {
-        for(ValueSubscriber<T> subscriber : getSubscribers()) {
-            notifyValueSubscriber(subscriber);
-        }
     }
 }

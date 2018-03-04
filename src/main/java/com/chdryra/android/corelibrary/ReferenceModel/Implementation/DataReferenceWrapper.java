@@ -14,7 +14,7 @@ package com.chdryra.android.corelibrary.ReferenceModel.Implementation;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class DataReferenceWrapper<T> extends DereferencableBasic<T> {
+public class DataReferenceWrapper<T> extends SubscribableReference<T> {
     private T mData;
 
     public DataReferenceWrapper(T data) {

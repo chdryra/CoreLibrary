@@ -55,7 +55,7 @@ public abstract class CollectionReferenceBasic<T, C extends Collection<T>, S ext
             notifyOnAdded(binder, data);
         }
 
-        notifyValueSubscribers();
+        notifySubscribers();
     }
 
     protected void notifyOnAdded(T item) {
@@ -63,7 +63,7 @@ public abstract class CollectionReferenceBasic<T, C extends Collection<T>, S ext
             binder.onItemAdded(item);
         }
 
-        notifyValueSubscribers();
+        notifySubscribers();
     }
 
     protected void notifyOnAdded(ItemSubscriber<T> binder, C data) {
@@ -79,7 +79,7 @@ public abstract class CollectionReferenceBasic<T, C extends Collection<T>, S ext
             }
         }
 
-        notifyValueSubscribers();
+        notifySubscribers();
     }
 
     protected void notifyOnRemoved(T item) {
@@ -87,7 +87,7 @@ public abstract class CollectionReferenceBasic<T, C extends Collection<T>, S ext
             binder.onItemRemoved(item);
         }
 
-        notifyValueSubscribers();
+        notifySubscribers();
     }
 
     protected void notifyAllSubscribers() {
@@ -107,7 +107,7 @@ public abstract class CollectionReferenceBasic<T, C extends Collection<T>, S ext
     @Override
     protected void bind(final ValueSubscriber<C> subscriber) {
         mValueSubscribers.add(subscriber);
-        notifyValueSubscriber(subscriber);
+        notifySubscriber(subscriber);
     }
 
     @Override
@@ -116,11 +116,6 @@ public abstract class CollectionReferenceBasic<T, C extends Collection<T>, S ext
         mDelegate.notifyOnInvalidated();
         mItemSubscribers.clear();
         mValueSubscribers.clear();
-    }
-
-    @Override
-    protected boolean contains(ValueSubscriber<C> subscriber) {
-        return mValueSubscribers.contains(subscriber);
     }
 
     @Override

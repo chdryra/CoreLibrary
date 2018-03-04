@@ -23,9 +23,23 @@ public abstract class SubscribableReferenceBasic<T> extends InvalidatableReferen
 
     protected abstract void doDereferencing(DereferenceCallback<T> callback);
 
-    protected abstract boolean contains(ValueSubscriber<T> subscriber);
-
     protected abstract void bind(ValueSubscriber<T> subscriber);
+
+    public void notifySubscribers() {
+        if (getSubscribers().size() > 0) {
+            dereference(new DereferenceCallback<T>() {
+                @Override
+                public void onDereferenced(DataValue<T> value) {
+                    if (value.hasValue()) {
+                        T data = value.getData();
+                        for (ValueSubscriber<T> subscriber : getSubscribers()) {
+                            subscriber.onReferenceValue(data);
+                        }
+                    }
+                }
+            });
+        }
+    }
 
     protected abstract Collection<ValueSubscriber<T>> getSubscribers();
 
@@ -34,23 +48,12 @@ public abstract class SubscribableReferenceBasic<T> extends InvalidatableReferen
         return null;
     }
 
-    protected void invalidReference(DereferenceCallback<T> callback) {
-        callback.onDereferenced(new DataValue<>(getNullValue()));
+    protected boolean contains(ValueSubscriber<T> subscriber) {
+        return getSubscribers().contains(subscriber);
     }
 
-    protected void notifyValueSubscribers() {
-        if (getSubscribers().size() > 0) {
-            dereference(new DereferenceCallback<T>() {
-                @Override
-                public void onDereferenced(DataValue<T> value) {
-                    if (value.hasValue()) {
-                        for (ValueSubscriber<T> sub : getSubscribers()) {
-                            sub.onReferenceValue(value.getData());
-                        }
-                    }
-                }
-            });
-        }
+    protected void invalidReference(DereferenceCallback<T> callback) {
+        callback.onDereferenced(new DataValue<>(getNullValue()));
     }
 
     @Override
@@ -87,7 +90,7 @@ public abstract class SubscribableReferenceBasic<T> extends InvalidatableReferen
         }
     }
 
-    void notifyValueSubscriber(final ValueSubscriber<T> subscriber) {
+    void notifySubscriber(final ValueSubscriber<T> subscriber) {
         dereference(new DereferenceCallback<T>() {
             @Override
             public void onDereferenced(DataValue<T> value) {

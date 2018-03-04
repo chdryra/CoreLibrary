@@ -22,7 +22,7 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class SizeReference<T, C extends Collection<T>> extends DereferencableBasic<Size> implements
+public class SizeReference<T, C extends Collection<T>> extends SubscribableReference<Size> implements
         CollectionReference.ItemSubscriber<T>, DataReference<Size> {
     private final CollectionReference<T, C, Size> mReference;
     private int mSize = 0;
@@ -77,7 +77,7 @@ public class SizeReference<T, C extends Collection<T>> extends DereferencableBas
     }
 
     @Override
-    protected void fireForSubscriber(ValueSubscriber<Size> subscriber) {
+    protected void notifySubscriber(ValueSubscriber<Size> subscriber) {
         if (!mIsValid) {
             subscriber.onInvalidated(this);
             return;
