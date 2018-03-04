@@ -32,7 +32,7 @@ public abstract class DereferencableBasic<T> extends SubscribableReferenceBasic<
     @Override
     protected void bind(ValueSubscriber<T> subscriber) {
         mValueBinders.add(subscriber);
-        fireForSubscriber(subscriber);
+        notifyValueSubscriber(subscriber);
     }
 
     @Override
@@ -51,7 +51,9 @@ public abstract class DereferencableBasic<T> extends SubscribableReferenceBasic<
         return mValueBinders.contains(subscriber);
     }
 
-    protected void fireForSubscriber(final ValueSubscriber<T> subscriber) {
-        super.notifyValueSubscriber(subscriber);
+    public void notifySubscribers() {
+        for(ValueSubscriber<T> subscriber : getSubscribers()) {
+            notifyValueSubscriber(subscriber);
+        }
     }
 }
