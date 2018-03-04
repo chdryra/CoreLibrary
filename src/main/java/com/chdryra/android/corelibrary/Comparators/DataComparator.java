@@ -8,6 +8,8 @@
 
 package com.chdryra.android.corelibrary.Comparators;
 
+import com.chdryra.android.corelibrary.OtherUtils.DataGetter;
+
 import java.util.Comparator;
 
 /**
