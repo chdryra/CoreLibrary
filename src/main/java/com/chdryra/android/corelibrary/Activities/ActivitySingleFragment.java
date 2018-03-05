@@ -35,10 +35,9 @@ public abstract class ActivitySingleFragment extends Activity {
         FragmentManager fm = getFragmentManager();
         mFragment = fm.findFragmentById(FRAGMENT_ID);
 
-        if (mFragment == null) {
-            mFragment = createFragment(savedInstanceState);
-            fm.beginTransaction().add(FRAGMENT_ID, mFragment).commit();
-        }
+        if (mFragment == null) mFragment = createFragment(savedInstanceState);
+
+        if(!mFragment.isAdded()) fm.beginTransaction().add(FRAGMENT_ID, mFragment).commit();
     }
 
     protected Fragment getFragment() {
