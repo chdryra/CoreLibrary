@@ -29,5 +29,5 @@ public interface LocationClient {
 
     void disconnect();
 
-    boolean locate();
+    void locate();
 }

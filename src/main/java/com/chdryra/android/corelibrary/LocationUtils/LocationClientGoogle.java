@@ -8,33 +8,33 @@
 
 package com.chdryra.android.corelibrary.LocationUtils;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.IntentSender;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.corelibrary.Permissions.PermissionResult;
+import com.chdryra.android.corelibrary.Permissions.PermissionsManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.util.List;
+
 /**
  * Handles connection to Google Play services for Places API lookup tasks.
  */
 public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationClient {
+        GoogleApiClient.OnConnectionFailedListener, LocationClient, PermissionsManager.PermissionsCallback {
 
     private final static String TAG = TagKeyGenerator.getTag(LocationClientGoogle.class);
-    private final static int LOCATION_PERMISSIONS = RequestCodeGenerator.getCode
+    private final static int PERMISSIONS = RequestCodeGenerator.getCode
             (LocationClientGoogle.class);
 
     private final static int MAX_CONNECTION_TRIES = 3;
@@ -45,20 +45,28 @@ public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks
     private final static CallbackMessage NULL_LOCATION = CallbackMessage.error("Null location");
     private final static CallbackMessage NOT_CONNECTED = CallbackMessage.error("Not connected");
     private final static CallbackMessage OK = CallbackMessage.ok();
+    private static final PermissionsManager.Permission LOCATION = PermissionsManager.Permission.LOCATION;
 
     private final GoogleApiClient mApiClient;
     private final Activity mActivity;
+    private final PermissionsManager mPermissions;
 
     private Locatable mLocatable;
     private int mNumberConnectionTries = 0;
 
-    public LocationClientGoogle(Activity activity) {
+    public LocationClientGoogle(Activity activity, PermissionsManager permissions) {
         mActivity = activity;
+        mPermissions = permissions;
         mApiClient = new GoogleApiClient.Builder(mActivity)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+    }
+
+    @Override
+    public void onPermissionsResult(int requestCode, List<PermissionResult> results) {
+        if(requestCode == PERMISSIONS && results.get(0).isGranted(LOCATION)) locate();
     }
 
     @Override
@@ -73,16 +81,21 @@ public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks
     }
 
     @Override
-    public boolean locate() {
-        if (mLocatable != null) {
-            if (mApiClient.isConnected()) {
-                getLastLocation();
+    public void locate() {
+        if(mLocatable == null) return;
+        if (mApiClient.isConnected()) {
+            if(!mPermissions.hasPermissions(LOCATION)) {
+                requestPermission();
             } else {
-                mLocatable.onLocated(null, NOT_CONNECTED);
+                getLastLocation();
             }
+        } else {
+            mLocatable.onLocated(null, NOT_CONNECTED);
         }
+    }
 
-        return false;
+    private void requestPermission() {
+        mPermissions.requestPermissions(PERMISSIONS, this, PermissionsManager.Permission.LOCATION);
     }
 
     @Override
@@ -110,7 +123,7 @@ public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks
 
     @Override
     public void onConnected(Bundle arg0) {
-        getLastLocation();
+        locate();
     }
 
     @Override
@@ -119,22 +132,16 @@ public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks
     }
 
     private void getLastLocation() {
-        if (ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission
-                .ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(mActivity, Manifest.permission
-                .ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(mActivity,
-                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest
-                            .permission.ACCESS_FINE_LOCATION},
-                    LOCATION_PERMISSIONS);
+        try {
+            LocationServices.getFusedLocationProviderClient(mActivity)
+                    .getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    mLocatable.onLocated(location, location == null ? NULL_LOCATION : OK);
+                }
+            });
+        } catch (SecurityException e) {
+            requestPermission();
         }
-
-        LocationServices.getFusedLocationProviderClient(mActivity)
-                .getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                mLocatable.onLocated(location, location == null ? NULL_LOCATION : OK);
-            }
-        });
     }
 }
