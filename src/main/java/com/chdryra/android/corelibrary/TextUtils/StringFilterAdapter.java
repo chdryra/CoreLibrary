@@ -45,7 +45,7 @@ public class StringFilterAdapter extends ArrayAdapter<String> implements Filtera
         getFilter().filter(query);
     }
 
-//Overridden
+    //Overridden
     @Override
     public int getCount() {
         return mFiltered != null ? mFiltered.size() : 0;

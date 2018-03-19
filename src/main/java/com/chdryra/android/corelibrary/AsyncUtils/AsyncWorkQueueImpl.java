@@ -97,22 +97,22 @@ public class AsyncWorkQueueImpl<T> implements AsyncWorkQueue<T>, WorkStoreCallba
 
     @Override
     public void registerObserver(QueueObserver observer) {
-        if(!mObservers.contains(observer)) mObservers.add(observer);
+        if (!mObservers.contains(observer)) mObservers.add(observer);
     }
 
     @Override
     public void unregisterObserver(QueueObserver observer) {
-        if(mObservers.contains(observer)) mObservers.remove(observer);
+        if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 
     private void notifyObserversOnAdd(String itemId) {
-        for(QueueObserver observer : mObservers) {
+        for (QueueObserver observer : mObservers) {
             observer.onAddedToQueue(itemId);
         }
     }
 
     private void removeItemIfAllWorkCompleted(String itemId) {
-        if(!hasWorkers(itemId) && mToClear.contains(itemId)) {
+        if (!hasWorkers(itemId) && mToClear.contains(itemId)) {
             mWorkers.remove(itemId);
             mToClear.remove(itemId);
             mBacklogToDelete.add(itemId);

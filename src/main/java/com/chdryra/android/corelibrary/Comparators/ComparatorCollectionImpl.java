@@ -18,7 +18,8 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ComparatorCollectionImpl<T> extends CollectionIdableImpl<String, NamedComparator<T>> implements ComparatorCollection<T>{
+public class ComparatorCollectionImpl<T> extends CollectionIdableImpl<String, NamedComparator<T>>
+        implements ComparatorCollection<T> {
     public ComparatorCollectionImpl(NamedComparator<T> defaultItem) {
         super(defaultItem);
     }

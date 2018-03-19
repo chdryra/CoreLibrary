@@ -49,17 +49,17 @@ public class UserLocatedPlace implements LocatedPlace {
         return mId;
     }
 
-    private String generateId() {
-        return String.valueOf(mLatLng.hashCode()) + SEPARATOR + String.valueOf(mDescription
-                .hashCode());
-    }
-
     @Override
     public int hashCode() {
         int result = mLatLng.hashCode();
         result = 31 * result + mDescription.hashCode();
         result = 31 * result + mId.hashCode();
         return result;
+    }
+
+    private String generateId() {
+        return String.valueOf(mLatLng.hashCode()) + SEPARATOR + String.valueOf(mDescription
+                .hashCode());
     }
 
 }

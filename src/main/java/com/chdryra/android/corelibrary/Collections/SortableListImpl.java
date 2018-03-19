@@ -20,9 +20,23 @@ import java.util.NoSuchElementException;
  *
  * @param <T>: type of the items.
  */
-public class SortableListImpl<T> extends ArrayList<T> implements SortableList<T>{
+public class SortableListImpl<T> extends ArrayList<T> implements SortableList<T> {
     private boolean mIsSorted = false;
 
+    //protected methods
+    protected Comparator<? super T> getDefaultComparator() {
+        return new Comparator<T>() {
+            //Overridden
+            @Override
+            public int compare(T lhs, T rhs) {
+                if (contains(lhs) && contains(rhs)) {
+                    return indexOf(lhs) - indexOf(rhs);
+                } else {
+                    return 0;
+                }
+            }
+        };
+    }
 
     @Override
     public boolean add(T item) {
@@ -71,23 +85,7 @@ public class SortableListImpl<T> extends ArrayList<T> implements SortableList<T>
         return arrayList;
     }
 
-    //protected methods
-    protected Comparator<? super T> getDefaultComparator() {
-        return new Comparator<T>() {
-            //Overridden
-            @Override
-            public int compare(T lhs, T rhs) {
-                if (contains(lhs) && contains(rhs)) {
-                    return indexOf(lhs) - indexOf(rhs);
-                } else {
-                    return 0;
-                }
-            }
-        };
-    }
-
     //Overridden
-
 
     @Override
     public Iterator<T> iterator() {

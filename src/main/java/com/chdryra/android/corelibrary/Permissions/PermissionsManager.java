@@ -19,11 +19,12 @@ import java.util.List;
 public interface PermissionsManager {
     enum Permission {LOCATION, CAMERA}
 
-    boolean hasPermissions(Permission... permission);
-
-    void requestPermissions(int requestCode, PermissionsCallback callback, Permission... permissions);
-
     interface PermissionsCallback {
         void onPermissionsResult(int requestCode, List<PermissionResult> results);
     }
+
+    boolean hasPermissions(Permission... permission);
+
+    void requestPermissions(int requestCode, PermissionsCallback callback, Permission...
+            permissions);
 }

@@ -23,7 +23,7 @@ public class RequestCodeGenerator {
         int code = tag.hashCode();
         code = code >= 0 ? code : -code;
         //TODO something more sophisticated
-        if(code > MAX_16_BIT) code = RAND.nextInt(MAX_16_BIT);
+        if (code > MAX_16_BIT) code = RAND.nextInt(MAX_16_BIT);
         return code;
     }
 

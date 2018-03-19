@@ -46,7 +46,7 @@ public class FragmentDeleteDone extends Fragment implements AlertListener {
     private Intent mReturnData;
     private boolean mDisplayHomeAsUp = true;
 
-//protected methods
+    //protected methods
     protected Intent getCurrentReturnData() {
         if (mReturnData == null) {
             return getNewReturnData();
@@ -94,42 +94,7 @@ public class FragmentDeleteDone extends Fragment implements AlertListener {
         mDismissOnDelete = true;
     }
 
-    private void setDisplayHomeAsUp() {
-        if (getActivity().getActionBar() != null) {
-            getActivity().getActionBar().setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
-        }
-    }
-
-    private void doUpSelected() {
-        onUpSelected();
-        sendResult(RESULT_UP);
-        getActivity().finish();
-    }
-
-    private void doDeleteSelected() {
-        if (hasDataToDelete()) {
-            onDeleteSelected();
-            if (mDismissOnDelete) {
-                sendResult(RESULT_DELETE);
-                getActivity().finish();
-            }
-        }
-    }
-
-    private void doDoneSelected() {
-        onDoneSelected();
-        if (mDismissOnDone) {
-            sendResult(RESULT_DONE);
-            getActivity().finish();
-        }
-    }
-
-    private void showDeleteConfirmDialog() {
-        DialogDeleteConfirm.showDialog(mDeleteWhat, FragmentDeleteDone.this, DELETE_CONFIRM,
-                getFragmentManager());
-    }
-
-//Overridden
+    //Overridden
     @Override
     public void onAlertNegative(int requestCode, Bundle args) {
 
@@ -175,5 +140,40 @@ public class FragmentDeleteDone extends Fragment implements AlertListener {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setDisplayHomeAsUp() {
+        if (getActivity().getActionBar() != null) {
+            getActivity().getActionBar().setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
+        }
+    }
+
+    private void doUpSelected() {
+        onUpSelected();
+        sendResult(RESULT_UP);
+        getActivity().finish();
+    }
+
+    private void doDeleteSelected() {
+        if (hasDataToDelete()) {
+            onDeleteSelected();
+            if (mDismissOnDelete) {
+                sendResult(RESULT_DELETE);
+                getActivity().finish();
+            }
+        }
+    }
+
+    private void doDoneSelected() {
+        onDoneSelected();
+        if (mDismissOnDone) {
+            sendResult(RESULT_DONE);
+            getActivity().finish();
+        }
+    }
+
+    private void showDeleteConfirmDialog() {
+        DialogDeleteConfirm.showDialog(mDeleteWhat, FragmentDeleteDone.this, DELETE_CONFIRM,
+                getFragmentManager());
     }
 }

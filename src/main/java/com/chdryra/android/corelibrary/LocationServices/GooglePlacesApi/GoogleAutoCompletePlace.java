@@ -8,8 +8,8 @@
 
 package com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi;
 
-import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.chdryra.android.corelibrary.LocationServices.LocatedPlace;
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -34,7 +34,8 @@ public class GoogleAutoCompletePlace implements LocatedPlace {
 
     @Override
     public String getDescription() {
-        return mPrediction.getPrimaryText(null).toString() + ", " + mPrediction.getSecondaryText(null).toString();
+        return mPrediction.getPrimaryText(null).toString() + ", " + mPrediction.getSecondaryText
+                (null).toString();
     }
 
     @Override

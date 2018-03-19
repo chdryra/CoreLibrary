@@ -27,7 +27,8 @@ import java.util.List;
  */
 public abstract class GoogleLocationServiceBasic implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, PermissionsManager.PermissionsCallback {
-    private static final int PERMISSION_REQUEST = RequestCodeGenerator.getCode(GoogleLocationServiceBasic.class);
+    private static final int PERMISSION_REQUEST = RequestCodeGenerator.getCode
+            (GoogleLocationServiceBasic.class);
     private static final PermissionsManager.Permission LOCATION = PermissionsManager.Permission
             .LOCATION;
 
@@ -51,14 +52,6 @@ public abstract class GoogleLocationServiceBasic implements GoogleApiClient.Conn
         return mClient;
     }
 
-    void connectAndDoRequest() {
-        if (!mClient.isConnected()) {
-            mClient.connect();
-        } else {
-            doRequestOnConnected();
-        }
-    }
-
     public void disconnect() {
         mClient.disconnect();
     }
@@ -72,13 +65,9 @@ public abstract class GoogleLocationServiceBasic implements GoogleApiClient.Conn
         }
     }
 
-    void requestPermissions() {
-        mPermissions.requestPermissions(PERMISSION_REQUEST, this, LOCATION);
-    }
-
     @Override
     public void onPermissionsResult(int requestCode, List<PermissionResult> results) {
-        if(requestCode == PERMISSION_REQUEST
+        if (requestCode == PERMISSION_REQUEST
                 && results.size() == 1
                 && results.get(0).isGranted(LOCATION)) {
             doRequestOnConnected();
@@ -95,5 +84,17 @@ public abstract class GoogleLocationServiceBasic implements GoogleApiClient.Conn
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         onNotConnected();
+    }
+
+    void connectAndDoRequest() {
+        if (!mClient.isConnected()) {
+            mClient.connect();
+        } else {
+            doRequestOnConnected();
+        }
+    }
+
+    void requestPermissions() {
+        mPermissions.requestPermissions(PERMISSION_REQUEST, this, LOCATION);
     }
 }

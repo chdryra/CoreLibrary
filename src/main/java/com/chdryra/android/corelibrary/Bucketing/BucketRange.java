@@ -18,6 +18,8 @@ public abstract class BucketRange<BucketingValue> {
     private final BucketingValue mMax;
     private boolean mClosed;
 
+    public abstract boolean inRange(BucketingValue value);
+
     public BucketRange(BucketingValue min, BucketingValue max, boolean closed) {
         mMin = min;
         mMax = max;
@@ -35,8 +37,6 @@ public abstract class BucketRange<BucketingValue> {
     public boolean isClosed() {
         return mClosed;
     }
-
-    public abstract boolean inRange(BucketingValue value);
 
     public boolean hasOverlap(BucketRange<BucketingValue> otherBucket) {
         BucketingValue min = otherBucket.getMin();

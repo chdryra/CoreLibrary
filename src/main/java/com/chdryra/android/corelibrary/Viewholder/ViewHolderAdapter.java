@@ -58,6 +58,11 @@ public class ViewHolderAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void setCellDimensions(int cellWidth, int cellHeight) {
+        mCellWidth = cellWidth;
+        mCellHeight = cellHeight;
+    }
+
     @Override
     public int getCount() {
         return mData.size();
@@ -65,7 +70,7 @@ public class ViewHolderAdapter extends BaseAdapter {
 
     @Override
     public ViewHolderData getItem(int position) {
-        if(!mData.isSorted()) mData.sort();
+        if (!mData.isSorted()) mData.sort();
         return (ViewHolderData) mData.get(position);
     }
 
@@ -92,11 +97,6 @@ public class ViewHolderAdapter extends BaseAdapter {
         }
 
         return convertView;
-    }
-
-    public void setCellDimensions(int cellWidth, int cellHeight) {
-        mCellWidth = cellWidth;
-        mCellHeight = cellHeight;
     }
 
     @NonNull

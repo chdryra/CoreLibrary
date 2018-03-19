@@ -9,12 +9,11 @@
 package com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi;
 
 
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.corelibrary.LocationServices.LocationAutoCompleter;
 import com.chdryra.android.corelibrary.LocationServices.LocatedPlace;
+import com.chdryra.android.corelibrary.LocationServices.LocationAutoCompleter;
 import com.chdryra.android.corelibrary.OtherUtils.CallBackSignaler;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -33,7 +32,8 @@ import java.util.ArrayList;
  * On: 14/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class LocationPredicterGp implements LocationAutoCompleter.LocationPredicter, GoogleApiClient.ConnectionCallbacks,
+public class LocationPredicterGp implements LocationAutoCompleter.LocationPredicter,
+        GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private final CallBackSignaler mSignaler;
@@ -49,7 +49,7 @@ public class LocationPredicterGp implements LocationAutoCompleter.LocationPredic
     @Override
     public ArrayList<LocatedPlace> fetchPredictions(String query, LatLng latLng) {
         ArrayList<LocatedPlace> results = new ArrayList<>();
-        if(!mClient.isConnected()) {
+        if (!mClient.isConnected()) {
             connect();
             if (mSignaler.timedOut()) return results;
         }
@@ -62,19 +62,13 @@ public class LocationPredicterGp implements LocationAutoCompleter.LocationPredic
                 Places.GeoDataApi.getAutocompletePredictions(mClient, query, bounds, filter);
         AutocompletePredictionBuffer predictions = result.await();
 
-        for(AutocompletePrediction prediction : predictions) {
+        for (AutocompletePrediction prediction : predictions) {
             results.add(new GoogleAutoCompletePlace(prediction.freeze(), latLng));
         }
 
         predictions.release();
 
         return results;
-    }
-
-    private void connect() {
-        mSignaler.reset();
-        mClient.connect();
-        mSignaler.waitForSignal();
     }
 
     @Override
@@ -95,5 +89,11 @@ public class LocationPredicterGp implements LocationAutoCompleter.LocationPredic
     @Override
     public void disconnect() {
         mClient.disconnect();
+    }
+
+    private void connect() {
+        mSignaler.reset();
+        mClient.connect();
+        mSignaler.waitForSignal();
     }
 }

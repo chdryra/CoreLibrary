@@ -15,5 +15,6 @@ import com.chdryra.android.corelibrary.Collections.SortableListImpl;
  * On: 23/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhDataList<T extends ViewHolderData> extends SortableListImpl<T> implements ViewHolderDataList<T> {
+public class VhDataList<T extends ViewHolderData> extends SortableListImpl<T> implements
+        ViewHolderDataList<T> {
 }

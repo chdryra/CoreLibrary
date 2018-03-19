@@ -49,7 +49,8 @@ public class DialogDeleteConfirm {
         dialog.show(fragmentManager, DELETE_CONFIRM_TAG);
     }
 
-    public static void showDialog(String deleteWhat, int requestCode, FragmentManager fragmentManager) {
+    public static void showDialog(String deleteWhat, int requestCode, FragmentManager
+            fragmentManager) {
         showDialog(deleteWhat, null, requestCode, fragmentManager);
     }
 }

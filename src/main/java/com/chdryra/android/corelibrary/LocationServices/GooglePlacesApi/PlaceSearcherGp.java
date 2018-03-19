@@ -9,7 +9,6 @@
 package com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi;
 
 
-
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.corelibrary.LocationServices.LocationDetails;
@@ -33,7 +32,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PlaceSearcherGp extends GoogleLocationServiceBasic implements
-        PlaceSearcher, ResultCallback<AutocompletePredictionBuffer>{
+        PlaceSearcher, ResultCallback<AutocompletePredictionBuffer> {
     private PlaceSearcherListener mListener;
     private LatLng mLatLng;
     private String mQuery;
@@ -76,8 +75,8 @@ public class PlaceSearcherGp extends GoogleLocationServiceBasic implements
     public void onResult(@NonNull AutocompletePredictionBuffer predictions) {
         ArrayList<AutocompletePrediction> idable = new ArrayList<>();
         int numPredictions = 0;
-        for(AutocompletePrediction prediction : predictions) {
-            if(prediction.getPlaceId() != null) {
+        for (AutocompletePrediction prediction : predictions) {
+            if (prediction.getPlaceId() != null) {
                 idable.add(prediction.freeze());
                 numPredictions++;
             }
@@ -86,8 +85,9 @@ public class PlaceSearcherGp extends GoogleLocationServiceBasic implements
         predictions.release();
 
         DetailsCallback callback = new DetailsCallback(numPredictions);
-        for(AutocompletePrediction prediction : idable) {
-            Places.GeoDataApi.getPlaceById(getClient(), prediction.getPlaceId()).setResultCallback(callback);
+        for (AutocompletePrediction prediction : idable) {
+            Places.GeoDataApi.getPlaceById(getClient(), prediction.getPlaceId())
+                    .setResultCallback(callback);
         }
     }
 
@@ -108,7 +108,7 @@ public class PlaceSearcherGp extends GoogleLocationServiceBasic implements
             }
 
             mNumDetailsToExpect--;
-            if(mNumDetailsToExpect == 0) {
+            if (mNumDetailsToExpect == 0) {
                 mListener.onSearchResultsFound(mDetails);
                 disconnect();
             }

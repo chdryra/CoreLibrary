@@ -61,13 +61,32 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
         silenceEditor();
     }
 
+    //Overridden
+    @Override
+    public void dismissDropDown() {
+        if (!mXTouched) {
+            super.dismissDropDown();
+        } else {
+            mXTouched = false;
+        }
+    }
+
+    @Override
+    public void onEditorAction(int actionCode) {
+        if (actionCode == EditorInfo.IME_ACTION_DONE) {
+            hideChrome();
+        }
+
+        super.onEditorAction(actionCode);
+    }
+
     private void init() {
         // Set bounds of the Clear button so it will look ok
         mCloseButton.setBounds(0, 0, mCloseButton.getIntrinsicWidth(),
                 mCloseButton.getIntrinsicHeight());
 
         setOnTouchListener(new OnTouchListener() {
-//Overridden
+            //Overridden
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() != MotionEvent.ACTION_UP) {
@@ -93,7 +112,7 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
         });
 
         setOnEditorActionListener(new OnEditorActionListener() {
-//Overridden
+            //Overridden
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (event == null) {
@@ -112,7 +131,7 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
         });
 
         setOnClickListener(new OnClickListener() {
-//Overridden
+            //Overridden
             @Override
             public void onClick(View v) {
                 EditText et = (EditText) v;
@@ -124,7 +143,7 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
         });
 
         setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//Overridden
+            //Overridden
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
@@ -198,24 +217,5 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
     private void showClearButton() {
         setCompoundDrawables(getCompoundDrawables()[0], getCompoundDrawables()[1], mCloseButton,
                 getCompoundDrawables()[3]);
-    }
-
-//Overridden
-    @Override
-    public void dismissDropDown() {
-        if (!mXTouched) {
-            super.dismissDropDown();
-        } else {
-            mXTouched = false;
-        }
-    }
-
-    @Override
-    public void onEditorAction(int actionCode) {
-        if (actionCode == EditorInfo.IME_ACTION_DONE) {
-            hideChrome();
-        }
-
-        super.onEditorAction(actionCode);
     }
 }

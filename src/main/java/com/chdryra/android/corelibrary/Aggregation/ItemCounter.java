@@ -9,7 +9,6 @@
 package com.chdryra.android.corelibrary.Aggregation;
 
 
-
 import android.support.annotation.NonNull;
 
 import java.util.Iterator;
@@ -56,7 +55,7 @@ public class ItemCounter<T, D> {
     private int initialiseCounting(Iterable<? extends T> data) {
         mCountMap.clear();
         Iterator<? extends T> iterator = data.iterator();
-        if(iterator.hasNext()) {
+        if (iterator.hasNext()) {
             mModeItem = mGetter.getItem(iterator.next());
             return 1;
         }

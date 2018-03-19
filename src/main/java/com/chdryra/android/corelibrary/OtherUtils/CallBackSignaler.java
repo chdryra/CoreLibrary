@@ -21,8 +21,8 @@ import java.util.concurrent.TimeUnit;
  * Use this for tests on stuff that require listeners, callbacks, threads to finish etc.
  */
 public class CallBackSignaler {
-    private CountDownLatch mSignal;
     private final long mTimeOut;
+    private CountDownLatch mSignal;
     private boolean mTimedOut = false;
 
     public CallBackSignaler(long timeOutSeconds) {

@@ -26,7 +26,8 @@ public class NumberFormatter {
         while (digits-- > sigDigits) pattern += "0";
         DecimalFormat formatter = new DecimalFormat("0");
         DecimalFormat decimalFormatter = new DecimalFormat(pattern);
-        return (trimZero && !(rounded % 1L > 0L)) ? formatter.format(rounded) : decimalFormatter.format(rounded);
+        return (trimZero && !(rounded % 1L > 0L)) ? formatter.format(rounded) : decimalFormatter
+                .format(rounded);
     }
 
     public static int numDigits(double num) {

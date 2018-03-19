@@ -9,7 +9,6 @@
 package com.chdryra.android.corelibrary.Comparators;
 
 
-
 import com.chdryra.android.corelibrary.Collections.CollectionIdable;
 
 import java.util.ArrayList;
@@ -38,14 +37,10 @@ public class NamedComparator<T> implements Comparator<T>, CollectionIdable.Idabl
         mTieBreakers = tieBreakers;
     }
 
-    @Override
-    public String getId() {
-        return mName;
-    }
-
     public String getReverseName() {
         return mReverseName;
     }
+
     public NamedComparator<T> reverse() {
         return reverse(true);
     }
@@ -53,15 +48,21 @@ public class NamedComparator<T> implements Comparator<T>, CollectionIdable.Idabl
     public NamedComparator<T> reverse(boolean reverseTieBreakers) {
         ReverseComparator<T> comparator =
                 new ReverseComparator<>(reverseTieBreakers ? this : mComparator);
-        List<Comparator<T>> tieBreakers = reverseTieBreakers ? new ArrayList<Comparator<T>>() : mTieBreakers;
+        List<Comparator<T>> tieBreakers = reverseTieBreakers ? new ArrayList<Comparator<T>>() :
+                mTieBreakers;
         return new NamedComparator<>(mReverseName, mName, comparator, tieBreakers);
+    }
+
+    @Override
+    public String getId() {
+        return mName;
     }
 
     @Override
     public int compare(T lhs, T rhs) {
         int comp = mComparator.compare(lhs, rhs);
         if (comp == 0) {
-            for(Comparator<T> comparator : mTieBreakers)
+            for (Comparator<T> comparator : mTieBreakers)
                 comp = comparator.compare(lhs, rhs);
         }
 

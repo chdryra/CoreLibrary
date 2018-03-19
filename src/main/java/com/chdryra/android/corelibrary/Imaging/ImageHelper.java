@@ -132,7 +132,7 @@ public class ImageHelper {
     public static Date getDateTimeFromEXIF(ExifInterface exif) {
         //From ExifInterface source code
         String dateTimeString = exif.getAttribute(ExifInterface.TAG_DATETIME);
-        if(dateTimeString == null) return null;
+        if (dateTimeString == null) return null;
         ParsePosition pos = new ParsePosition(0);
 
         try {

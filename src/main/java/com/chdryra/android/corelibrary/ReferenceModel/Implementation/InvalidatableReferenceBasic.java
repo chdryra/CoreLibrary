@@ -26,6 +26,10 @@ public abstract class InvalidatableReferenceBasic<T> implements DataReference<T>
         mListeners = new ArrayList<>();
     }
 
+    protected void onInvalidate() {
+
+    }
+
     @Override
     public boolean isValidReference() {
         return !mDeleted;
@@ -33,7 +37,7 @@ public abstract class InvalidatableReferenceBasic<T> implements DataReference<T>
 
     @Override
     public void registerListener(InvalidationListener listener) {
-        if(mDeleted) {
+        if (mDeleted) {
             listener.onInvalidated(this);
         } else {
             if (!mListeners.contains(listener)) mListeners.add(listener);
@@ -42,12 +46,12 @@ public abstract class InvalidatableReferenceBasic<T> implements DataReference<T>
 
     @Override
     public void unregisterListener(InvalidationListener listener) {
-        if(mListeners.contains(listener)) mListeners.remove(listener);
+        if (mListeners.contains(listener)) mListeners.remove(listener);
     }
 
     @Override
     public void invalidate() {
-        if(!isDeleted()) {
+        if (!isDeleted()) {
             mDeleted = true;
             for (InvalidationListener listener : mListeners) {
                 listener.onInvalidated(this);
@@ -59,9 +63,5 @@ public abstract class InvalidatableReferenceBasic<T> implements DataReference<T>
 
     private boolean isDeleted() {
         return mDeleted;
-    }
-
-    protected void onInvalidate() {
-
     }
 }

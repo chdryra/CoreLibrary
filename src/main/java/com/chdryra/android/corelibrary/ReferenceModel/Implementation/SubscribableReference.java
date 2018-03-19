@@ -25,6 +25,11 @@ public abstract class SubscribableReference<T> extends SubscribableReferenceBasi
     }
 
     @Override
+    protected Collection<ValueSubscriber<T>> getSubscribers() {
+        return mValueBinders;
+    }
+
+    @Override
     protected void removeSubscriber(ValueSubscriber<T> subscriber) {
         mValueBinders.remove(subscriber);
     }
@@ -33,11 +38,6 @@ public abstract class SubscribableReference<T> extends SubscribableReferenceBasi
     protected void bind(ValueSubscriber<T> subscriber) {
         mValueBinders.add(subscriber);
         notifySubscriber(subscriber);
-    }
-
-    @Override
-    protected Collection<ValueSubscriber<T>> getSubscribers() {
-        return mValueBinders;
     }
 
     @Override

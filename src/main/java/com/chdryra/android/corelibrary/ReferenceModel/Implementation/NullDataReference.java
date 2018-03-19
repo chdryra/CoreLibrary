@@ -55,7 +55,8 @@ public class NullDataReference<T> implements DataReference<T> {
 
     }
 
-    public static class NullList<T, C extends Collection<T>, S extends Size> extends NullDataReference<C> implements CollectionReference<T, C, S> {
+    public static class NullList<T, C extends Collection<T>, S extends Size> extends
+            NullDataReference<C> implements CollectionReference<T, C, S> {
 
         @Override
         public void subscribe(ItemSubscriber<T> binder) {
@@ -73,7 +74,8 @@ public class NullDataReference<T> implements DataReference<T> {
         }
     }
 
-    private static class NullSize<S extends Size> extends NullDataReference<S> implements DataReference<S> {
+    private static class NullSize<S extends Size> extends NullDataReference<S> implements
+            DataReference<S> {
 
     }
 }

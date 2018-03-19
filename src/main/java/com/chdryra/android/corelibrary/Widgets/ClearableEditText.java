@@ -30,7 +30,7 @@ public class ClearableEditText extends EditText {
             .dialog_ic_close_normal_holo_light);
     private boolean mIsClearable = true;
 
-//Constructors
+    //Constructors
     public ClearableEditText(Context context) {
         super(context);
         init();
@@ -46,7 +46,7 @@ public class ClearableEditText extends EditText {
         init();
     }
 
-//public methods
+    //public methods
     //For LibrariesTest
     public boolean isClearButtonVisible() {
         return getCompoundDrawables()[2] != null;
@@ -59,6 +59,17 @@ public class ClearableEditText extends EditText {
         }
     }
 
+    //Overridden
+    @Override
+    public void onEditorAction(int actionCode) {
+        if (actionCode == EditorInfo.IME_ACTION_DONE) {
+            resetOnClickListener();
+            hideChrome();
+        }
+
+        super.onEditorAction(actionCode);
+    }
+
     private void init() {
 
         // Set bounds of the Clear button so it will look ok
@@ -66,7 +77,7 @@ public class ClearableEditText extends EditText {
                 mCloseButton.getIntrinsicHeight());
 
         setOnTouchListener(new OnTouchListener() {
-//Overridden
+            //Overridden
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() != MotionEvent.ACTION_UP) {
@@ -91,7 +102,7 @@ public class ClearableEditText extends EditText {
         resetOnClickListener();
 
         addTextChangedListener(new TextWatcher() {
-//Overridden
+            //Overridden
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -108,7 +119,7 @@ public class ClearableEditText extends EditText {
 
         setOnFocusChangeListener(new OnFocusChangeListener() {
 
-//Overridden
+            //Overridden
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -169,16 +180,5 @@ public class ClearableEditText extends EditText {
                 .INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getWindowToken(), 0);
         setCursorVisible(false);
-    }
-
-//Overridden
-    @Override
-    public void onEditorAction(int actionCode) {
-        if (actionCode == EditorInfo.IME_ACTION_DONE) {
-            resetOnClickListener();
-            hideChrome();
-        }
-
-        super.onEditorAction(actionCode);
     }
 }

@@ -16,8 +16,9 @@ import android.view.View;
  * Created by: Rizwan Choudrey
  * On: 03/08/2017
  * Email: rizwan.choudrey@gmail.com
- *
- * From here: https://stackoverflow.com/questions/28531996/android-recyclerview-gridlayoutmanager-column-spacing
+ * <p>
+ * From here: https://stackoverflow.com/questions/28531996/android-recyclerview-gridlayoutmanager
+ * -column-spacing
  */
 
 public class GridItemDecoration extends RecyclerView.ItemDecoration {
@@ -33,7 +34,8 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State
+            state) {
         int position = parent.getChildAdapterPosition(view);
         int column = position % spanCount;
 
@@ -43,7 +45,7 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
             outRect.bottom = spacing;
             if (position < spanCount) outRect.top = spacing;
         } else {
-            outRect.left = column * 2* spacing / spanCount;
+            outRect.left = column * 2 * spacing / spanCount;
             outRect.right = spacing - 2 * (column + 1) * spacing / spanCount;
             if (position >= spanCount) outRect.top = spacing;
         }

@@ -9,7 +9,6 @@
 package com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi;
 
 
-
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -45,7 +44,7 @@ public class AddressesProviderGp implements AddressesSuggesterAsync.AddressesPro
 
     private ArrayList<LocatedPlace> convert(LatLng latLng, List<Address> addresses) {
         ArrayList<LocatedPlace> suggestions = new ArrayList<>();
-        for(Address address : addresses) {
+        for (Address address : addresses) {
             suggestions.add(new GoogleAddress(latLng, address));
         }
 

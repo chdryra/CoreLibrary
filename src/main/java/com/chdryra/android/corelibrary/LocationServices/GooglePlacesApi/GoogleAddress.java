@@ -10,8 +10,8 @@ package com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi;
 
 import android.location.Address;
 
-import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.chdryra.android.corelibrary.LocationServices.LocatedPlace;
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -45,15 +45,6 @@ public class GoogleAddress implements LocatedPlace {
         return new LocationId(GoogleLocationProvider.GOOGLE, mAddress.toString());
     }
 
-    private String formatAddress(Address address) {
-        return String.format(
-                "%s%s",
-                // If there's a street address, add it
-                address.getMaxAddressLineIndex() > 0 ? address.getAddressLine(0) : "",
-                // Locality is usually a city
-                address.getLocality() != null ? ", " + address.getLocality() : "");
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,5 +66,14 @@ public class GoogleAddress implements LocatedPlace {
         result = 31 * result + (mAddress != null ? mAddress.hashCode() : 0);
         result = 31 * result + (mFormatted != null ? mFormatted.hashCode() : 0);
         return result;
+    }
+
+    private String formatAddress(Address address) {
+        return String.format(
+                "%s%s",
+                // If there's a street address, add it
+                address.getMaxAddressLineIndex() > 0 ? address.getAddressLine(0) : "",
+                // Locality is usually a city
+                address.getLocality() != null ? ", " + address.getLocality() : "");
     }
 }

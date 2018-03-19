@@ -128,6 +128,14 @@ public abstract class DialogOneButtonFragment extends DialogFragment {
         mLeftButton.performClick();
     }
 
+    protected Intent getReturnData() {
+        if (mReturnData == null) {
+            return createNewReturnData();
+        } else {
+            return mReturnData;
+        }
+    }
+
     //protected methods
     protected void setLeftButton(Button button) {
         mLeftButton = button;
@@ -140,14 +148,6 @@ public abstract class DialogOneButtonFragment extends DialogFragment {
             }
         });
 
-    }
-
-    protected Intent getReturnData() {
-        if (mReturnData == null) {
-            return createNewReturnData();
-        } else {
-            return mReturnData;
-        }
     }
 
     protected void onLeftButtonClick() {
@@ -195,7 +195,7 @@ public abstract class DialogOneButtonFragment extends DialogFragment {
 
     protected <T> T getTargetListenerOrThrow(Class<T> listenerClass) {
         Fragment target = getTargetFragment();
-        if(target != null) {
+        if (target != null) {
             try {
                 return listenerClass.cast(target);
             } catch (ClassCastException e) {
@@ -205,6 +205,25 @@ public abstract class DialogOneButtonFragment extends DialogFragment {
         } else {
             return getActivityListenerOrThrow(listenerClass);
         }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setLeftButtonAction(LEFT_BUTTON_DEFAULT_ACTION);
+        dismissDialogOnLeftClick();
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return buildDialog();
+    }
+
+    @Override
+    public void onStop() {
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        super.onStop();
     }
 
     private <T> T getActivityListenerOrThrow(Class<T> listenerClass) {
@@ -247,24 +266,5 @@ public abstract class DialogOneButtonFragment extends DialogFragment {
         }
 
         return dialog;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setLeftButtonAction(LEFT_BUTTON_DEFAULT_ACTION);
-        dismissDialogOnLeftClick();
-    }
-
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return buildDialog();
-    }
-
-    @Override
-    public void onStop() {
-        getActivity().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        super.onStop();
     }
 }

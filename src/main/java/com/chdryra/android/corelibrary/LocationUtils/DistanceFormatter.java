@@ -53,7 +53,8 @@ public class DistanceFormatter extends NumberFormatter {
         int decDigits = numDecimalDigits(num);
 
         String formatted = roundToSignificant(num, sigDigits, true);
-        if (longMeasure && sigDigits == 1 && decDigits > 0) formatted = roundToSignificant(num, 2, true);
+        if (longMeasure && sigDigits == 1 && decDigits > 0)
+            formatted = roundToSignificant(num, 2, true);
 
         formatted += metricImperial.getUnit(metres);
 

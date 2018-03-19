@@ -8,8 +8,8 @@
 
 package com.chdryra.android.corelibrary.ReferenceModel.Implementation;
 
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
 
 import java.util.Collection;
 
@@ -21,7 +21,8 @@ import java.util.Collection;
 public class SubscribersManager<T, S extends Size> {
     private final SubscribableCollectionReference<T, ?, S> mReference;
 
-    public interface SubscribableCollectionReference<Value, C extends Collection<Value>, S extends Size> extends CollectionReference<Value, C, S> {
+    public interface SubscribableCollectionReference<Value, C extends Collection<Value>, S
+            extends Size> extends CollectionReference<Value, C, S> {
         boolean containsSubscriber(ItemSubscriber<Value> subscriber);
 
         void bindSubscriber(ItemSubscriber<Value> subscriber);

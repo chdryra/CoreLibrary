@@ -25,18 +25,6 @@ public class StringAutoCompleterLocation implements StringFilterAdapter.StringFi
         mAutoCompleter = autoCompleter;
     }
 
-    private String formatAddress(String address) {
-        String[] addressComponents = address.split(",");
-        StringBuilder sb = new StringBuilder();
-        sb.append(addressComponents[0]);
-        if (addressComponents.length > 1) {
-            sb.append(",");
-            sb.append(addressComponents[1]);
-        }
-
-        return sb.toString();
-    }
-
     @Override
     public ArrayList<String> filter(String query) {
         List<LocatedPlace> places = mAutoCompleter.filter(query);
@@ -47,5 +35,17 @@ public class StringAutoCompleterLocation implements StringFilterAdapter.StringFi
         }
 
         return shortened;
+    }
+
+    private String formatAddress(String address) {
+        String[] addressComponents = address.split(",");
+        StringBuilder sb = new StringBuilder();
+        sb.append(addressComponents[0]);
+        if (addressComponents.length > 1) {
+            sb.append(",");
+            sb.append(addressComponents[1]);
+        }
+
+        return sb.toString();
     }
 }

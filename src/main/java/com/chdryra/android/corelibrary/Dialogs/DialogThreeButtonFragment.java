@@ -59,18 +59,33 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
         mDismissOnMiddleClick = true;
     }
 
+    protected void setHideMiddleButton() {
+        if (mMiddleButton == null) {
+            mHideMiddleButton = true;
+        } else {
+            hideMiddleButton();
+        }
+    }
+
     @Override
     protected abstract View createDialogUi();
 
     @Override
     protected View getButtons(ViewGroup parent) {
-        View buttons = getActivity().getLayoutInflater().inflate(THREE_BUTTON_LAYOUT, parent, false);
+        View buttons = getActivity().getLayoutInflater().inflate(THREE_BUTTON_LAYOUT, parent,
+                false);
 
         setLeftButton((Button) buttons.findViewById(LEFT_BUTTON));
         setMiddleButton((Button) buttons.findViewById(MIDDLE_BUTTON));
         setRightButton((Button) buttons.findViewById(RIGHT_BUTTON));
 
         return buttons;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setMiddleButtonAction(MIDDLE_BUTTON_DEFAULT_ACTION);
     }
 
     private void setMiddleButton(Button button) {
@@ -83,24 +98,10 @@ public abstract class DialogThreeButtonFragment extends DialogTwoButtonFragment 
             }
         });
 
-        if(mHideMiddleButton) hideMiddleButton();
+        if (mHideMiddleButton) hideMiddleButton();
     }
 
     private void hideMiddleButton() {
         mMiddleButton.setVisibility(View.GONE);
-    }
-
-    protected void setHideMiddleButton() {
-        if(mMiddleButton == null) {
-            mHideMiddleButton = true;
-        } else {
-            hideMiddleButton();
-        }
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setMiddleButtonAction(MIDDLE_BUTTON_DEFAULT_ACTION);
     }
 }

@@ -30,7 +30,7 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
 
     private boolean mActionOnDone = false;
 
-//public methods
+    //public methods
     public String getActionButtonText() {
         return getMiddleButtonText();
     }
@@ -97,7 +97,7 @@ public abstract class DialogCancelActionDoneFragment extends DialogThreeButtonFr
         dismissDialogOnMiddleClick();
     }
 
-//Overridden
+    //Overridden
     @Override
     protected void onMiddleButtonClick() {
         onActionButtonClick();

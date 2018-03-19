@@ -20,19 +20,20 @@ import java.util.Map;
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class QueueConsumer<T> implements AsyncWorkQueue.QueueObserver, WorkStoreCallback<T> {
+public abstract class QueueConsumer<T> implements AsyncWorkQueue.QueueObserver,
+        WorkStoreCallback<T> {
     private AsyncWorkQueue<T> mQueue;
     private Map<String, ItemWorker<T>> mWorkers;
     private ArrayList<String> mWorking;
     private Map<String, WorkerToken> mTokens;
 
-    protected abstract void OnFailedToRetrieve(String requestId, CallbackMessage result);
-
-    protected abstract ItemWorker<T> newWorker(String itemId);
-
     public interface ItemWorker<T> {
         void doWork(T item);
     }
+
+    protected abstract void OnFailedToRetrieve(String requestId, CallbackMessage result);
+
+    protected abstract ItemWorker<T> newWorker(String itemId);
 
     public QueueConsumer() {
         mWorkers = new HashMap<>();
@@ -41,7 +42,7 @@ public abstract class QueueConsumer<T> implements AsyncWorkQueue.QueueObserver, 
     }
 
     public void setQueue(AsyncWorkQueue<T> queue) {
-        if(mQueue != null) throw new IllegalStateException("Cannot reset Queue!");
+        if (mQueue != null) throw new IllegalStateException("Cannot reset Queue!");
 
         mQueue = queue;
         mQueue.registerObserver(this);
@@ -82,7 +83,7 @@ public abstract class QueueConsumer<T> implements AsyncWorkQueue.QueueObserver, 
 
     @Override
     public void onFailed(@Nullable T item, @Nullable String itemId, CallbackMessage result) {
-        if( itemId!= null) OnFailedToRetrieve(itemId, result);
+        if (itemId != null) OnFailedToRetrieve(itemId, result);
     }
 
     @NonNull

@@ -11,8 +11,8 @@ package com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi;
 
 import android.net.Uri;
 
-import com.chdryra.android.corelibrary.LocationServices.LocationProvider;
 import com.chdryra.android.corelibrary.LocationServices.LocationDetails;
+import com.chdryra.android.corelibrary.LocationServices.LocationProvider;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -23,7 +23,7 @@ import java.util.Locale;
  * On: 14/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class LocationDetailsGoogle implements LocationDetails{
+public class LocationDetailsGoogle implements LocationDetails {
     private static final Place NULL_PLACE = new NullPlace();
     private static final LocationProvider GOOGLE = GoogleLocationProvider.GOOGLE;
 

@@ -39,7 +39,7 @@ public class LatLngMidpoint {
         double y = 0;
         double z = 0;
 
-        double num = (double)coords.size();
+        double num = (double) coords.size();
         for (Coords c : coords) {
             x += c.x / num;
             y += c.y / num;

@@ -31,6 +31,15 @@ public class ItemTagImpl implements ItemTag {
         mItemIds.add(id);
     }
 
+    public void addItemId(String id) {
+        if (!mItemIds.contains(id)) mItemIds.add(id);
+    }
+
+    public boolean removeItemId(String id) {
+        mItemIds.remove(id);
+        return getNumberTagged() == 0;
+    }
+
     @Override
     public ArrayList<String> getItemIds() {
         return new ArrayList<>(mItemIds);
@@ -54,15 +63,6 @@ public class ItemTagImpl implements ItemTag {
     @Override
     public boolean isTag(String tag) {
         return mTag.equalsIgnoreCase(tag);
-    }
-
-    public void addItemId(String id) {
-        if (!mItemIds.contains(id)) mItemIds.add(id);
-    }
-
-    public boolean removeItemId(String id) {
-        mItemIds.remove(id);
-        return getNumberTagged() == 0;
     }
 
     @Override

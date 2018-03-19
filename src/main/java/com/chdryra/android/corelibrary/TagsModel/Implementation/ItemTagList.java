@@ -33,6 +33,22 @@ public class ItemTagList extends AbstractCollection<ItemTag>
         mTags = new ArrayList<>(tags.mTags);
     }
 
+    public ItemTag getItemTag(String tag) {
+        ItemTag rTag = null;
+        for (ItemTag itemTag : mTags) {
+            if (itemTag.isTag(tag)) {
+                rTag = itemTag;
+                break;
+            }
+        }
+
+        return rTag;
+    }
+
+    public void remove(ItemTag tag) {
+        mTags.remove(tag);
+    }
+
     @Override
     public int size() {
         return mTags.size();
@@ -52,18 +68,6 @@ public class ItemTagList extends AbstractCollection<ItemTag>
         return tagArray;
     }
 
-    public ItemTag getItemTag(String tag) {
-        ItemTag rTag = null;
-        for (ItemTag itemTag : mTags) {
-            if (itemTag.isTag(tag)) {
-                rTag = itemTag;
-                break;
-            }
-        }
-
-        return rTag;
-    }
-
     @Override
     public boolean add(ItemTag tag) {
         if (!mTags.contains(tag)) {
@@ -72,10 +76,6 @@ public class ItemTagList extends AbstractCollection<ItemTag>
         }
 
         return false;
-    }
-
-    public void remove(ItemTag tag) {
-        mTags.remove(tag);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class ItemTagList extends AbstractCollection<ItemTag>
         public void remove() {
             if (!nextCalled) {
                 throw new IllegalStateException("Have to call next() before remove()");
-            } else if(position > 0){
+            } else if (position > 0) {
                 ItemTagList.this.remove(getItemTag(--position));
                 nextCalled = false;
             }

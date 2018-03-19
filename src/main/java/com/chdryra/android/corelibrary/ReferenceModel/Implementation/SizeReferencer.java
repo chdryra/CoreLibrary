@@ -8,9 +8,9 @@
 
 package com.chdryra.android.corelibrary.ReferenceModel.Implementation;
 
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
 
 import java.util.Collection;
 
@@ -21,7 +21,8 @@ import java.util.Collection;
  */
 
 public class SizeReferencer {
-    public <T, C extends Collection<T>> DataReference<Size> newSizeReference(CollectionReference<T,C, Size> collectionReference) {
+    public <T, C extends Collection<T>> DataReference<Size> newSizeReference
+            (CollectionReference<T, C, Size> collectionReference) {
         return new SizeReference<>(collectionReference);
     }
 }

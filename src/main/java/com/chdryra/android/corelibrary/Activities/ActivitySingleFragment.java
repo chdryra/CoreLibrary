@@ -27,6 +27,10 @@ public abstract class ActivitySingleFragment extends Activity {
 
     protected abstract Fragment createFragment(Bundle savedInstanceState);
 
+    protected Fragment getFragment() {
+        return mFragment;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +41,6 @@ public abstract class ActivitySingleFragment extends Activity {
 
         if (mFragment == null) mFragment = createFragment(savedInstanceState);
 
-        if(!mFragment.isAdded()) fm.beginTransaction().add(FRAGMENT_ID, mFragment).commit();
-    }
-
-    protected Fragment getFragment() {
-        return mFragment;
+        if (!mFragment.isAdded()) fm.beginTransaction().add(FRAGMENT_ID, mFragment).commit();
     }
 }

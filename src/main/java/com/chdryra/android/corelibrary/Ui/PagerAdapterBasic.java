@@ -22,7 +22,8 @@ import android.view.ViewGroup;
  * On: 08/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class PagerAdapterBasic<T extends PagerAdapterBasic.PageableFragment> extends FragmentStatePagerAdapter {
+public abstract class PagerAdapterBasic<T extends PagerAdapterBasic.PageableFragment> extends
+        FragmentStatePagerAdapter {
     private final SparseArray<T> mFragments;
 
     public abstract String getId(int position);
@@ -38,11 +39,6 @@ public abstract class PagerAdapterBasic<T extends PagerAdapterBasic.PageableFrag
         return newTitle(getItemPosition(fragment), getCount());
     }
 
-    @NonNull
-    protected String newTitle(int position, int count) {
-        return "Page " + String.valueOf(position + 1) + "/" + String.valueOf(count);
-    }
-
     public void removeFragment(PageableFragment fragment) {
         int position = getItemPosition(fragment);
         mFragments.remove(position);
@@ -50,14 +46,22 @@ public abstract class PagerAdapterBasic<T extends PagerAdapterBasic.PageableFrag
         notifyDataSetChanged();
     }
 
-    protected void onFragmentRemoved(int position) {
-
-    }
-
-
     @Nullable
     public T getFragment(int position) {
         return mFragments.get(position);
+    }
+
+    protected SparseArray<T> getCachedFragments() {
+        return mFragments;
+    }
+
+    @NonNull
+    protected String newTitle(int position, int count) {
+        return "Page " + String.valueOf(position + 1) + "/" + String.valueOf(count);
+    }
+
+    protected void onFragmentRemoved(int position) {
+
     }
 
     @Override
@@ -90,10 +94,6 @@ public abstract class PagerAdapterBasic<T extends PagerAdapterBasic.PageableFrag
         }
 
         return position;
-    }
-
-    protected SparseArray<T> getCachedFragments() {
-        return mFragments;
     }
 
     public static abstract class PageableFragment extends Fragment {

@@ -21,7 +21,8 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public abstract class RecyclerAdapterBasic<T> extends android.support.v7.widget.RecyclerView.Adapter {
+public abstract class RecyclerAdapterBasic<T> extends android.support.v7.widget.RecyclerView
+        .Adapter {
     private final List<T> mData;
     private final OnItemClickListener<T> mClickListener;
     private RecyclerView mRecyclerView;
@@ -52,33 +53,6 @@ public abstract class RecyclerAdapterBasic<T> extends android.support.v7.widget.
         notifyDataSetChanged();
     }
 
-    private void onItemClick(View v) {
-        if (mClickListener == null) return;
-        int itemPosition = mRecyclerView.getChildLayoutPosition(v);
-        mClickListener.onItemClick(mData.get(itemPosition), itemPosition, v);
-    }
-
-    private void onItemLongClick(View v) {
-        if (mClickListener == null) return;
-        int itemPosition = mRecyclerView.getChildLayoutPosition(v);
-        mClickListener.onItemLongClick(mData.get(itemPosition), itemPosition, v);
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        mRecyclerView = recyclerView;
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View v = inflateView(parent, viewType);
-        setOnClickListeners(v);
-        setOnLongClickListeners(v);
-
-        return newRecyclerViewHolder(v, viewType);
-    }
-
     protected void setOnLongClickListeners(View v) {
         v.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -98,6 +72,21 @@ public abstract class RecyclerAdapterBasic<T> extends android.support.v7.widget.
         });
     }
 
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mRecyclerView = recyclerView;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final View v = inflateView(parent, viewType);
+        setOnClickListeners(v);
+        setOnLongClickListeners(v);
+
+        return newRecyclerViewHolder(v, viewType);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
@@ -108,5 +97,17 @@ public abstract class RecyclerAdapterBasic<T> extends android.support.v7.widget.
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+    private void onItemClick(View v) {
+        if (mClickListener == null) return;
+        int itemPosition = mRecyclerView.getChildLayoutPosition(v);
+        mClickListener.onItemClick(mData.get(itemPosition), itemPosition, v);
+    }
+
+    private void onItemLongClick(View v) {
+        if (mClickListener == null) return;
+        int itemPosition = mRecyclerView.getChildLayoutPosition(v);
+        mClickListener.onItemLongClick(mData.get(itemPosition), itemPosition, v);
     }
 }

@@ -39,12 +39,7 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
         return false;
     }
 
-    private void showDeleteConfirmDialog() {
-        DialogDeleteConfirm.showDialog(mDeleteWhat, DialogCancelDeleteDoneFragment.this,
-                DELETE_CONFIRM, getFragmentManager());
-    }
-
-//Overridden
+    //Overridden
     @Override
     protected final void onActionButtonClick() {
         if (hasDataToDelete()) {
@@ -79,5 +74,10 @@ public abstract class DialogCancelDeleteDoneFragment extends DialogCancelActionD
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
         if (requestCode == DELETE_CONFIRM) super.onMiddleButtonClick();
+    }
+
+    private void showDeleteConfirmDialog() {
+        DialogDeleteConfirm.showDialog(mDeleteWhat, DialogCancelDeleteDoneFragment.this,
+                DELETE_CONFIRM, getFragmentManager());
     }
 }

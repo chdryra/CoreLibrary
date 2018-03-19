@@ -24,21 +24,9 @@ public class BucketDistribution<BucketingValue, ItemType> {
     public BucketDistribution(List<Bucket<BucketingValue, ItemType>> buckets) {
         mBuckets = new ArrayList<>();
         mNotBucketed = new ArrayList<>();
-        for(Bucket<BucketingValue, ItemType> bucket : buckets) {
+        for (Bucket<BucketingValue, ItemType> bucket : buckets) {
             addBucket(bucket);
         }
-    }
-
-    private void addBucket(Bucket<BucketingValue, ItemType> bucket) {
-        boolean overlap = false;
-        for(Bucket<BucketingValue, ItemType> item : mBuckets) {
-            if(item.hasOverlap(bucket)) {
-                overlap = true;
-                break;
-            }
-        }
-
-        if(!overlap) mBuckets.add(bucket);
     }
 
     public List<Bucket<BucketingValue, ItemType>> getBuckets() {
@@ -47,7 +35,7 @@ public class BucketDistribution<BucketingValue, ItemType> {
 
     public int size() {
         int num = mNotBucketed.size();
-        for(Bucket<BucketingValue, ItemType> bucket : mBuckets) {
+        for (Bucket<BucketingValue, ItemType> bucket : mBuckets) {
             num += bucket.getBucketedItems().size();
         }
 
@@ -66,5 +54,17 @@ public class BucketDistribution<BucketingValue, ItemType> {
 
     public void dontBucket(ItemType item) {
         mNotBucketed.add(item);
+    }
+
+    private void addBucket(Bucket<BucketingValue, ItemType> bucket) {
+        boolean overlap = false;
+        for (Bucket<BucketingValue, ItemType> item : mBuckets) {
+            if (item.hasOverlap(bucket)) {
+                overlap = true;
+                break;
+            }
+        }
+
+        if (!overlap) mBuckets.add(bucket);
     }
 }

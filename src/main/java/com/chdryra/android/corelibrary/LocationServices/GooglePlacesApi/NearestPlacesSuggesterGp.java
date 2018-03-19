@@ -75,8 +75,10 @@ public class NearestPlacesSuggesterGp extends GoogleLocationServiceBasic impleme
     @Override
     protected void doRequestOnConnected() {
         Context context = getClient().getContext();
-        if (ContextCompat.checkSelfPermission( context, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission( context, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(context, android.Manifest.permission
+                .ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(context, Manifest.permission
+                .ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions();
         } else {
             Places.PlaceDetectionApi.getCurrentPlace(getClient(), null).setResultCallback(this);

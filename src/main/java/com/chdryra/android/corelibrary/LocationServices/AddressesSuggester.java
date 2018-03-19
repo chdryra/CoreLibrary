@@ -18,9 +18,9 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface AddressesSuggester {
-    void fetchAddresses(LatLng latLng, int number, AddressSuggestionsListener listener);
-
     interface AddressSuggestionsListener {
         void onAddressSuggestionsFound(ArrayList<LocatedPlace> addresses);
     }
+
+    void fetchAddresses(LatLng latLng, int number, AddressSuggestionsListener listener);
 }

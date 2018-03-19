@@ -23,6 +23,6 @@ public class TagKeyGenerator {
     }
 
     public static String getKey(Class<?> clazz, String key) {
-        return clazz.getPackage().getName() + "." +  clazz.getName() + "." + key;
+        return clazz.getPackage().getName() + "." + clazz.getName() + "." + key;
     }
 }

@@ -16,7 +16,7 @@ import java.util.Map;
  * On: 31/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class InMemoryCache<T> implements QueueCache.Cache<T>{
+public class InMemoryCache<T> implements QueueCache.Cache<T> {
     private Map<String, T> mMap;
 
     public InMemoryCache() {

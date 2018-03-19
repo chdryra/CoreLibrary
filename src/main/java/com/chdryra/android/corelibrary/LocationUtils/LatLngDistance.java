@@ -14,8 +14,10 @@ package com.chdryra.android.corelibrary.LocationUtils;
  * Email: rizwan.choudrey@gmail.com
  */
 
-/**Copied from Android Location.java to aid unit testing.
- * Location.java is not mocked in Android unit testing*/
+/**
+ * Copied from Android Location.java to aid unit testing.
+ * Location.java is not mocked in Android unit testing
+ */
 public class LatLngDistance {
     public static void distanceBetween(double startLatitude, double startLongitude,
                                        double endLatitude, double endLongitude, float[] results) {

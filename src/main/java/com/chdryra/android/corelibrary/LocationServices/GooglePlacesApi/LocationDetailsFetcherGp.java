@@ -9,7 +9,6 @@
 package com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi;
 
 
-
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.corelibrary.LocationServices.LocatedPlace;
@@ -62,7 +61,7 @@ public class LocationDetailsFetcherGp extends GoogleLocationServiceBasic impleme
         LocationDetails details;
         if (places.getStatus().isSuccess() && places.getCount() > 0) {
             details = new LocationDetailsGoogle(places.get(0).freeze());
-        } else{
+        } else {
             details = new LocationDetailsGoogle();
         }
 

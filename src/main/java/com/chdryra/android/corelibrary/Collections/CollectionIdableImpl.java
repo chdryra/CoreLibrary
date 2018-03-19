@@ -9,7 +9,6 @@
 package com.chdryra.android.corelibrary.Collections;
 
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -19,7 +18,8 @@ import java.util.LinkedHashSet;
  * On: 03/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CollectionIdableImpl<Id, T extends CollectionIdable.Idable<Id>> extends LinkedHashSet<T> implements CollectionIdable<Id, T> {
+public class CollectionIdableImpl<Id, T extends CollectionIdable.Idable<Id>> extends
+        LinkedHashSet<T> implements CollectionIdable<Id, T> {
 
     public CollectionIdableImpl() {
         super();
@@ -37,7 +37,7 @@ public class CollectionIdableImpl<Id, T extends CollectionIdable.Idable<Id>> ext
     @Override
     public ArrayList<Id> getIds() {
         ArrayList<Id> names = new ArrayList<>();
-        for(T item : this) {
+        for (T item : this) {
             names.add(item.getId());
         }
 
@@ -46,8 +46,8 @@ public class CollectionIdableImpl<Id, T extends CollectionIdable.Idable<Id>> ext
 
     @Override
     public T get(Id id) {
-        for(T item : this) {
-            if(item.getId().equals(id)) return item;
+        for (T item : this) {
+            if (item.getId().equals(id)) return item;
         }
 
         return null;

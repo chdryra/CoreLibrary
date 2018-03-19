@@ -26,7 +26,8 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
     private Bundle mArgs;
     private int mRequestCode;
 
-    public static DialogAlertFragment newDialog(String alert, @Nullable Fragment targetFragment, int requestCode) {
+    public static DialogAlertFragment newDialog(String alert, @Nullable Fragment targetFragment,
+                                                int requestCode) {
         return newDialog(alert, targetFragment, requestCode, new Bundle());
     }
 
@@ -51,6 +52,14 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
         clickRightButton();
     }
 
+    protected AlertListener getTargetListener() {
+        return getTargetListenerOrThrow(AlertListener.class);
+    }
+
+    protected int getRequestCode() {
+        return mRequestCode;
+    }
+
     /**
      * Returns null view to keep alert simply a question and 2 buttons.
      *
@@ -63,13 +72,13 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
 
     @Override
     protected void onLeftButtonClick() {
-        if(mListener != null) mListener.onAlertNegative(mRequestCode, mArgs);
+        if (mListener != null) mListener.onAlertNegative(mRequestCode, mArgs);
         super.onLeftButtonClick();
     }
 
     @Override
     protected void onRightButtonClick() {
-        if(mListener != null) mListener.onAlertPositive(mRequestCode, mArgs);
+        if (mListener != null) mListener.onAlertPositive(mRequestCode, mArgs);
         super.onRightButtonClick();
     }
 
@@ -87,15 +96,7 @@ public class DialogAlertFragment extends DialogTwoButtonFragment {
         setListener(getTargetListener());
     }
 
-    protected AlertListener getTargetListener() {
-        return getTargetListenerOrThrow(AlertListener.class);
-    }
-
     private void setListener(AlertListener listener) {
         mListener = listener;
-    }
-
-    protected int getRequestCode() {
-        return mRequestCode;
     }
 }

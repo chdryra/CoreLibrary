@@ -33,6 +33,16 @@ public class CallbackMessage implements Parcelable {
     private String mMessage;
     private boolean mIsError = false;
 
+    public CallbackMessage(Parcel in) {
+        mMessage = in.readString();
+        mIsError = in.readByte() != 0;
+    }
+
+    private CallbackMessage(String message, boolean isError) {
+        mMessage = message;
+        mIsError = isError;
+    }
+
     public static CallbackMessage ok() {
         return new CallbackMessage("Ok", false);
     }
@@ -43,16 +53,6 @@ public class CallbackMessage implements Parcelable {
 
     public static CallbackMessage error(String message) {
         return new CallbackMessage(message, true);
-    }
-
-    private CallbackMessage(String message, boolean isError) {
-        mMessage = message;
-        mIsError = isError;
-    }
-
-    public CallbackMessage(Parcel in) {
-        mMessage = in.readString();
-        mIsError = in.readByte() != 0;
     }
 
     public String getMessage() {

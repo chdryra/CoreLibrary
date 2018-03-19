@@ -16,8 +16,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
-import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,8 +30,6 @@ import java.util.Map;
 
 public class PermissionsManagerAndroid implements PermissionsManager, ActivityCompat
         .OnRequestPermissionsResultCallback {
-    private static final int PERMISSIONS_REQUEST = RequestCodeGenerator.getCode
-            (PermissionsManagerAndroid.class);
     private static final String COARSE_LOCATION = android.Manifest.permission
             .ACCESS_COARSE_LOCATION;
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -48,7 +44,7 @@ public class PermissionsManagerAndroid implements PermissionsManager, ActivityCo
 
     private final Context mContext;
     private Activity mActivity;
-    private Map<Integer, PermissionsInProgress> mInProgress;
+    private Map<Integer, PermissionRequest> mInProgress;
 
     public PermissionsManagerAndroid(Context context) {
         mContext = context;
@@ -63,21 +59,22 @@ public class PermissionsManagerAndroid implements PermissionsManager, ActivityCo
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        PermissionsInProgress inProgress = mInProgress.remove(requestCode);
-        if(inProgress == null) return;
-        PermissionsManager.Permission[] passedPermissions = inProgress.getPermissions();
+        PermissionRequest request = mInProgress.remove(requestCode);
+        if (request == null) return;
+        PermissionsManager.Permission[] requested = request.getRequested();
         ArrayList<PermissionResult> results = new ArrayList<>();
-        for (Permission requested : passedPermissions) {
-            boolean result = wasGranted(requested, permissions, grantResults);
-            results.add(new PermissionResult(requested, result));
+        for (Permission permission : requested) {
+            boolean result = wasGranted(permission, permissions, grantResults);
+            results.add(new PermissionResult(permission, result));
         }
-        inProgress.getCallback().onPermissionsResult(requestCode, results);
+        request.getCallback().onPermissionsResult(requestCode, results);
     }
 
     @Override
-    public void requestPermissions(int requestCode, PermissionsCallback callback, Permission... permissions) {
+    public void requestPermissions(int requestCode, PermissionsCallback callback, Permission...
+            permissions) {
         if (!hasPermissions(permissions)) {
-            mInProgress.put(requestCode, new PermissionsInProgress(callback, permissions));
+            mInProgress.put(requestCode, new PermissionRequest(permissions, callback));
             ActivityCompat.requestPermissions(mActivity, toStringArray(permissions), requestCode);
         } else {
             ArrayList<PermissionResult> results = new ArrayList<>();
@@ -129,22 +126,21 @@ public class PermissionsManagerAndroid implements PermissionsManager, ActivityCo
         return perms.toArray(new String[0]);
     }
 
-    private class PermissionsInProgress {
+    private class PermissionRequest {
         private final PermissionsCallback mCallback;
-        private final PermissionsManager.Permission[] mPermissions;
+        private final PermissionsManager.Permission[] mRequested;
 
-        private PermissionsInProgress(PermissionsCallback callback, PermissionsManager.Permission[]
-                permissions) {
+        private PermissionRequest(Permission[] requested, PermissionsCallback callback) {
             mCallback = callback;
-            mPermissions = permissions;
+            mRequested = requested;
         }
 
         public PermissionsCallback getCallback() {
             return mCallback;
         }
 
-        public PermissionsManager.Permission[] getPermissions() {
-            return mPermissions;
+        public PermissionsManager.Permission[] getRequested() {
+            return mRequested;
         }
     }
 }

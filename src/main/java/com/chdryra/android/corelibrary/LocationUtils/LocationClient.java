@@ -22,7 +22,7 @@ public interface LocationClient {
     interface Locatable {
         void onLocated(@Nullable Location location, CallbackMessage message);
 
-        void onConnected(@Nullable Location location, CallbackMessage message);
+        void onConnected(CallbackMessage message);
     }
 
     void connect(Locatable callback);

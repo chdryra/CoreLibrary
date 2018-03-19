@@ -31,7 +31,8 @@ import java.util.List;
  * Handles connection to Google Play services for Places API lookup tasks.
  */
 public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationClient, PermissionsManager.PermissionsCallback {
+        GoogleApiClient.OnConnectionFailedListener, LocationClient, PermissionsManager
+                .PermissionsCallback {
 
     private final static String TAG = TagKeyGenerator.getTag(LocationClientGoogle.class);
     private final static int PERMISSIONS = RequestCodeGenerator.getCode
@@ -45,7 +46,8 @@ public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks
     private final static CallbackMessage NULL_LOCATION = CallbackMessage.error("Null location");
     private final static CallbackMessage NOT_CONNECTED = CallbackMessage.error("Not connected");
     private final static CallbackMessage OK = CallbackMessage.ok();
-    private static final PermissionsManager.Permission LOCATION = PermissionsManager.Permission.LOCATION;
+    private static final PermissionsManager.Permission LOCATION = PermissionsManager.Permission
+            .LOCATION;
 
     private final GoogleApiClient mApiClient;
     private final Activity mActivity;
@@ -66,7 +68,7 @@ public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks
 
     @Override
     public void onPermissionsResult(int requestCode, List<PermissionResult> results) {
-        if(requestCode == PERMISSIONS && results.get(0).isGranted(LOCATION)) locate();
+        if (requestCode == PERMISSIONS && results.get(0).isGranted(LOCATION)) locate();
     }
 
     @Override
@@ -82,9 +84,9 @@ public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks
 
     @Override
     public void locate() {
-        if(mLocatable == null) return;
+        if (mLocatable == null) return;
         if (mApiClient.isConnected()) {
-            if(!mPermissions.hasPermissions(LOCATION)) {
+            if (!mPermissions.hasPermissions(LOCATION)) {
                 requestPermission();
             } else {
                 getLastLocation();
@@ -92,10 +94,6 @@ public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks
         } else {
             mLocatable.onLocated(null, NOT_CONNECTED);
         }
-    }
-
-    private void requestPermission() {
-        mPermissions.requestPermissions(PERMISSIONS, this, PermissionsManager.Permission.LOCATION);
     }
 
     @Override
@@ -110,25 +108,29 @@ public class LocationClientGoogle implements GoogleApiClient.ConnectionCallbacks
                     mApiClient.connect();
                 } else {
                     Log.e(TAG, PROBLEM_CONNECTING, e);
-                    mLocatable.onConnected(null, CallbackMessage.error(PROBLEM_CONNECTING));
+                    mLocatable.onConnected(CallbackMessage.error(PROBLEM_CONNECTING));
                 }
             }
         } else {
             String msg = "Error code connection to location services: " + connectionResult
                     .getErrorCode();
             Log.i(TAG, msg);
-            mLocatable.onConnected(null, CallbackMessage.error(msg));
+            mLocatable.onConnected(CallbackMessage.error(msg));
         }
     }
 
     @Override
     public void onConnected(Bundle arg0) {
-        locate();
+        mLocatable.onConnected(CallbackMessage.ok());
     }
 
     @Override
     public void onConnectionSuspended(int index) {
 
+    }
+
+    private void requestPermission() {
+        mPermissions.requestPermissions(PERMISSIONS, this, PermissionsManager.Permission.LOCATION);
     }
 
     private void getLastLocation() {

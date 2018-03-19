@@ -21,7 +21,8 @@ public class DataComparator<ObjectType, DataType> implements Comparator<ObjectTy
     private final Comparator<DataType> mComparator;
     private final DataGetter<ObjectType, ? extends DataType> mGetter;
 
-    public DataComparator(Comparator<DataType> comparator, DataGetter<ObjectType, ? extends DataType> getter) {
+    public DataComparator(Comparator<DataType> comparator, DataGetter<ObjectType, ? extends
+            DataType> getter) {
         mComparator = comparator;
         mGetter = getter;
     }

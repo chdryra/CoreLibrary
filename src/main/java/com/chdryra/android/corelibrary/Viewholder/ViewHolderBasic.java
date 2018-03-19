@@ -41,7 +41,7 @@ public abstract class ViewHolderBasic implements ViewHolder {
     }
 
     protected final <T extends View> T getView(int viewId, Class<T> tClass) {
-        return (T)getView(viewId);
+        return (T) getView(viewId);
     }
 
     protected final View getView(int viewId) {
@@ -51,18 +51,18 @@ public abstract class ViewHolderBasic implements ViewHolder {
     //Helper method as used most often...
     protected final void setText(int viewId, @Nullable String text) {
         TextView view = getView(viewId, TextView.class);
-        if(view != null) view.setText(text);
+        if (view != null) view.setText(text);
     }
 
     protected final void setImage(int viewId, @Nullable Bitmap image) {
         ImageView view = getView(viewId, ImageView.class);
-        if(view != null) view.setImageBitmap(image);
+        if (view != null) view.setImageBitmap(image);
     }
 
     //Overridden
     @Override
     public void inflate(Context context, ViewGroup parent) {
-        if(mInflated == null) {
+        if (mInflated == null) {
             mInflated = LayoutInflater.from(context).inflate(mLayout, parent, false);
             if (mInflated != null) {
                 for (int viewId : mUpdateableViewIds) {

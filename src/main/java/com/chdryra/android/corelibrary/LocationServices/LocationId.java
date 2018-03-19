@@ -27,16 +27,16 @@ public class LocationId {
         mId = providerId != null ? providerId : NULL_ID;
     }
 
-    public LocationProvider getProvider() {
-        return mProvider;
-    }
-
     public static LocationId withProviderName(String name, LatLng latLng) {
         return new LocationId(new LocationProvider(name), latLng.toString());
     }
 
     public static LocationId nullId() {
         return new LocationId(new LocationProvider("NULL"), NULL_ID);
+    }
+
+    public LocationProvider getProvider() {
+        return mProvider;
     }
 
     public String getId() {

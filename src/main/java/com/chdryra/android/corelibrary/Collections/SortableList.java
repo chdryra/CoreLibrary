@@ -24,11 +24,11 @@ public interface SortableList<T> extends List<T> {
 
     void sort();
 
-    void sort(Comparator<? super T> comparator);
-
     void setUnsorted();
 
     boolean isSorted();
 
     ArrayList<T> toArrayList();
+
+    void sort(Comparator<? super T> comparator);
 }

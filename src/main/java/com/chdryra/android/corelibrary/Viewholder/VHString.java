@@ -41,19 +41,8 @@ public class VHString extends ViewHolderBasic {
         mGetter = getter;
     }
 
-    private void initDefaultGetter() {
-        mGetter = new VHDataStringGetter() {
-            //Overridden
-            @Override
-            public String getString(ViewHolderData data) {
-                VHDString string = (VHDString) data;
-                if(string != null && string.isValidForDisplay()) {
-                    return string.getString();
-                } else {
-                    return data.toString();
-                }
-            }
-        };
+    public void updateView(String text) {
+        setText(mTextViewId, text);
     }
 
     @Override
@@ -61,7 +50,18 @@ public class VHString extends ViewHolderBasic {
         if (data != null) updateView(mGetter.getString(data));
     }
 
-    public void updateView(String text) {
-        setText(mTextViewId, text);
+    private void initDefaultGetter() {
+        mGetter = new VHDataStringGetter() {
+            //Overridden
+            @Override
+            public String getString(ViewHolderData data) {
+                VHDString string = (VHDString) data;
+                if (string != null && string.isValidForDisplay()) {
+                    return string.getString();
+                } else {
+                    return data.toString();
+                }
+            }
+        };
     }
 }

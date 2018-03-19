@@ -26,9 +26,17 @@ public class Bucket<BucketingValue, ItemType> {
         mBucketed = new ArrayList<>();
     }
 
+    public BucketRange<BucketingValue> getRange() {
+        return mRange;
+    }
+
+    public List<ItemType> getBucketedItems() {
+        return new ArrayList<>(mBucketed);
+    }
+
     public boolean bucketIfInRange(BucketingValue value, ItemType item) {
         boolean inRange = mRange.inRange(value);
-        if(inRange) mBucketed.add(item);
+        if (inRange) mBucketed.add(item);
         return inRange;
     }
 
@@ -38,13 +46,5 @@ public class Bucket<BucketingValue, ItemType> {
 
     public int size() {
         return mBucketed.size();
-    }
-
-    public BucketRange<BucketingValue> getRange() {
-        return mRange;
-    }
-
-    public List<ItemType> getBucketedItems() {
-        return new ArrayList<>(mBucketed);
     }
 }

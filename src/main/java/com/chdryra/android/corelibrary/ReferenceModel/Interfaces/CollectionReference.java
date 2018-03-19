@@ -15,13 +15,8 @@ import java.util.Collection;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface CollectionReference<T, C extends Collection<T>, S extends Size> extends DataReference<C> {
-    void subscribe(ItemSubscriber<T> binder);
-
-    void unsubscribe(ItemSubscriber<T> binder);
-
-    DataReference<S> getSize();
-
+public interface CollectionReference<T, C extends Collection<T>, S extends Size> extends
+        DataReference<C> {
     interface ItemSubscriber<T> {
         void onItemAdded(T item);
 
@@ -31,4 +26,10 @@ public interface CollectionReference<T, C extends Collection<T>, S extends Size>
 
         void onInvalidated(CollectionReference<T, ?, ?> reference);
     }
+
+    void subscribe(ItemSubscriber<T> binder);
+
+    void unsubscribe(ItemSubscriber<T> binder);
+
+    DataReference<S> getSize();
 }
